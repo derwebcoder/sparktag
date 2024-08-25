@@ -1,4 +1,3 @@
-import type { StringValidation } from "astro/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { authenticate } from "../scripts/auth/secret";
 import { Form } from "../ui/components/Form/Form";

@@ -12,7 +12,12 @@ const Wrapper = ({
 	const { register, handleSubmit: RHFHandleSubmit } = useForm();
 	return (
 		<form onSubmit={RHFHandleSubmit(handleSubmit || (() => null))}>
-			<PasswordInput label="Password" required={true} register={register} />
+			<PasswordInput
+				label="Password"
+				required={true}
+				register={register}
+				name="password"
+			/>
 		</form>
 	);
 };

@@ -9,14 +9,13 @@
     "preview": "astro preview",
     "astro": "astro",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
     "@astrojs/react": "^3.6.2",
     "@astrojs/tailwind": "^5.1.0",
-    "@types/react": "^18.3.4",
-    "@types/react-dom": "^18.3.0",
     "astro": "^4.14.3",
     "dexie": "^4.0.8",
     "react": "^18.3.1",
@@ -36,7 +35,14 @@
     "@storybook/react": "^8.2.9",
     "@storybook/react-vite": "^8.2.9",
     "@storybook/test": "^8.2.9",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.0",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
     "daisyui": "^4.12.10",
-    "storybook": "^8.2.9"
+    "jsdom": "^25.0.0",
+    "storybook": "^8.2.9",
+    "vitest": "^2.0.5"
   }
 }

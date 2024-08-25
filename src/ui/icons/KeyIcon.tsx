@@ -7,8 +7,8 @@ export const KeyIcon = ({ className = "size-6" }: { className?: string }) => {
       strokeWidth={1.5}
       stroke="currentColor"
       className={className}
+      role="presentation"
     >
-      <title>key</title>
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

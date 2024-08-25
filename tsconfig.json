@@ -6,6 +6,7 @@
     "baseUrl": ".",
     "paths": {
       "@icons/*": ["src/ui/icons/*"]
-    }
+    },
+    "types": ["vitest/globals"]
   }
 }

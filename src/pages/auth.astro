@@ -1,0 +1,86 @@
+---
+import { LoginForm } from "../components/LoginForm";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Badge } from "../ui/components/Badge/Badge";
+import { ForwardIcon } from "../ui/icons/ForwardIcon";
+import { LockIcon } from "../ui/icons/LockIcon";
+import { TagIcon } from "../ui/icons/TagIcon";
+---
+
+<BaseLayout title="Closed Beta Login // Sparktag">
+  <main class="pt-10 grid grid-cols-1 xl:grid-cols-12 xl:h-full xl:mt-40">
+    <div
+      class="py-8 px-6 max-w-[560px] place-self-center xl:col-start-2 xl:col-end-7 xl:place-self-end"
+    >
+      <Badge>CLOSED BETA</Badge>
+      <h1 class="text-4xl flex gap-2 align-center mt-4 font-bold">
+        <span>Sparktag</span>
+      </h1>
+      <p class="prose mt-8">
+        Have a thought? Write it down. Get back to it when you need to. Easily.
+      </p>
+      <ul class="flex flex-col gap-4 mt-6">
+        <li class="grid grid-cols-[2.5rem_1fr] gap-4 items-start">
+          <LockIcon
+            overrideDefaultClassName
+            className="p-2 bg-secondary size-10 rounded-xl stroke-white mt-1"
+          />
+          <p class="prose">
+            <b>It's your data.</b>
+            <br />
+            <span>Everything is stored and processed on your device.</span>
+          </p>
+        </li>
+        <li class="grid grid-cols-[2.5rem_1fr] gap-4 items-start">
+          <ForwardIcon
+            overrideDefaultClassName
+            className="p-2 bg-secondary size-10 rounded-xl stroke-white mt-1"
+          />
+          <p class="prose">
+            <b>Simple UX.</b>
+            <br />
+            <span>Easy access for speedy note taking.</span>
+          </p>
+        </li>
+        <li class="grid grid-cols-[2.5rem_1fr] gap-4 items-start">
+          <TagIcon
+            overrideDefaultClassName
+            className="p-2 bg-secondary size-10 rounded-xl stroke-white mt-1"
+          />
+          <p class="prose">
+            <b>Advanced tagging.</b>
+            <br />
+            <span>Bring structure and connections to your thoughts.</span>
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="flex justify-center mt-4 mb-14 w-full max-w-[840px] place-self-center xl:col-start-7 xl:col-end-11 xl:place-self-start xl:self-center xl:mb-0"
+    >
+      <div class="w-5/6 bg-white rounded-lg shadow-lg pt-8 pb-12 px-8">
+        <h2 class="text-xl font-semibold mb-2">
+          Are you part of the closed beta user group?
+        </h2>
+        <span class="mb-8 block text-lg font-light"
+          >Your journey starts here.</span
+        >
+        <LoginForm client:load />
+      </div>
+    </div>
+    <div
+      class="mb-40 text-center flex justify-center w-full xl:col-span-12 xl:mt-8"
+    >
+      <ul class="flex flex-col prose w-full">
+        <li>
+          <a href="https://github.com/derwebcoder/sparktag" class="link">
+            GitHub
+          </a>
+        </li>
+        <li>
+          <span>sparktag@derwebcoder.de</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+</BaseLayout>

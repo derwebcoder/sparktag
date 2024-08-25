@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { PasswordInput } from "../ui/components/PasswordInput/PasswordInput";
 ---
 
 <!-- <script src="../scripts/pip.ts"></script>
@@ -10,5 +11,6 @@ import Layout from "../layouts/Layout.astro";
     <p>sparktags@derwebcoder.de</p>
     <textarea class="textarea textarea-bordered" placeholder="Add your spark"
     ></textarea>
+    <PasswordInput label="Password" required register={{} as any} />
   </main>
 </Layout>

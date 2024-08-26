@@ -7,6 +7,7 @@ import react from "@astrojs/react";
 export default defineConfig({
 	site: "https://derwebcoder.github.io",
 	base: "sparktag",
+	trailingSlash: "always",
 	integrations: [
 		tailwind({
 			// disabling this because we have the src/styles/global.css file including the base styles,

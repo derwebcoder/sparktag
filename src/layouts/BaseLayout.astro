@@ -26,8 +26,11 @@ const { title } = Astro.props;
 <script>
   import { isAuthenticated } from "../scripts/auth/secret";
 
-  const authUrl = import.meta.env.BASE_URL + "/auth";
-  if (window.location.pathname === authUrl || (await isAuthenticated())) {
+  const authUrl = import.meta.env.BASE_URL + "auth/";
+  if (
+    window.location.pathname.startsWith(authUrl) ||
+    (await isAuthenticated())
+  ) {
     document.body.classList.remove("hidden");
   } else {
     window.location.href = authUrl;

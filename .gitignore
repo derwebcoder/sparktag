@@ -24,3 +24,8 @@ pnpm-debug.log*
 .idea/
 
 *storybook.log
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/e2e-examples/

@@ -8,6 +8,8 @@
 		"build": "astro check && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
+		"e2e": "playwright test",
+		"e2e:ui": "playwright test --ui",
 		"storybook": "storybook dev -p 6006 --no-open",
 		"build-storybook": "storybook build",
 		"test": "vitest"
@@ -28,6 +30,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
 		"@chromatic-com/storybook": "^1.7.0",
+		"@playwright/test": "^1.46.1",
 		"@storybook/addon-essentials": "^8.2.9",
 		"@storybook/addon-interactions": "^8.2.9",
 		"@storybook/addon-links": "^8.2.9",
@@ -41,6 +44,7 @@
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.5.0",
 		"@testing-library/react": "^16.0.0",
+		"@types/node": "^22.5.0",
 		"@types/react": "^18.3.4",
 		"@types/react-dom": "^18.3.0",
 		"jsdom": "^25.0.0",

@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { type FieldValues, type SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "./Input";
+import { it } from "vitest";
 
 const Wrapper = ({
 	handleSubmit,
@@ -11,7 +12,11 @@ const Wrapper = ({
 }) => {
 	const { register, handleSubmit: RHFHandleSubmit } = useForm();
 	return (
-		<form onSubmit={RHFHandleSubmit(handleSubmit || (() => null))}>
+		<form
+			onSubmit={RHFHandleSubmit(
+				handleSubmit || ((data, e) => e?.preventDefault()),
+			)}
+		>
 			<Input
 				id="password"
 				label="Password"
@@ -32,7 +37,7 @@ describe("Input", () => {
 
 	it("should submit the correct data", async () => {
 		const user = userEvent.setup();
-		const handleSubmit = vi.fn();
+		const handleSubmit = vitest.fn((data, e) => e.preventDefault());
 		render(<Wrapper handleSubmit={handleSubmit} />);
 
 		const input = screen.getByLabelText("Password");
@@ -40,7 +45,7 @@ describe("Input", () => {
 
 		expect(handleSubmit).toHaveBeenCalledTimes(1);
 		expect(handleSubmit).toHaveBeenCalledWith(
-			{ Password: "secret123" },
+			{ password: "secret123" },
 			expect.anything(),
 		);
 	});

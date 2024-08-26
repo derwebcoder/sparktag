@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FormContainer } from "./FormContainer";
+import { it } from "vitest";
 
 describe("FormContainer", () => {
 	it("should render", () => {
@@ -20,7 +21,7 @@ describe("FormContainer", () => {
 
 	it("should submit", async () => {
 		const user = userEvent.setup();
-		const handleSubmit = vi.fn();
+		const handleSubmit = vitest.fn((e) => e.preventDefault());
 		render(
 			<FormContainer
 				onSubmit={handleSubmit}

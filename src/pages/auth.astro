@@ -1,5 +1,5 @@
 ---
-import { LoginForm } from "../components/LoginForm";
+import { SecretForm } from "../application/SecretForm";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Badge } from "../ui/components/Badge/Badge";
 import { ForwardIcon } from "../ui/icons/ForwardIcon";
@@ -23,7 +23,7 @@ import { TagIcon } from "../ui/icons/TagIcon";
         <li class="grid grid-cols-[2.5rem_1fr] gap-4 items-start">
           <LockIcon
             overrideDefaultClassName
-            className="p-2 bg-secondary size-10 rounded-xl stroke-white mt-1"
+            className="p-2 bg-purple-500 size-10 rounded-xl stroke-white mt-1"
           />
           <p class="prose">
             <b>It's your data.</b>
@@ -34,7 +34,7 @@ import { TagIcon } from "../ui/icons/TagIcon";
         <li class="grid grid-cols-[2.5rem_1fr] gap-4 items-start">
           <ForwardIcon
             overrideDefaultClassName
-            className="p-2 bg-secondary size-10 rounded-xl stroke-white mt-1"
+            className="p-2 bg-purple-500 size-10 rounded-xl stroke-white mt-1"
           />
           <p class="prose">
             <b>Simple UX.</b>
@@ -45,7 +45,7 @@ import { TagIcon } from "../ui/icons/TagIcon";
         <li class="grid grid-cols-[2.5rem_1fr] gap-4 items-start">
           <TagIcon
             overrideDefaultClassName
-            className="p-2 bg-secondary size-10 rounded-xl stroke-white mt-1"
+            className="p-2 bg-purple-500 size-10 rounded-xl stroke-white mt-1"
           />
           <p class="prose">
             <b>Advanced tagging.</b>
@@ -58,14 +58,8 @@ import { TagIcon } from "../ui/icons/TagIcon";
     <div
       class="flex justify-center mt-4 mb-14 w-full max-w-[840px] place-self-center xl:col-start-7 xl:col-end-11 xl:place-self-start xl:self-center xl:mb-0"
     >
-      <div class="w-5/6 bg-white rounded-lg shadow-lg pt-8 pb-12 px-8">
-        <h2 class="text-xl font-semibold mb-2">
-          Are you part of the closed beta user group?
-        </h2>
-        <span class="mb-8 block text-lg font-light"
-          >Your journey starts here.</span
-        >
-        <LoginForm client:load />
+      <div class="w-5/6">
+        <SecretForm client:load />
       </div>
     </div>
     <div

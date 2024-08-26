@@ -1,11 +1,19 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Form } from "./Form";
+import { FormContainer } from "./FormContainer";
 
-describe("Form", () => {
+describe("FormContainer", () => {
 	it("should render", () => {
-		render(<Form onSubmit={() => true}>Hello</Form>);
+		render(
+			<FormContainer
+				onSubmit={() => true}
+				title="Some title"
+				subtitle="Some subtitle"
+			>
+				Hello
+			</FormContainer>,
+		);
 
 		expect(screen.getByText("Hello")).toBeInTheDocument();
 	});
@@ -14,13 +22,17 @@ describe("Form", () => {
 		const user = userEvent.setup();
 		const handleSubmit = vi.fn();
 		render(
-			<Form onSubmit={handleSubmit}>
+			<FormContainer
+				onSubmit={handleSubmit}
+				title="Some title"
+				subtitle="Some subtitle"
+			>
 				<input
 					type="text"
 					name="name"
 					aria-label="name"
 				/>
-			</Form>,
+			</FormContainer>,
 		);
 
 		const input = screen.getByLabelText("name");

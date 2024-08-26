@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { type FieldValues, type SubmitHandler, useForm } from "react-hook-form";
-import { PasswordInput } from "./PasswordInput";
+import { Input } from "./Input";
 
 const Wrapper = ({
 	handleSubmit,
@@ -12,7 +12,8 @@ const Wrapper = ({
 	const { register, handleSubmit: RHFHandleSubmit } = useForm();
 	return (
 		<form onSubmit={RHFHandleSubmit(handleSubmit || (() => null))}>
-			<PasswordInput
+			<Input
+				id="password"
 				label="Password"
 				required={true}
 				register={register}
@@ -22,7 +23,7 @@ const Wrapper = ({
 	);
 };
 
-describe("PasswordInput", () => {
+describe("Input", () => {
 	it("should add the correct label", () => {
 		render(<Wrapper />);
 

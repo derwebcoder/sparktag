@@ -45,9 +45,13 @@ export const SecretForm = () => {
 					required
 					type="password"
 					aria-invalid={errors.secret ? "true" : "false"}
+					aria-describedby={
+						errors.secret ? "secret-error" : undefined
+					}
 				/>
 				{errors.secret && (
 					<span
+						id="secret-error"
 						role="alert"
 						className="w-full text-center"
 					>

@@ -8,6 +8,12 @@ declare global {
 	interface Window {
 		documentPictureInPicture?: DocumentPictureInPicture;
 	}
+
+	namespace NodeJS {
+		interface ProcessEnv {
+			NOT_SO_SECRET_SECRET?: string;
+		}
+	}
 }
 
 export type {};

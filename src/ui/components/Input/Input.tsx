@@ -1,6 +1,4 @@
 import type React from "react";
-import { useId } from "react";
-import { KeyIcon } from "../../icons/KeyIcon";
 
 import type { FieldValues, Path, UseFormRegister } from "react-hook-form";
 

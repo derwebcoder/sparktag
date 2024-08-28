@@ -1,8 +1,8 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { authenticate } from "../scripts/auth/secret";
-import { FormContainer } from "../ui/components/FormContainer/FormContainer";
-import { Input } from "../ui/components/Input/Input";
-import { KeyIcon } from "../ui/icons/KeyIcon";
+import { authenticate } from "../../scripts/auth/secret";
+import { FormContainer } from "../../ui/components/FormContainer/FormContainer";
+import { Input } from "../../ui/components/Input/Input";
+import { KeyIcon } from "../../ui/icons/KeyIcon";
 
 interface FormValues {
 	secret: string;
@@ -20,10 +20,9 @@ export const SecretForm = () => {
 		e?.preventDefault();
 		try {
 			await authenticate(data.secret);
-			window.location.href = import.meta.env.BASE_URL;
+			window.location.replace(import.meta.env.BASE_URL);
 		} catch (e) {
 			setError("secret", { message: "😢 Sadly that is not correct." });
-			console.error("That was wrong.");
 			return;
 		}
 	};

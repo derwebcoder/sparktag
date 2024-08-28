@@ -1,7 +1,4 @@
-// yes, it's fine this is in here, this is just a very basic "authentication" system
-// to keep the usage limited to few people right now.
-const notSoSecretSecret =
-	"d4461bfeabd1ee6b5679a671129efc92a170992994e63f64d0e6dd02a18f67aa";
+import { config } from "../../config/config";
 
 export const hash = async (text: string) => {
 	const msgUint8 = new TextEncoder().encode(text); // encode as (utf-8) Uint8Array
@@ -16,7 +13,7 @@ export const hash = async (text: string) => {
 export const authenticate = async (text: string) => {
 	const hashHex = await hash(text);
 
-	if (hashHex !== notSoSecretSecret) {
+	if (hashHex !== config.getNotSoSecretSecret()) {
 		throw new Error("Invalid secret");
 	}
 
@@ -28,7 +25,10 @@ export const authenticate = async (text: string) => {
 export const isAuthenticated = async () => {
 	const storedSecret = localStorage.getItem("notSoSecretSecret");
 
-	if (!storedSecret || (await hash(storedSecret)) !== notSoSecretSecret) {
+	if (
+		!storedSecret ||
+		(await hash(storedSecret)) !== config.getNotSoSecretSecret()
+	) {
 		return false;
 	}
 

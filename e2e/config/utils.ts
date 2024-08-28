@@ -1,3 +1,5 @@
+import type { Page } from "@playwright/test";
+
 /**
  * Creates a URL by concatenating the given URL segments, building a valid url with
  *  - sparktag prefix
@@ -20,4 +22,15 @@ export const createUrl = (...urlSegments: string[]): string => {
 	}
 
 	return `/sparktag/${urlSegments.map((s) => s.replaceAll("/", "")).join("/")}/`;
+};
+
+export const authenticate = async (page: Page) => {
+	return await page.waitForFunction((secret) => {
+		if (!secret) {
+			console.error("Secret per environment variable not provided");
+			return false;
+		}
+		localStorage.setItem("notSoSecretSecret", secret);
+		return true;
+	}, process.env.NOT_SO_SECRET_SECRET);
 };

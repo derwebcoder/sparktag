@@ -1,5 +1,5 @@
 import type { Locator, Page } from "@playwright/test";
-import { createUrl } from "../config/config";
+import { createUrl } from "../config/utils";
 
 export class AuthPage {
 	private readonly passwordInput: Locator;

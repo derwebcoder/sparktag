@@ -27,12 +27,15 @@ export class AuthPage {
 	}
 
 	async clearLocalStorage() {
-		await this.page.evaluate(() => localStorage.clear());
+		await this.page.waitForFunction(() => {
+			localStorage.clear();
+			return true;
+		});
 	}
 
 	async hasLocalStorageSecret() {
-		return await this.page.evaluate(
-			() => localStorage.getItem("notSoSecretSecret") !== null,
-		);
+		return await this.page.evaluate(() => {
+			return localStorage.getItem("notSoSecretSecret") !== null;
+		});
 	}
 }

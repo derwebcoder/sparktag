@@ -9,13 +9,17 @@ export class MainPage {
 	constructor(public readonly page: Page) {
 		this.noteInput = page.getByLabel("New spark");
 		this.submitButton = page.getByRole("button", { name: "Add" });
-		this.sparkList = page.getByRole("list", { name: "Sparks" });
+		this.sparkList = page
+			.getByText("Sparks")
+			.locator("..") // parent node
+			.getByRole("list");
 	}
 
 	async goto() {
 		const url = createUrl();
 		await this.page.goto(url);
 		await authenticate(this.page);
+		await this.page.goto(url);
 	}
 
 	async fillNote(password: string) {

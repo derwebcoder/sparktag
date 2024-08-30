@@ -3,12 +3,14 @@ import { authenticate } from "../../scripts/auth/secret";
 import { FormContainer } from "../../ui/components/FormContainer/FormContainer";
 import { Input } from "../../ui/components/Input/Input";
 import { KeyIcon } from "../../ui/icons/KeyIcon";
+import { useHydratedFlag } from "../../scripts/hydratedStore";
 
 interface FormValues {
 	secret: string;
 }
 
 export const SecretForm = () => {
+	const isHydrated = useHydratedFlag();
 	const {
 		register,
 		handleSubmit,
@@ -28,7 +30,7 @@ export const SecretForm = () => {
 	};
 
 	return (
-		<div>
+		<div data-secretform={isHydrated ? "hydrated" : "static"}>
 			<FormContainer
 				onSubmit={handleSubmit(onSubmit)}
 				title="Are you part of the closed beta user group?"

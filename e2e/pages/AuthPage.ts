@@ -1,5 +1,6 @@
 import type { Locator, Page } from "@playwright/test";
 import { createUrl } from "../config/utils";
+import { expect } from "../config/setup";
 
 export class AuthPage {
 	private readonly passwordInput: Locator;
@@ -11,7 +12,11 @@ export class AuthPage {
 
 	async goto() {
 		const url = createUrl("auth");
-		await this.page.goto(url);
+		const waitForHydratedSecretForm = expect(
+			this.page.locator("[data-secretform=hydrated]").first(),
+		).toBeVisible();
+		await this.page.goto(url, { waitUntil: "domcontentloaded" });
+		await waitForHydratedSecretForm;
 	}
 
 	async enterPassword(password: string) {

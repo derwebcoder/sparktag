@@ -12,11 +12,6 @@ test.describe("Auth", () => {
 			expect(process.env.NOT_SO_SECRET_SECRET).not.toBe(undefined);
 		}
 
-		// needed because astro hydration is sometimes not fast enough
-		// and then the form submits with the usual GET behavior
-		// This timeout should allow the hydration to finish
-		await authPage.page.waitForTimeout(1000);
-
 		await authPage.enterPassword(process.env.NOT_SO_SECRET_SECRET ?? "");
 		await authPage.submit();
 
@@ -26,11 +21,6 @@ test.describe("Auth", () => {
 	test("shows error for wrong secret", async ({ authPage }) => {
 		await authPage.enterPassword("wrong-secret");
 		await authPage.submit();
-
-		// needed because astro hydration is sometimes not fast enough
-		// and then the form submits with the usual GET behavior
-		// This timeout should allow the hydration to finish
-		await authPage.page.waitForTimeout(1000);
 
 		await expect(await authPage.getErrorMessage()).toBe(
 			"😢 Sadly that is not correct.",

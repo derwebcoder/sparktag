@@ -36,7 +36,6 @@ describe("SecretForm", () => {
 		const secretInput = screen.getByLabelText("What is the secret?");
 		const submitButton = screen.getByRole("button", { name: "Get in now" });
 
-		console.log("submit button", submitButton);
 		await user.type(secretInput, "secret");
 		await user.click(submitButton);
 

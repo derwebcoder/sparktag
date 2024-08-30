@@ -34,9 +34,5 @@ export const TextInput = (props: TextInputProps) => {
 		},
 	});
 
-	return (
-		<>
-			<EditorContent editor={editor} />
-		</>
-	);
+	return <EditorContent editor={editor} />;
 };

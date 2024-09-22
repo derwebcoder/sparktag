@@ -1,4 +1,6 @@
 ---
+import { SparkInput } from "../application/SparkInput/SparkInput";
+import { SparkList } from "../application/SparkList/SparkList";
 import Layout from "../layouts/BaseLayout.astro";
 ---
 
@@ -11,14 +13,11 @@ import Layout from "../layouts/BaseLayout.astro";
     <div>
       <label>
         <span>New spark</span>
-        <input type="text" />
+        <SparkInput client:only />
       </label>
-      <input type="button" value="Add" />
       <div>
         <span>Sparks</span>
-        <ul>
-          <li>Hello, world!</li>
-        </ul>
+        <SparkList client:only />
       </div>
     </div>
 

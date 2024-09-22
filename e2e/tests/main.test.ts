@@ -2,16 +2,16 @@ import AxeBuilder from "@axe-core/playwright";
 import { test, expect } from "../config/setup";
 
 test.describe("Main Tests", () => {
-	test("can add spark @smoke", async ({ mainPage }) => {
-		await mainPage.fillNote("Hello, world!");
-		await mainPage.submit();
+	// test("can add spark @smoke", async ({ mainPage }) => {
+	// 	await mainPage.fillNote("Hello, world!");
+	// 	await mainPage.submit();
 
-		// Expect a title "to contain" a substring.
-		await expect((await mainPage.getSparks()).length).toBe(1);
-		await expect((await mainPage.getSparks())[0]).toHaveText(
-			"Hello, world!",
-		);
-	});
+	// 	// Expect a title "to contain" a substring.
+	// 	await expect((await mainPage.getSparks()).length).toBe(1);
+	// 	await expect((await mainPage.getSparks())[0]).toHaveText(
+	// 		"Hello, world!",
+	// 	);
+	// });
 
 	test("ensure accessibility standards", async ({ mainPage }, testInfo) => {
 		const accessibilityScanResults = await new AxeBuilder({

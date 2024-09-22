@@ -3,7 +3,7 @@ import { extensions } from "./TextInput.config";
 import "./TextInput.css";
 
 export type TextInputProps = {
-	onSubmit?: (htmlValue: string) => void;
+	onSubmit?: (plainText: string, html: string) => void;
 };
 
 let editor: Editor | null = null;
@@ -25,10 +25,11 @@ export const TextInput = (props: TextInputProps) => {
 					return false;
 				}
 				const html = editor?.getHTML().trim() ?? "";
+				const plainText = editor?.getText().trim() ?? "";
 				if (html === "") {
 					return false;
 				}
-				onSubmit(html);
+				onSubmit(plainText, html);
 				return true;
 			},
 		},

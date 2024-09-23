@@ -12,4 +12,5 @@ export default {
 		require("@tailwindcss/forms"),
 		require("preline/plugin"),
 	],
+	darkMode: "selector",
 };

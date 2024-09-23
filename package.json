@@ -24,6 +24,7 @@
 		"@tiptap/react": "^2.6.6",
 		"@tiptap/starter-kit": "^2.6.6",
 		"astro": "^4.14.3",
+		"date-fns": "^4.1.0",
 		"dexie": "^4.0.8",
 		"dexie-react-hooks": "^1.1.7",
 		"preline": "^2.4.1",

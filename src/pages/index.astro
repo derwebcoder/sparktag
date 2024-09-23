@@ -7,20 +7,17 @@ import Layout from "../layouts/BaseLayout.astro";
 <!-- <script src="../scripts/pip.ts"></script>
 <script src="../scripts/db/index.ts"></script> -->
 <Layout title="Sparktags Demo Page">
-  <main>
-    <h1>Sparktag - Under Construction</h1>
-
-    <div>
-      <label>
-        <span>New spark</span>
-        <SparkInput client:only />
-      </label>
-      <div>
-        <span>Sparks</span>
-        <SparkList client:only />
-      </div>
-    </div>
-
-    <p>sparktag@derwebcoder.de</p>
+  <main class="grid lg:grid-cols-[1fr_400px_600px_1fr] gap-6 h-full relative">
+    <div></div>
+    <aside
+      class="py-10 flex justify-between flex-col max-h-screen sticky top-0"
+    >
+      <SparkInput client:only />
+      <p>sparktag@derwebcoder.de</p>
+    </aside>
+    <section>
+      <SparkList client:only />
+    </section>
+    <div></div>
   </main>
 </Layout>

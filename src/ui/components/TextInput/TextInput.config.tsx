@@ -4,11 +4,6 @@ import StarterKit from "@tiptap/starter-kit";
 
 export const extensions = [
 	StarterKit.configure({
-		paragraph: {
-			HTMLAttributes: {
-				class: "text-gray-800 dark:text-neutral-200",
-			},
-		},
 		bold: {
 			HTMLAttributes: {
 				class: "font-bold",
@@ -31,7 +26,7 @@ export const extensions = [
 		},
 	}),
 	Placeholder.configure({
-		placeholder: "Add a message, if you'd like.",
+		placeholder: "Your next spark",
 		emptyNodeClass: "text-gray-400 dark:text-neutral-200",
 	}),
 	ListKeymap,

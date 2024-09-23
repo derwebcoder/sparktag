@@ -6,9 +6,10 @@ export class SparkService {
 	constructor(private db: AppDB) {}
 
 	public async addSpark(plainText: string, html: string) {
-		const [prefixTags, remainingTags] = extractTags(plainText);
+		const [prefixTags, remainingTags, strippedContent] =
+			extractTags(plainText);
 		await this.db.sparks.add({
-			plainText,
+			plainText: strippedContent,
 			html,
 			creationDate: Date.now(),
 			tags: remainingTags,
@@ -25,7 +26,10 @@ export class SparkService {
 	}
 
 	public async listSparks() {
-		return await this.db.sparks.toCollection().sortBy("creationDate");
+		return await this.db.sparks
+			.toCollection()
+			.reverse()
+			.sortBy("creationDate");
 	}
 }
 

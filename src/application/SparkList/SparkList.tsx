@@ -35,7 +35,7 @@ export const SparkList = () => {
 	}, []);
 
 	return (
-		<div className="flex flex-col gap-16 py-10 bg-white h-full overflow-y-auto px-8">
+		<div className="flex flex-col gap-16 py-10 bg-white h-full px-8">
 			{grouped?.map((group) => (
 				<section
 					key={group.key}

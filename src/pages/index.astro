@@ -9,12 +9,15 @@ import Layout from "../layouts/BaseLayout.astro";
 <Layout title="Sparktags Demo Page">
   <main class="grid lg:grid-cols-[1fr_400px_600px_1fr] gap-6 h-full relative">
     <div></div>
-    <aside
-      class="py-10 flex justify-between flex-col max-h-screen sticky top-0"
-    >
-      <SparkInput client:only />
-      <p>sparktag@derwebcoder.de</p>
-    </aside>
+    <!-- the following div is needed for the sticky aside to work -->
+    <div>
+      <aside
+        class="py-10 flex justify-between flex-col max-h-screen h-screen sticky top-0"
+      >
+        <SparkInput client:only />
+        <p>sparktag@derwebcoder.de</p>
+      </aside>
+    </div>
     <section>
       <SparkList client:only />
     </section>

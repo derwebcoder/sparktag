@@ -42,7 +42,7 @@ export const SparkList = () => {
 					className="grid grid-cols-[25%_1fr] gap-8"
 				>
 					<div className="py-2 border-e border-slate-300 pe-4">
-						<div className="sticky top-1 flex flex-col gap-1">
+						<div className="sticky top-4 flex flex-col gap-1">
 							{group.prefixTags.map((tag) => (
 								<span
 									key={tag}

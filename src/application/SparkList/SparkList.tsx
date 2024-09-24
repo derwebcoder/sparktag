@@ -59,6 +59,13 @@ export const SparkList = () => {
 								key={spark.id}
 								className="flex flex-col gap-1"
 							>
+								{/* <p
+									className="text-neutral-900"
+									// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+									dangerouslySetInnerHTML={{
+										__html: spark.html,
+									}}
+								/> */}
 								<p className="text-neutral-900">
 									{spark.plainText}
 								</p>

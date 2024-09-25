@@ -12,7 +12,9 @@ describe("SparkService", () => {
 				add: vi.fn(),
 				update: vi.fn(),
 				delete: vi.fn(),
-				toCollection: vi.fn().mockReturnValue({ sortBy: vi.fn() }),
+				toCollection: vi.fn().mockReturnValue({
+					reverse: vi.fn().mockReturnValue({ sortBy: vi.fn() }),
+				}),
 			},
 		} as unknown as AppDB;
 		sparkService = new SparkService(db);
@@ -61,9 +63,9 @@ describe("SparkService", () => {
 			await sparkService.listSparks();
 
 			expect(db.sparks.toCollection).toHaveBeenCalled();
-			expect(db.sparks.toCollection().sortBy).toHaveBeenCalledWith(
-				"creationDate",
-			);
+			expect(
+				db.sparks.toCollection().reverse().sortBy,
+			).toHaveBeenCalledWith("creationDate");
 		});
 	});
 });

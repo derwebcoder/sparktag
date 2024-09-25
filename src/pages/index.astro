@@ -8,7 +8,10 @@ import Layout from "../layouts/BaseLayout.astro";
 <script src="../scripts/db/index.ts"></script> -->
 <Layout title="Sparktags Demo Page">
   <main class="grid lg:grid-cols-[1fr_400px_600px_1fr] gap-6 h-full relative">
-    <div></div>
+    <div>
+      <!-- We need an h1 for accessibility reasons -->
+      <h1 class="sr-only">Dashboard</h1>
+    </div>
     <!-- the following div is needed for the sticky aside to work -->
     <div>
       <aside

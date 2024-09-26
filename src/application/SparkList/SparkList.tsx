@@ -97,10 +97,10 @@ export const SparkList = () => {
 					return (
 						<section
 							key={section.key}
-							className="grid grid-cols-[25%_1fr] gap-8 mb-6"
+							className="grid grid-cols-[25%_1fr] gap-4 mb-6"
 						>
 							<div className="py-2 border-e border-slate-300 pe-4">
-								<div className="sticky top-4 flex flex-col gap-1">
+								<div className="sticky top-4 flex flex-col gap-1 text-end">
 									{section.prefixTags.map((tag) => (
 										<span
 											key={tag}
@@ -135,7 +135,7 @@ export const SparkList = () => {
 				}
 				if (section.type === "date") {
 					return (
-						<span className="text-neutral-500 font-thin text-sm ps-3 mb-2">
+						<span className="text-neutral-400 text-sm ps-3 mb-2">
 							{format(section.date, "dd.MM.yyyy")}
 						</span>
 					);

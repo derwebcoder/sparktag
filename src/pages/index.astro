@@ -17,12 +17,12 @@ import Layout from "../layouts/BaseLayout.astro";
       <aside
         class="py-10 flex justify-between flex-col max-h-screen h-screen sticky top-0"
       >
-        <SparkInput client:only />
+        <SparkInput client:only="react" />
         <p>sparktag@derwebcoder.de</p>
       </aside>
     </div>
     <section>
-      <SparkList client:only />
+      <SparkList client:only="react" />
     </section>
     <div></div>
   </main>

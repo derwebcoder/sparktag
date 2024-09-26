@@ -66,7 +66,7 @@ export const SparkList = () => {
 										__html: spark.html,
 									}}
 								/> */}
-								<p className="text-neutral-900">
+								<p className="text-neutral-900 break-words [word-break:break-word]">
 									{spark.plainText}
 								</p>
 								<span className="text-neutral-500 font-thin text-xs ps-2">

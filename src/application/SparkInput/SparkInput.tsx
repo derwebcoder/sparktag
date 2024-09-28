@@ -18,8 +18,8 @@ export const SparkInput = () => {
 		}
 
 		const pip = await window.documentPictureInPicture?.requestWindow({
-			width: 500,
-			height: 250,
+			width: 300,
+			height: 150,
 		});
 		if (!pip) {
 			return;
@@ -51,6 +51,12 @@ export const SparkInput = () => {
 				pip.document.head.appendChild(link);
 			}
 		}
+
+		// This does not seem to work, but let's keep it. Maybe it will in the future.
+		const themeColor = document.createElement("meta");
+		themeColor.name = "theme-color";
+		themeColor.content = "#2563eb";
+		pip.document.head.append(themeColor);
 
 		setPipWindow(pip);
 	};

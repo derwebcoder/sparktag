@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
 import { sparkService } from "../../scripts/db/SparkService";
-import { TextInput } from "../../ui/components/TextInput/TextInput";
-import { ArrowRightStartOnBox } from "../../ui/icons/ArrowRightStartOnBox";
-import { ArrowRightEndOnBox } from "../../ui/icons/ArrowRightEndOnBox";
+import { TextInput } from "../../common/components/TextInput/TextInput";
+import { ArrowRightStartOnBox } from "../../assets/icons/ArrowRightStartOnBox";
+import { ArrowRightEndOnBox } from "../../assets/icons/ArrowRightEndOnBox";
 import { createPortal } from "react-dom";
+import { IconButton } from "../../common/components/IconButton/IconButton";
 
 export const SparkInput = () => {
 	const [pipWindow, setPipWindow] = useState<Window | undefined>();
@@ -68,34 +69,34 @@ export const SparkInput = () => {
 
 	return (
 		<>
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-1">
 				<div className="min-h-32">
 					<TextInput onSubmit={handleSubmit} />
 				</div>
 				<div className="flex justify-end px-3">
-					<button
+					<IconButton
 						type="button"
 						onClick={renderPIP}
 						title="detach"
 					>
 						<ArrowRightStartOnBox />
-					</button>
+					</IconButton>
 				</div>
 			</div>
 			{pipWindow &&
 				createPortal(
-					<div className="grid grid-rows-[1fr_min-content] gap-2 h-full p-1">
+					<div className="grid grid-rows-[1fr_min-content] gap-1 h-full p-1">
 						<div className="min-h-full overflow-y-auto">
 							<TextInput onSubmit={handleSubmit} />
 						</div>
 						<div className="flex justify-end px-3">
-							<button
+							<IconButton
 								type="button"
 								onClick={renderApp}
 								title="attach"
 							>
 								<ArrowRightEndOnBox />
-							</button>
+							</IconButton>
 						</div>
 					</div>,
 					pipWindow.document.body,

@@ -1,8 +1,8 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { authenticate } from "../../scripts/auth/secret";
-import { FormContainer } from "../../ui/components/FormContainer/FormContainer";
-import { Input } from "../../ui/components/Input/Input";
-import { KeyIcon } from "../../ui/icons/KeyIcon";
+import { FormContainer } from "../../common/components/FormContainer/FormContainer";
+import { Input } from "../../common/components/Input/Input";
+import { KeyIcon } from "../../assets/icons/KeyIcon";
 import { useHydratedFlag } from "../../scripts/hydratedStore";
 
 interface FormValues {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { KeyIcon } from "../../icons/KeyIcon";
+import { KeyIcon } from "../../../assets/icons/KeyIcon";
 import { FormContainer } from "./FormContainer";
 import { useForm } from "react-hook-form";
 import { Input } from "../Input/Input";

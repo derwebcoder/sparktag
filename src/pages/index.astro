@@ -1,6 +1,7 @@
 ---
-import { SparkInput } from "../application/SparkInput/SparkInput";
-import { SparkList } from "../application/SparkList/SparkList";
+import { MainMenu } from "../container/MainMenu/MainMenu";
+import { SparkInput } from "../container/SparkInput/SparkInput";
+import { SparkList } from "../container/SparkList/SparkList";
 import Layout from "../layouts/BaseLayout.astro";
 ---
 
@@ -9,8 +10,11 @@ import Layout from "../layouts/BaseLayout.astro";
 <Layout title="Sparktags">
   <main class="grid lg:grid-cols-[1fr_400px_600px_1fr] gap-6 h-full relative">
     <div>
-      <!-- We need an h1 for accessibility reasons -->
-      <h1 class="sr-only">Dashboard</h1>
+      <aside class="py-10 flex flex-col place-items-end sticky top-0">
+        <!-- We need an h1 for accessibility reasons -->
+        <h1 class="sr-only">Dashboard</h1>
+        <MainMenu client:load />
+      </aside>
     </div>
     <!-- the following div is needed for the sticky aside to work -->
     <div>

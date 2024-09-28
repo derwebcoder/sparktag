@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { useForm } from "react-hook-form";
 import { Input } from "./Input";
-import { KeyIcon } from "../../icons/KeyIcon";
+import { KeyIcon } from "../../../assets/icons/KeyIcon";
 
 export default {
 	title: "Components/Input",

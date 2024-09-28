@@ -3,7 +3,7 @@ type IconProps = {
 	overrideDefaultClassName?: boolean;
 };
 
-export const ArrowRightEndOnBox = (props: IconProps) => {
+export const LockIcon = (props: IconProps) => {
 	const { className, overrideDefaultClassName } = props;
 	return (
 		<svg
@@ -13,14 +13,14 @@ export const ArrowRightEndOnBox = (props: IconProps) => {
 			strokeWidth={1.5}
 			stroke="currentColor"
 			className={
-				overrideDefaultClassName ? className : `size-6 ${className}`
+				overrideDefaultClassName ? className : `size-5 ${className}`
 			}
 			role="presentation"
 		>
 			<path
 				strokeLinecap="round"
 				strokeLinejoin="round"
-				d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
+				d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
 			/>
 		</svg>
 	);

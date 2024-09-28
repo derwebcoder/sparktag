@@ -13,7 +13,7 @@ export const TagIcon = (props: IconProps) => {
 			strokeWidth={1.5}
 			stroke="currentColor"
 			className={
-				overrideDefaultClassName ? className : `size-6 ${className}`
+				overrideDefaultClassName ? className : `size-5 ${className}`
 			}
 			role="presentation"
 		>

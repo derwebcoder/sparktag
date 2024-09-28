@@ -4,6 +4,10 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "react",
 		"baseUrl": ".",
-		"types": ["vitest/globals"]
+		"types": ["vitest/globals"],
+		"paths": {
+			"@/*": ["./src/*"],
+			"@components": ["./src/common/components/*"]
+		}
 	}
 }

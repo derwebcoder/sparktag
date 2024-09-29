@@ -4,7 +4,7 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "react",
 		"baseUrl": ".",
-		"types": ["vitest/globals"],
+		"types": ["vitest/globals", "@types/wicg-file-system-access"],
 		"paths": {
 			"@/*": ["./src/*"],
 			"@components": ["./src/common/components/*"]

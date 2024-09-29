@@ -31,6 +31,17 @@ export class SparkService {
 			.reverse()
 			.sortBy("creationDate");
 	}
+
+	public async CAREFUL_deleteAllData() {
+		await this.db.sparks.clear();
+	}
+
+	public async CAREFUL_deleteAndImportSparks(sparks: Spark[]) {
+		await this.CAREFUL_deleteAllData();
+		await sparks.map((spark) => {
+			this.db.sparks.add(spark);
+		});
+	}
 }
 
 declare global {

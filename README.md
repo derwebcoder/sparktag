@@ -14,3 +14,4 @@ More info coming soon.
 - [x] Webapp
 - [ ] Todos
 - [ ] Reminder
+- [ ] Empty state when no spark exist yet

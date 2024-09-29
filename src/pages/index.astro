@@ -13,7 +13,7 @@ import Layout from "../layouts/BaseLayout.astro";
       <div class="py-10 flex flex-col place-items-end sticky top-0">
         <!-- We need an h1 for accessibility reasons -->
         <h1 class="sr-only">Dashboard</h1>
-        <MainMenu client:load />
+        <MainMenu client:only="react" />
       </div>
     </div>
     <!-- the following div is needed for the sticky aside to work -->

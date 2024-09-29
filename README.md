@@ -10,8 +10,9 @@ More info coming soon.
 - [ ] Tag management
 - [ ] Tag widget in tiptap with autocomplete
 - [ ] Tag highlighting
-- [ ] Backups
+- [x] Backups
 - [x] Webapp
 - [ ] Todos
 - [ ] Reminder
 - [ ] Empty state when no spark exist yet
+- [ ] Add second confirmation to "Delete everything" button

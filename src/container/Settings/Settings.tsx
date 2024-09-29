@@ -15,9 +15,14 @@ import { useToast } from "../../common/hooks/use-toast";
 import { sparkService } from "../../scripts/db/SparkService";
 import FileBackupJSONWorker from "../../scripts/files/backupJSONWorker?worker";
 import FileBackupMarkdownWorker from "../../scripts/files/backupMarkdownWorker?worker";
+import { fileSystemService } from "../../scripts/db/FileSystemHandleService";
+import { useState } from "react";
 
 export const Settings = () => {
 	const { toast } = useToast();
+	const [isAutomaticBackupsEnabled, setIsAutomaticBackupsEnabled] = useState(
+		fileSystemService.isAutomaticBackupEnabled(),
+	);
 
 	const handleExportAsJson = async () => {
 		const worker = new FileBackupJSONWorker();
@@ -117,13 +122,33 @@ export const Settings = () => {
 		}
 	};
 
+	const handleSetBackupMode = async () => {
+		if (isAutomaticBackupsEnabled) {
+			await fileSystemService.CAREFUL_clearAllBackups();
+			fileSystemService.setAutomaticBackupEnabled(false);
+			setIsAutomaticBackupsEnabled(false);
+			return;
+		}
+
+		const directoryHandle = await window.showDirectoryPicker({
+			id: "automatic-backup",
+			mode: "readwrite",
+		});
+		await fileSystemService.setFileHandle(directoryHandle);
+		fileSystemService.setAutomaticBackupEnabled(true);
+		setIsAutomaticBackupsEnabled(true);
+	};
+
 	const handleDeleteEverything = async () => {
+		await fileSystemService.CAREFUL_clearAllBackups();
 		await sparkService.CAREFUL_deleteAllData();
 		toast({
 			title: "All Data Erased",
 			description: "All your data has been deleted as per your request.",
 		});
 	};
+
+	const lastBackup = fileSystemService.getLastAutomaticBackupDate();
 
 	return (
 		<Drawer>
@@ -155,12 +180,43 @@ export const Settings = () => {
 						<h3 className="font-semibold">Backups</h3>
 						<div className="flex flex-col gap-4 p-1">
 							<div className="flex flex-col gap-2">
-								<span>Backups Setting</span>
-								<Button size="sm">Enable Backups</Button>
+								<span className="flex flex-row gap-1">
+									Backups Mode:
+									{isAutomaticBackupsEnabled ? (
+										<span className="text-green-600 font-semibold">
+											On
+										</span>
+									) : (
+										<span>Off</span>
+									)}
+									{lastBackup && (
+										<span>
+											(
+											{format(
+												lastBackup,
+												"dd.MM.yyyy HH:mm",
+											)}
+											)
+										</span>
+									)}
+								</span>
+								<Button
+									size="sm"
+									variant={
+										isAutomaticBackupsEnabled
+											? "outline"
+											: "default"
+									}
+									onClick={handleSetBackupMode}
+								>
+									{isAutomaticBackupsEnabled
+										? "Disabled Backups"
+										: "Enable Backups"}
+								</Button>
 								<p className="text-stone-400 text-sm">
-									Backups will be created automatically every
-									day. Only the last 7 days of usage will be
-									stored.
+									{isAutomaticBackupsEnabled
+										? "When disabling all existing backups will be deleted."
+										: "Backups will be created automatically. Only the last 5 days of usage will be stored."}
 								</p>
 							</div>
 							<div className="flex flex-col gap-2">

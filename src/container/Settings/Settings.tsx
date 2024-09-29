@@ -13,11 +13,14 @@ import {
 } from "../../common/components/shadcn/drawer";
 import { useToast } from "../../common/hooks/use-toast";
 import { sparkService } from "../../scripts/db/SparkService";
+import FileBackupJSONWorker from "../../scripts/files/backupJSONWorker?worker";
+import FileBackupMarkdownWorker from "../../scripts/files/backupMarkdownWorker?worker";
 
 export const Settings = () => {
 	const { toast } = useToast();
 
 	const handleExportAsJson = async () => {
+		const worker = new FileBackupJSONWorker();
 		const fileHandle = await window.showSaveFilePicker({
 			types: [
 				{
@@ -31,18 +34,25 @@ export const Settings = () => {
 			excludeAcceptAllOption: true,
 		});
 
-		const jsonData = JSON.stringify(await sparkService.listSparks());
-		const writeable = await fileHandle.createWritable();
-		await writeable.write(jsonData);
-		await writeable.close();
-
-		toast({
-			title: "Backup successfully!",
-			description: `All data was stored as JSON in "${fileHandle.name}".`,
-		});
+		worker.postMessage(fileHandle);
+		worker.onmessage = (e: MessageEvent<"success" | "fail">) => {
+			if (e.data === "success") {
+				toast({
+					title: "Backup successfully!",
+					description: `All data was stored as JSON in "${fileHandle.name}".`,
+				});
+			} else {
+				toast({
+					title: "Backup failed!",
+					description: `JSON backup to "${fileHandle.name}" failed. Please try a different file.`,
+					variant: "destructive",
+				});
+			}
+		};
 	};
 
 	const handleExportAsMarkdown = async () => {
+		const worker = new FileBackupMarkdownWorker();
 		const fileHandle = await window.showSaveFilePicker({
 			types: [
 				{
@@ -56,23 +66,21 @@ export const Settings = () => {
 			excludeAcceptAllOption: true,
 		});
 
-		const allSparks = await sparkService.listSparks();
-		const markdown = allSparks
-			.map((spark) => {
-				return `
-# ${spark.contextTags}
-> ${spark.plainText}
-_${format(spark.creationDate, "dd.MM.yyyy HH:mm")}_`;
-			})
-			.join("\n");
-		const writeable = await fileHandle.createWritable();
-		await writeable.write(markdown);
-		await writeable.close();
-
-		toast({
-			title: "Backup successfully!",
-			description: `All data was stored as Markdown in "${fileHandle.name}".`,
-		});
+		worker.postMessage(fileHandle);
+		worker.onmessage = (e: MessageEvent<"success" | "fail">) => {
+			if (e.data === "success") {
+				toast({
+					title: "Export successfully!",
+					description: `All data was stored as Markdown in "${fileHandle.name}".`,
+				});
+			} else {
+				toast({
+					title: "Export failed!",
+					description: `Markdown export to "${fileHandle.name}" failed. Please try a different file.`,
+					variant: "destructive",
+				});
+			}
+		};
 	};
 
 	const handleRestoreBackup = async () => {
@@ -132,7 +140,7 @@ _${format(spark.creationDate, "dd.MM.yyyy HH:mm")}_`;
 				<div className="mx-auto max-w-md">
 					<DrawerHeader className="flex flex-row justify-between place-items-center">
 						<DrawerTitle>Application Settings</DrawerTitle>
-						<DrawerClose>
+						<DrawerClose asChild>
 							<Button
 								variant="ghost"
 								size="icon"
@@ -208,7 +216,7 @@ _${format(spark.creationDate, "dd.MM.yyyy HH:mm")}_`;
 								<p className="text-stone-400">
 									This will delete all data the browser has
 									stored. It will also delete all backups if
-									the setting was enabled. Therefore this
+									the setting is enabled. Therefore this
 									action is irreversible unless you made a
 									manual backup.
 								</p>

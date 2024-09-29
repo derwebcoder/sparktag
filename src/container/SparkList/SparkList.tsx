@@ -135,7 +135,10 @@ export const SparkList = () => {
 				}
 				if (section.type === "date") {
 					return (
-						<span className="text-neutral-400 text-sm ps-3 mb-2">
+						<span
+							className="text-neutral-400 text-sm ps-3 mb-2"
+							key={section.date.toString()}
+						>
 							{format(section.date, "dd.MM.yyyy")}
 						</span>
 					);

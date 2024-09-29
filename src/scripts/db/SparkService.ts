@@ -51,5 +51,7 @@ declare global {
 }
 
 const db = new AppDB();
-window.sparkService = new SparkService(db);
-export const sparkService = window.sparkService;
+export const sparkService = new SparkService(db);
+if (typeof window !== "undefined") {
+	window.sparkService = sparkService;
+}

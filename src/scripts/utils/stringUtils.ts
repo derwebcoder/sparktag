@@ -24,3 +24,19 @@ export const extractTags = (content: string): [string[], string[], string] => {
 
 	return [prefixTags, remainingTags, strippedContent];
 };
+
+/**
+ * Returns a deterministic number between 0-360 for a given string.
+ *
+ * @param str The input string
+ * @returns a number between 0 and 360
+ */
+export const stringToHue = (str: string) => {
+	let numberHash = 0;
+
+	for (let i = 0; i < str.length; i++) {
+		numberHash += (i + 1) * str.charCodeAt(i);
+	}
+
+	return numberHash % 360;
+};

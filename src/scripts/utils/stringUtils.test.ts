@@ -1,4 +1,4 @@
-import { extractTags } from "./stringUtils";
+import { extractTags, stringToHue } from "./stringUtils";
 
 describe("extractTags", () => {
 	test("returns the correct prefixTags and remainingTags", () => {
@@ -55,5 +55,15 @@ describe("extractTags", () => {
 		expect(prefixTags).toEqual(expectedPrefixTags);
 		expect(remainingTags).toEqual(expectedRemainingTags);
 		expect(strippedContent).toEqual(expectStrippedContent);
+	});
+});
+
+describe("stringToHue", () => {
+	test("Returns a deterministic value", () => {
+		const input = "Heart to heart";
+
+		const hue = stringToHue(input);
+
+		expect(hue).toBe(122);
 	});
 });

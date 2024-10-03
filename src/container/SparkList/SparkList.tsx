@@ -2,6 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { sparkService } from "../../scripts/db/SparkService";
 import { differenceInCalendarDays, format } from "date-fns";
 import type Spark from "../../interfaces/Spark";
+import { stringToHue } from "../../scripts/utils/stringUtils";
 
 type SparkSection = {
 	key: string;
@@ -100,11 +101,17 @@ export const SparkList = () => {
 							className="grid grid-cols-[25%_1fr] gap-4 mb-6"
 						>
 							<div className="py-2 border-e border-slate-300 pe-4">
-								<div className="sticky top-4 flex flex-col gap-1 text-end">
+								<div className="sticky top-4 flex flex-col gap-1 items-end">
 									{section.prefixTags.map((tag) => (
 										<span
 											key={tag}
-											className="font-semibold text-neutral-400 text-sm"
+											className="font-semibold text-neutral-400 tag w-fit"
+											style={
+												{
+													"--tag-color":
+														stringToHue(tag),
+												} as React.CSSProperties
+											}
 										>
 											{tag}
 										</span>

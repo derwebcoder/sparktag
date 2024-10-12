@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { type FieldValues, type SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "./Input";
-import { it } from "vitest";
+import { describe, it } from "vitest";
 
 const Wrapper = ({
 	handleSubmit,

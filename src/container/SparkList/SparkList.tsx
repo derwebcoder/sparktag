@@ -3,6 +3,7 @@ import { sparkService } from "../../scripts/db/SparkService";
 import { differenceInCalendarDays, format } from "date-fns";
 import type Spark from "../../interfaces/Spark";
 import { stringToHue } from "../../scripts/utils/stringUtils";
+import { EmptyState } from "../../common/components/EmptyState/EmptyState";
 
 type SparkSection = {
 	key: string;
@@ -90,6 +91,17 @@ export const SparkList = () => {
 		prevSection.sparks.push(spark);
 		return tmpSections;
 	}, []);
+
+	if (!sections || sections.length <= 0) {
+		return (
+			<div className="flex flex-col py-10 bg-white h-full px-8">
+				<EmptyState
+					titleSlot="Create your first Spark"
+					textSlot="Sparks can be of any topic. Use #tags to structure your Sparks. #tags added to the beginning of a Spark are used as context. Try adding your first one."
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<div className="flex flex-col py-10 bg-white h-full px-8">

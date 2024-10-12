@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FormContainer } from "./FormContainer";
-import { it } from "vitest";
+import { describe, it } from "vitest";
 
 describe("FormContainer", () => {
 	it("should render", () => {

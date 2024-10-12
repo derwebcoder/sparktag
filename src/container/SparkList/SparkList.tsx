@@ -98,6 +98,7 @@ export const SparkList = () => {
 					return (
 						<section
 							key={section.key}
+							data-key={section.key}
 							className="grid grid-cols-[25%_1fr] gap-4 mb-6"
 						>
 							<div className="py-2 border-e border-slate-300 pe-4">
@@ -144,6 +145,7 @@ export const SparkList = () => {
 					return (
 						<span
 							className="text-neutral-400 text-sm ps-3 mb-2"
+							data-key={section.date.toString()}
 							key={section.date.toString()}
 						>
 							{format(section.date, "dd.MM.yyyy")}

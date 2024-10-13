@@ -60,7 +60,7 @@ describe("SparkService", () => {
 
 	describe("listSparks", () => {
 		test("returns a sorted list of sparks from the database", async () => {
-			await sparkService.listSparks();
+			await sparkService.listSparksWithTags();
 
 			expect(db.sparks.toCollection).toHaveBeenCalled();
 			expect(

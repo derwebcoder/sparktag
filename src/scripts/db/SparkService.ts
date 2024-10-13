@@ -1,18 +1,26 @@
-import AppDB from "./AppDB";
-import type Spark from "../../interfaces/Spark";
-import { extractTags } from "../utils/stringUtils";
+import type AppDB from "./AppDB";
+import { db } from "./AppDB";
+import { SparkWithTagData, type Spark } from "../../interfaces/Spark";
+import { extractTags, stringToHue } from "../utils/stringUtils";
+import { tagService } from "./TagService";
 
 export class SparkService {
 	constructor(private db: AppDB) {}
 
 	public async addSpark(plainText: string, html: string) {
-		const [prefixTags, remainingTags, strippedContent] =
-			extractTags(plainText);
+		const { tags, prefixTags, strippedPlainText, strippedHtml } =
+			extractTags(plainText, html);
+
+		for (const tag of tags) {
+			tagService.addIfNonExistent(tag, stringToHue(`#${tag}`));
+		}
+
 		await this.db.sparks.add({
-			plainText: strippedContent,
-			html,
+			plainText: strippedPlainText,
+			html: strippedHtml,
+			originalHtml: html,
 			creationDate: Date.now(),
-			tags: remainingTags,
+			tags,
 			contextTags: prefixTags,
 		});
 	}
@@ -25,11 +33,25 @@ export class SparkService {
 		await this.db.sparks.delete(id);
 	}
 
-	public async listSparks() {
-		return await this.db.sparks
-			.toCollection()
+	public async listSparksWithTags() {
+		const sparks = await this.db.sparks
+			.orderBy("creationDate")
 			.reverse()
-			.sortBy("creationDate");
+			.toArray(async (sparks) => {
+				const tags = await Promise.all(
+					sparks.map((spark) => {
+						return this.db.tags
+							.where("name")
+							.anyOf(spark.tags)
+							.toArray();
+					}),
+				);
+				return sparks.map((spark, index) => {
+					return new SparkWithTagData(spark, tags[index]);
+				});
+			});
+
+		return sparks;
 	}
 
 	public async CAREFUL_deleteAllData() {
@@ -50,7 +72,6 @@ declare global {
 	}
 }
 
-const db = new AppDB();
 export const sparkService = new SparkService(db);
 if (typeof window !== "undefined") {
 	window.sparkService = sparkService;

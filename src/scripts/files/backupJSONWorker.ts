@@ -2,7 +2,9 @@ import { sparkService } from "../db/SparkService";
 
 self.onmessage = async (e: MessageEvent<FileSystemFileHandle>) => {
 	try {
-		const jsonData = JSON.stringify(await sparkService.listSparks());
+		const jsonData = JSON.stringify(
+			await sparkService.listSparksWithTags(),
+		);
 
 		const fileHandle = e.data;
 		const writeable = await fileHandle.createWritable();

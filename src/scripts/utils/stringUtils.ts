@@ -1,28 +1,86 @@
 /**
  * Extracts tags from the given content.
  *
- * @param content - The content to extract tags from.
- * @returns An array containing two arrays: prefixTags and remainingTags.
+ * @param plainText - The content to extract tags from as plain text.
+ * @param html - The content to extract tags from as html.
+ * @returns An object containing the following attributes:
+ *          - tags: An array of all tags.
  *          - prefixTags: An array of tags that have a prefix.
- *          - remainingTags: An array of tags without a prefix.
- * 			- strippedContent: The content without the prefixTags
+ * 			- prefixTagsHtml: The HTML representation of the prefixTags
+ * 			- strippedPlainText: The plain text content without the prefixTags
+ * 			- strippedHtml: The html content without the prefixTags
  */
-export const extractTags = (content: string): [string[], string[], string] => {
-	const token = content.split(" ");
+export const extractTags = (plainText: string, html: string) => {
+	const renderedHtml = document.createElement("div");
+	renderedHtml.innerHTML = html;
 
+	const tagNodes = Array.from(
+		renderedHtml.querySelectorAll<HTMLSpanElement>(
+			".tag[data-type=mention]",
+		),
+	);
+
+	const tags: string[] = [];
 	const prefixTags: string[] = [];
-	let prefixTagsLength = 0;
-	while (token.length > 0 && token[0].startsWith("#")) {
-		prefixTags.push(token[0]);
-		prefixTagsLength += token[0].length;
-		token.shift();
+	let prefixTagsHtml = "";
+	let isCollectPrefixTags = true;
+
+	// a function to check if a node is possibly still a prefix tag node
+	const hasPreviousTagSiblingOrIsFirst = (node: Node) => {
+		const prevNode = node.previousSibling;
+		// if it does not have a previous node, it's the first one, so it's a prefix tag
+		if (!prevNode) {
+			return true;
+		}
+
+		// if it prev node is an element and it has `data-type="mention"` we return true
+		if (prevNode.nodeType === 1) {
+			const prevElement = prevNode as HTMLElement;
+			if (prevElement.dataset.type === "mention") {
+				return true;
+			}
+			return false;
+		}
+
+		// if it is a TEXT_NODE (3) and _not_ empty, it has no direct prev tag element
+		if (prevNode.nodeType === 3 && prevNode.textContent?.trim() !== "") {
+			return false;
+		}
+
+		return hasPreviousTagSiblingOrIsFirst(prevNode);
+	};
+
+	for (const tagNode of tagNodes) {
+		const tagName = tagNode.dataset.id;
+
+		if (!tagName) {
+			console.log("return because of no tagName");
+			continue;
+		}
+
+		// if it returns false it cannot be a prefix tag anymore,
+		// so we stop collecting prefix tags
+		if (!hasPreviousTagSiblingOrIsFirst(tagNode)) {
+			isCollectPrefixTags = false;
+		}
+
+		tags.push(tagName);
+		if (isCollectPrefixTags) {
+			prefixTags.push(tagName);
+			prefixTagsHtml += `${tagNode.outerHTML} `;
+		}
 	}
 
-	const remainingTags = token.filter((t) => t.startsWith("#"));
+	const strippedPlainText = plainText.split(`${prefixTags.join(" ")} `)[1];
+	const strippedHtml = html.split(prefixTagsHtml)[1];
 
-	const strippedContent = content.slice(prefixTagsLength + prefixTags.length);
-
-	return [prefixTags, remainingTags, strippedContent];
+	return {
+		tags,
+		prefixTags,
+		strippedPlainText,
+		strippedHtml,
+		prefixTagsHtml,
+	};
 };
 
 /**

@@ -72,6 +72,9 @@ html {
 }
 
 
+.tag {
+  display: inline-block;
+}
 .tag::after {
   /*
     We use hsl to generate the base color because the hue in hsl has a wider color range than oklch.
@@ -81,11 +84,12 @@ html {
     That's why wrap the hsl value in oklch, creating a relative value with constant
     lightness, chroma and alpha but keep the hue
   */
-  background: oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h / 0.4);
+  background: hsl(var(--tag-color) 100% 50% / 90%);
+  /* background: oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h / 0.4); */
   /* background: linear-gradient(0deg, rgba(255,255,255,0) 0%, oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h) 80%, rgba(255,255,255,0) 100%); */
   width: 100%;
-  height: 2px;
-  filter: blur(5px);
+  height: 1px;
+  filter: blur(3px);
   margin-top: -5px;
   display: block;
   content: "";

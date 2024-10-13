@@ -14,5 +14,5 @@ More info coming soon.
 - [x] Webapp
 - [ ] Todos
 - [ ] Reminder
-- [ ] Empty state when no spark exist yet
+- [x] Empty state when no spark exist yet
 - [ ] Add second confirmation to "Delete everything" button

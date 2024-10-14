@@ -1,6 +1,6 @@
-import { Entity } from "dexie";
+import { Entity, type InsertType } from "dexie";
 import type AppDB from "../scripts/db/AppDB";
-import type Tag from "./Tag";
+import type { Tag } from "./Tag";
 
 export class Spark extends Entity<AppDB> {
 	id!: number;
@@ -11,6 +11,8 @@ export class Spark extends Entity<AppDB> {
 	tags!: string[];
 	contextTags!: string[];
 }
+
+export type PlainSpark = InsertType<Spark, "id">;
 
 export class SparkWithTagData {
 	spark: Spark;

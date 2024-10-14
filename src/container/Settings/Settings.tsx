@@ -15,8 +15,10 @@ import { useToast } from "../../common/hooks/use-toast";
 import { sparkService } from "../../scripts/db/SparkService";
 import FileBackupJSONWorker from "../../scripts/files/backupJSONWorker?worker";
 import FileBackupMarkdownWorker from "../../scripts/files/backupMarkdownWorker?worker";
+import ImportJSONWorker from "../../scripts/files/importJSONWorker?worker";
 import { fileSystemService } from "../../scripts/db/FileSystemHandleService";
 import { useState } from "react";
+import { tagService } from "../../scripts/db/TagService";
 
 export const Settings = () => {
 	const { toast } = useToast();
@@ -105,19 +107,27 @@ export const Settings = () => {
 
 			const content = await (await fileHandle.getFile()).text();
 
-			const data = JSON.parse(content);
-
-			await sparkService.CAREFUL_deleteAndImportSparks(data);
-
-			toast({
-				title: "Backup Restored",
-				description: `Current data was overriden with your backup from "${fileHandle.name}".`,
-			});
+			const worker = new ImportJSONWorker();
+			worker.postMessage(content);
+			worker.onmessage = (e: MessageEvent<"success" | "fail">) => {
+				if (e.data === "success") {
+					toast({
+						title: "Backup Restored",
+						description: `Current data was overriden with your backup from "${fileHandle.name}".`,
+					});
+				} else {
+					toast({
+						title: "Restoring Backup Failed",
+						description:
+							"The data from the backup could not be restored. Please try a different file.",
+					});
+				}
+			};
 		} catch (e) {
 			toast({
 				title: "Restoring Backup Failed",
 				description:
-					"The data from the backup could not be restored. Please try a different file.",
+					"The data from the backup could not be loaded. Please try a different file.",
 			});
 		}
 	};
@@ -142,6 +152,7 @@ export const Settings = () => {
 	const handleDeleteEverything = async () => {
 		await fileSystemService.CAREFUL_clearAllBackups();
 		await sparkService.CAREFUL_deleteAllData();
+		await tagService.CAREFUL_deleteAllData();
 		toast({
 			title: "All Data Erased",
 			description: "All your data has been deleted as per your request.",

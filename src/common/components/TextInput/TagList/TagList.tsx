@@ -4,7 +4,7 @@ import type {
 	SuggestionProps,
 } from "@tiptap/suggestion";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import type Tag from "../../../../interfaces/Tag";
+import type { Tag } from "../../../../interfaces/Tag";
 
 export const NEW_TAG_PREFIX = 'New tag "';
 export const getNewTagPhrase = (tag: string) =>

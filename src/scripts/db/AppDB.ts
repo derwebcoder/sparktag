@@ -1,8 +1,8 @@
 import Dexie, { type EntityTable, type InsertType, type Table } from "dexie";
 import { Spark } from "../../interfaces/Spark";
 import type { FileSystemHandleStore } from "../../interfaces/FileSystemHandleStore";
-import type Tag from "../../interfaces/Tag";
-import { stringToHue } from "../utils/stringUtils";
+import type { Tag } from "../../interfaces/Tag";
+import { removeHash, stringToHue } from "../utils/stringUtils";
 
 export default class AppDB extends Dexie {
 	tags!: Table<Tag, string, InsertType<Tag, "name">>;
@@ -28,17 +28,11 @@ export default class AppDB extends Dexie {
 					.toCollection()
 					.modify((spark: Spark) => {
 						console.debug(`Modifying spark ${spark.id}`);
-						const tagSet = new Set(spark.tags);
-						for (const cTag of spark.contextTags) {
-							tagSet.add(cTag);
-						}
+						const tagSet = new Set([
+							...spark.tags,
+							...spark.contextTags,
+						]);
 						console.debug("tagSet", [...tagSet]);
-						const removeHash = (tag: string) => {
-							if (tag.startsWith("#")) {
-								return tag.slice(1);
-							}
-							return tag;
-						};
 						spark.tags = [...tagSet].map(removeHash);
 						spark.contextTags = spark.contextTags.map(removeHash);
 

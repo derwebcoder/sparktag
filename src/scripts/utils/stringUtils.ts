@@ -98,3 +98,18 @@ export const stringToHue = (str: string) => {
 
 	return numberHash % 360;
 };
+
+/**
+ * Returns a string without a leading '#' char.
+ * For example:
+ *  - #test => test
+ *  - grape => grape
+ * @param tag
+ * @returns {string}
+ */
+export const removeHash = (tag: string) => {
+	if (tag.startsWith("#")) {
+		return tag.slice(1);
+	}
+	return tag;
+};

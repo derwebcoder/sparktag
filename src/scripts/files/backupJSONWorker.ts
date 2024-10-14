@@ -1,3 +1,4 @@
+import type { Backup, BackupV6 } from "../../interfaces/Backup";
 import { sparkService } from "../db/SparkService";
 import { tagService } from "../db/TagService";
 
@@ -7,7 +8,7 @@ self.onmessage = async (e: MessageEvent<FileSystemFileHandle>) => {
 			version: 6,
 			sparks: await sparkService.listSparks(),
 			tags: await tagService.listTags(),
-		});
+		} satisfies BackupV6);
 
 		const fileHandle = e.data;
 		const writeable = await fileHandle.createWritable();

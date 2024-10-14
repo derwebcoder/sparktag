@@ -1,8 +1,13 @@
 import type AppDB from "./AppDB";
 import { db } from "./AppDB";
-import { SparkWithTagData, type Spark } from "../../interfaces/Spark";
+import {
+	SparkWithTagData,
+	type PlainSpark,
+	type Spark,
+} from "../../interfaces/Spark";
 import { extractTags, stringToHue } from "../utils/stringUtils";
 import { tagService } from "./TagService";
+import type { InsertType } from "dexie";
 
 export class SparkService {
 	constructor(private db: AppDB) {}
@@ -62,7 +67,7 @@ export class SparkService {
 		await this.db.sparks.clear();
 	}
 
-	public async CAREFUL_deleteAndImportSparks(sparks: Spark[]) {
+	public async CAREFUL_deleteAndImportSparks(sparks: PlainSpark[]) {
 		await this.CAREFUL_deleteAllData();
 		await sparks.map((spark) => {
 			this.db.sparks.add(spark);

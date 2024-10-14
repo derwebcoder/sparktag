@@ -45,7 +45,6 @@ self.onmessage = async (e: MessageEvent<string>) => {
 		let backup = JSON.parse(e.data);
 
 		if (!isBackup(backup)) {
-			console.log("not backup", backup);
 			self.postMessage("fail");
 			return;
 		}
@@ -60,7 +59,6 @@ self.onmessage = async (e: MessageEvent<string>) => {
 		}
 
 		if (!isBackupV6(backup)) {
-			console.log("not v6", backup);
 			self.postMessage("fail");
 			return;
 		}

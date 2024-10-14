@@ -36,6 +36,10 @@ export class TagService {
 			.limit(limit)
 			.toArray();
 	}
+
+	public async listTags() {
+		return await this.db.tags.toArray();
+	}
 }
 
 declare global {

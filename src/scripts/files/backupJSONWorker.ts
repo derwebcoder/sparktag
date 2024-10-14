@@ -1,10 +1,13 @@
 import { sparkService } from "../db/SparkService";
+import { tagService } from "../db/TagService";
 
 self.onmessage = async (e: MessageEvent<FileSystemFileHandle>) => {
 	try {
-		const jsonData = JSON.stringify(
-			await sparkService.listSparksWithTags(),
-		);
+		const jsonData = JSON.stringify({
+			version: 6,
+			sparks: await sparkService.listSparks(),
+			tags: await tagService.listTags(),
+		});
 
 		const fileHandle = e.data;
 		const writeable = await fileHandle.createWritable();

@@ -3,7 +3,7 @@ import { sparkService } from "../db/SparkService";
 
 self.onmessage = async (e: MessageEvent<FileSystemFileHandle>) => {
 	try {
-		const allSparks = await sparkService.listSparksWithTags();
+		const allSparks = await sparkService.listSparks();
 		const markdown = allSparks
 			.map(
 				(spark) => `

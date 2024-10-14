@@ -33,6 +33,10 @@ export class SparkService {
 		await this.db.sparks.delete(id);
 	}
 
+	public async listSparks() {
+		return await this.db.sparks.orderBy("creationDate").reverse().toArray();
+	}
+
 	public async listSparksWithTags() {
 		const sparks = await this.db.sparks
 			.orderBy("creationDate")

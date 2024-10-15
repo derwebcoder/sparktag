@@ -1,5 +1,6 @@
 import { toast } from "../../common/hooks/use-toast";
-import AppDB from "./AppDB";
+import type AppDB from "./AppDB";
+import { db } from "./AppDB";
 
 export class FileSystemHandleService {
 	constructor(private db: AppDB) {}
@@ -68,7 +69,6 @@ declare global {
 	}
 }
 
-const db = new AppDB();
 export const fileSystemService = new FileSystemHandleService(db);
 if (typeof window !== "undefined") {
 	window.fileSystemHandleService = fileSystemService;

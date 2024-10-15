@@ -2,6 +2,7 @@ import { EditorContent, useEditor, type Editor } from "@tiptap/react";
 import { extensions } from "./TextInput.config";
 import "./TextInput.css";
 import { extractTags } from "../../../scripts/utils/stringUtils";
+import { isUserSelectingTag } from "./TagList/TagList";
 
 export type TextInputProps = {
 	onSubmit?: (plainText: string, html: string) => void;
@@ -26,14 +27,18 @@ export const TextInput = (props: TextInputProps) => {
 				if (event.key !== "Enter" || event.shiftKey) {
 					return false;
 				}
+				if (isUserSelectingTag) {
+					// user currently has the selection open and might have pressed enter to select an item
+					return false;
+				}
 				const html = editor?.getHTML().trim() ?? "";
 				const plainText = editor?.getText().trim() ?? "";
 				if (html === "") {
 					return false;
 				}
 				onSubmit(plainText, html);
-				const [prefixTags] = extractTags(plainText);
-				editor?.commands.setContent(`${prefixTags.join(" ")} `, false, {
+				const { prefixTagsHtml } = extractTags(plainText, html);
+				editor?.commands.setContent(prefixTagsHtml, false, {
 					preserveWhitespace: true,
 				});
 				return true;

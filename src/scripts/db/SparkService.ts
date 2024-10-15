@@ -1,18 +1,31 @@
-import AppDB from "./AppDB";
-import type Spark from "../../interfaces/Spark";
-import { extractTags } from "../utils/stringUtils";
+import type AppDB from "./AppDB";
+import { db } from "./AppDB";
+import {
+	SparkWithTagData,
+	type PlainSpark,
+	type Spark,
+} from "../../interfaces/Spark";
+import { extractTags, stringToHue } from "../utils/stringUtils";
+import { tagService } from "./TagService";
+import type { InsertType } from "dexie";
 
 export class SparkService {
 	constructor(private db: AppDB) {}
 
 	public async addSpark(plainText: string, html: string) {
-		const [prefixTags, remainingTags, strippedContent] =
-			extractTags(plainText);
+		const { tags, prefixTags, strippedPlainText, strippedHtml } =
+			extractTags(plainText, html);
+
+		for (const tag of tags) {
+			tagService.addIfNonExistent(tag, stringToHue(`#${tag}`));
+		}
+
 		await this.db.sparks.add({
-			plainText: strippedContent,
-			html,
+			plainText: strippedPlainText,
+			html: strippedHtml,
+			originalHtml: html,
 			creationDate: Date.now(),
-			tags: remainingTags,
+			tags,
 			contextTags: prefixTags,
 		});
 	}
@@ -26,17 +39,35 @@ export class SparkService {
 	}
 
 	public async listSparks() {
-		return await this.db.sparks
-			.toCollection()
+		return await this.db.sparks.orderBy("creationDate").reverse().toArray();
+	}
+
+	public async listSparksWithTags() {
+		const sparks = await this.db.sparks
+			.orderBy("creationDate")
 			.reverse()
-			.sortBy("creationDate");
+			.toArray(async (sparks) => {
+				const tags = await Promise.all(
+					sparks.map((spark) => {
+						return this.db.tags
+							.where("name")
+							.anyOf(spark.tags)
+							.toArray();
+					}),
+				);
+				return sparks.map((spark, index) => {
+					return new SparkWithTagData(spark, tags[index]);
+				});
+			});
+
+		return sparks;
 	}
 
 	public async CAREFUL_deleteAllData() {
 		await this.db.sparks.clear();
 	}
 
-	public async CAREFUL_deleteAndImportSparks(sparks: Spark[]) {
+	public async CAREFUL_deleteAndImportSparks(sparks: PlainSpark[]) {
 		await this.CAREFUL_deleteAllData();
 		await sparks.map((spark) => {
 			this.db.sparks.add(spark);
@@ -50,7 +81,6 @@ declare global {
 	}
 }
 
-const db = new AppDB();
 export const sparkService = new SparkService(db);
 if (typeof window !== "undefined") {
 	window.sparkService = sparkService;

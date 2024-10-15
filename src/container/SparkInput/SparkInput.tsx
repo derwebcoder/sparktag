@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { sparkService } from "../../scripts/db/SparkService";
 import { TextInput } from "../../common/components/TextInput/TextInput";
 import { ArrowRightStartOnBox } from "../../assets/icons/ArrowRightStartOnBox";

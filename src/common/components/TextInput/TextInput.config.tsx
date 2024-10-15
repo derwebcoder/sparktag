@@ -1,5 +1,8 @@
 import ListKeymap from "@tiptap/extension-list-keymap";
 import Placeholder from "@tiptap/extension-placeholder";
+import Document from "@tiptap/extension-document";
+import Text from "@tiptap/extension-text";
+import Paragraph from "@tiptap/extension-paragraph";
 import Mention from "@tiptap/extension-mention";
 import StarterKit from "@tiptap/starter-kit";
 
@@ -10,6 +13,9 @@ import { stringToHue } from "../../../scripts/utils/stringUtils";
 import { tagService } from "../../../scripts/db/TagService";
 
 export const extensions = [
+	// Document,
+	// Text,
+	// Paragraph,
 	StarterKit.configure({
 		// for now disabling this as it's interfering with the "#" logic of the Mention
 		// plugin when a user types "#" at the beginning of a line and presses enter.

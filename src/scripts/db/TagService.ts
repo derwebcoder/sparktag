@@ -1,5 +1,4 @@
-import type { InsertType } from "dexie";
-import type { PlainTag, Tag } from "../../interfaces/Tag";
+import type { PlainTag } from "../../interfaces/Tag";
 import { stringToHue, toLowerCase } from "../utils/stringUtils";
 import type AppDB from "./AppDB";
 import { db } from "./AppDB";
@@ -49,7 +48,7 @@ export class TagService {
 
 	public async CAREFUL_deleteAndImportTags(tags: PlainTag[]) {
 		await this.CAREFUL_deleteAllData();
-		await tags.map((tag) => {
+		tags.map((tag) => {
 			this.db.tags.add(tag);
 		});
 	}

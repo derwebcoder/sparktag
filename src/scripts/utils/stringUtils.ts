@@ -39,10 +39,12 @@ export const extractTags = (plainText: string, html: string) => {
 			if (prevElement.dataset.type === "mention") {
 				return true;
 			}
+
+			// if it is an element but not a tag, we return false
 			return false;
 		}
 
-		// if it is a TEXT_NODE (3) and _not_ empty, it has no direct prev tag element
+		// if it is a TEXT_NODE (3) and _not_ empty, it is not a prefix tag
 		if (prevNode.nodeType === 3 && prevNode.textContent?.trim() !== "") {
 			return false;
 		}
@@ -59,19 +61,26 @@ export const extractTags = (plainText: string, html: string) => {
 
 		// if it returns false it cannot be a prefix tag anymore,
 		// so we stop collecting prefix tags
-		if (!hasPreviousTagSiblingOrIsFirst(tagNode)) {
+		if (isCollectPrefixTags && !hasPreviousTagSiblingOrIsFirst(tagNode)) {
 			isCollectPrefixTags = false;
 		}
 
-		tags.push(tagName);
 		if (isCollectPrefixTags) {
 			prefixTags.push(tagName);
 			prefixTagsHtml += `${tagNode.outerHTML} `;
 		}
 	}
 
-	const strippedPlainText = plainText.split(`${prefixTags.join(" ")} `)[1];
-	const strippedHtml = html.split(prefixTagsHtml)[1];
+	const prefixTagsString = `${prefixTags.map((t) => `#${t}`).join(" ")} `;
+	const strippedPlainText =
+		prefixTagsString.length > 1
+			? plainText.split(
+					`${prefixTags.map((t) => `#${t}`).join(" ")} `,
+				)[1] ?? ""
+			: plainText;
+
+	const strippedHtml =
+		prefixTagsHtml.length > 1 ? html.split(prefixTagsHtml).join("") : html;
 
 	return {
 		tags,
@@ -104,7 +113,7 @@ export const stringToHue = (str: string) => {
  *  - #test => test
  *  - grape => grape
  * @param tag
- * @returns {string}
+ * @returns string without leading '#'
  */
 export const removeHash = (tag: string) => {
 	if (tag.startsWith("#")) {

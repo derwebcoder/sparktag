@@ -1,4 +1,4 @@
-import type { Backup, BackupV6 } from "../../interfaces/Backup";
+import type { BackupV6 } from "../../interfaces/Backup";
 import { sparkService } from "../db/SparkService";
 import { tagService } from "../db/TagService";
 

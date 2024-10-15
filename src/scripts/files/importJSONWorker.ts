@@ -3,7 +3,6 @@ import {
 	isBackupV5,
 	isBackupV6,
 	type Backup,
-	type BackupV5,
 	type BackupV6,
 } from "../../interfaces/Backup";
 import type { PlainSpark, Spark } from "../../interfaces/Spark";

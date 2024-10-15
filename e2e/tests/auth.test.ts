@@ -15,14 +15,14 @@ test.describe("Auth", () => {
 		await authPage.enterPassword(process.env.NOT_SO_SECRET_SECRET ?? "");
 		await authPage.submit();
 
-		await expect(await authPage.hasLocalStorageSecret()).toBe(true);
+		expect(await authPage.hasLocalStorageSecret()).toBe(true);
 	});
 
 	test("shows error for wrong secret", async ({ authPage }) => {
 		await authPage.enterPassword("wrong-secret");
 		await authPage.submit();
 
-		await expect(await authPage.getErrorMessage()).toBe(
+		expect(await authPage.getErrorMessage()).toBe(
 			"😢 Sadly that is not correct.",
 		);
 	});

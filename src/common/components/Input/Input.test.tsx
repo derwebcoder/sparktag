@@ -14,7 +14,7 @@ const Wrapper = ({
 	return (
 		<form
 			onSubmit={RHFHandleSubmit(
-				handleSubmit || ((data, e) => e?.preventDefault()),
+				handleSubmit || ((_data, e) => e?.preventDefault()),
 			)}
 		>
 			<Input
@@ -37,7 +37,7 @@ describe("Input", () => {
 
 	it("should submit the correct data", async () => {
 		const user = userEvent.setup();
-		const handleSubmit = vitest.fn((data, e) => e.preventDefault());
+		const handleSubmit = vitest.fn((_data, e) => e.preventDefault());
 		render(<Wrapper handleSubmit={handleSubmit} />);
 
 		const input = screen.getByLabelText("Password");

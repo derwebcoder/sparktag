@@ -34,7 +34,9 @@ export default class AppDB extends Dexie {
 						]);
 						console.debug("tagSet", [...tagSet]);
 						spark.tags = [...tagSet].map(removeHash);
-						spark.contextTags = spark.contextTags.map(removeHash);
+						spark.contextTags = spark.contextTags
+							.map(removeHash)
+							.map<string>(toLowerCase);
 
 						// we don't have the original anymore, so this has to be good enough
 						spark.originalHtml = spark.html;

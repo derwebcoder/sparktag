@@ -2,7 +2,7 @@ import Dexie, { type EntityTable, type InsertType, type Table } from "dexie";
 import { Spark } from "../../interfaces/Spark";
 import type { FileSystemHandleStore } from "../../interfaces/FileSystemHandleStore";
 import type { Tag } from "../../interfaces/Tag";
-import { removeHash, stringToHue } from "../utils/stringUtils";
+import { removeHash, stringToHue, toLowerCase } from "../utils/stringUtils";
 
 export default class AppDB extends Dexie {
 	tags!: Table<Tag, string, InsertType<Tag, "name">>;
@@ -21,7 +21,7 @@ export default class AppDB extends Dexie {
 			})
 			.upgrade(async (transaction) => {
 				console.debug("Upgrading Dexie Table to version 6");
-				// remove '#' char from existing tags
+				// remove '#' char from existing tags and make them lowercase
 				// and tags should now contain all tags, including the contextTags
 				transaction
 					.table("sparks")
@@ -29,8 +29,8 @@ export default class AppDB extends Dexie {
 					.modify((spark: Spark) => {
 						console.debug(`Modifying spark ${spark.id}`);
 						const tagSet = new Set([
-							...spark.tags,
-							...spark.contextTags,
+							...spark.tags.map<string>(toLowerCase),
+							...spark.contextTags.map<string>(toLowerCase),
 						]);
 						console.debug("tagSet", [...tagSet]);
 						spark.tags = [...tagSet].map(removeHash);

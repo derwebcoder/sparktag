@@ -1,6 +1,6 @@
 import type { InsertType } from "dexie";
 import type { PlainTag, Tag } from "../../interfaces/Tag";
-import { stringToHue } from "../utils/stringUtils";
+import { stringToHue, toLowerCase } from "../utils/stringUtils";
 import type AppDB from "./AppDB";
 import { db } from "./AppDB";
 
@@ -17,7 +17,7 @@ export class TagService {
 			return;
 		}
 		await this.db.tags.add({
-			name,
+			name: toLowerCase(name),
 			hue,
 			description,
 		});

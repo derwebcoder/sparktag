@@ -51,10 +51,9 @@ export const extractTags = (plainText: string, html: string) => {
 	};
 
 	for (const tagNode of tagNodes) {
-		const tagName = tagNode.dataset.id;
+		const tagName = toLowerCase(tagNode.dataset.id);
 
 		if (!tagName) {
-			console.log("return because of no tagName");
 			continue;
 		}
 
@@ -113,3 +112,10 @@ export const removeHash = (tag: string) => {
 	}
 	return tag;
 };
+
+export function toLowerCase(s: string): string;
+export function toLowerCase(s: undefined): undefined;
+export function toLowerCase(s: string | undefined): string | undefined;
+export function toLowerCase(s: string | undefined) {
+	return s?.toLowerCase();
+}

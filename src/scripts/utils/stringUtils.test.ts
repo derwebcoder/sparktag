@@ -112,7 +112,8 @@ describe("extractTags", () => {
 			'<span style="--tag-color: 135" data-type="mention" class="tag" data-id="tag1">#tag1</span> <span style="--tag-color: 140" data-type="mention" class="tag" data-id="tag2">#tag2</span> <span style="--tag-color: 145" data-type="mention" class="tag" data-id="tag3">#tag3</span> ';
 		const expectedTags = ["tag1", "tag2", "tag3"];
 		const expectStrippedPlainText = "";
-		const expectStrippedHtml = "<p></p>";
+		const expectStrippedHtml =
+			'<p><span style="--tag-color: 135" data-type="mention" class="tag" data-id="tag1">#tag1</span> <span style="--tag-color: 140" data-type="mention" class="tag" data-id="tag2">#tag2</span> <span style="--tag-color: 145" data-type="mention" class="tag" data-id="tag3">#tag3</span></p>';
 
 		const {
 			prefixTags,

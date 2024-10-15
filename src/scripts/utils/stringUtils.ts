@@ -65,6 +65,7 @@ export const extractTags = (plainText: string, html: string) => {
 			isCollectPrefixTags = false;
 		}
 
+		tags.push(tagName);
 		if (isCollectPrefixTags) {
 			prefixTags.push(tagName);
 			prefixTagsHtml += `${tagNode.outerHTML} `;

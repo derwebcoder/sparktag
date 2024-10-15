@@ -5,6 +5,7 @@ import type AppDB from "./AppDB";
 describe("SparkService", () => {
 	let sparkService: SparkService;
 	let db: AppDB;
+	const toArrayMock = vi.fn();
 
 	beforeEach(() => {
 		db = {
@@ -12,6 +13,9 @@ describe("SparkService", () => {
 				add: vi.fn(),
 				update: vi.fn(),
 				delete: vi.fn(),
+				orderBy: vi.fn().mockReturnValue({
+					reverse: vi.fn().mockReturnValue({ toArray: toArrayMock }),
+				}),
 				toCollection: vi.fn().mockReturnValue({
 					reverse: vi.fn().mockReturnValue({ sortBy: vi.fn() }),
 				}),
@@ -30,6 +34,7 @@ describe("SparkService", () => {
 			expect(db.sparks.add).toHaveBeenCalledWith({
 				plainText: plainText,
 				html: html,
+				originalHtml: html,
 				creationDate: expect.any(Number),
 				tags: expect.any(Array),
 				contextTags: expect.any(Array),
@@ -60,12 +65,10 @@ describe("SparkService", () => {
 
 	describe("listSparks", () => {
 		test("returns a sorted list of sparks from the database", async () => {
-			await sparkService.listSparksWithTags();
+			await sparkService.listSparks();
 
-			expect(db.sparks.toCollection).toHaveBeenCalled();
-			expect(
-				db.sparks.toCollection().reverse().sortBy,
-			).toHaveBeenCalledWith("creationDate");
+			expect(db.sparks.orderBy).toHaveBeenCalled();
+			expect(toArrayMock).toHaveBeenCalled();
 		});
 	});
 });

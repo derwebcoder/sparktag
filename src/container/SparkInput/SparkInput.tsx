@@ -26,7 +26,7 @@ export const SparkInput = () => {
 			return;
 		}
 
-		pip.addEventListener("pagehide", (event) => {
+		pip.addEventListener("pagehide", (_event) => {
 			setPipWindow(undefined);
 		});
 

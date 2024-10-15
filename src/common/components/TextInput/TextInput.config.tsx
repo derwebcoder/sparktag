@@ -1,8 +1,8 @@
 import ListKeymap from "@tiptap/extension-list-keymap";
 import Placeholder from "@tiptap/extension-placeholder";
-import Document from "@tiptap/extension-document";
-import Text from "@tiptap/extension-text";
-import Paragraph from "@tiptap/extension-paragraph";
+// import Document from "@tiptap/extension-document";
+// import Text from "@tiptap/extension-text";
+// import Paragraph from "@tiptap/extension-paragraph";
 import Mention from "@tiptap/extension-mention";
 import StarterKit from "@tiptap/starter-kit";
 

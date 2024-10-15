@@ -5,7 +5,7 @@ import {
 	type Backup,
 	type BackupV6,
 } from "../../interfaces/Backup";
-import type { PlainSpark, Spark } from "../../interfaces/Spark";
+import type { PlainSpark } from "../../interfaces/Spark";
 import { sparkService } from "../db/SparkService";
 import { tagService } from "../db/TagService";
 import { removeHash, stringToHue } from "../utils/stringUtils";

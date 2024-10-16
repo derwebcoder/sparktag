@@ -65,7 +65,7 @@ export const getExtensions = (parentWindow: Window) => [
 		},
 		suggestion: {
 			items: async ({ query }) => {
-				const tags = await tagService.find(query, 5);
+				const tags = await tagService.find(query.toLowerCase(), 5);
 
 				if (query.length <= 0) {
 					return tags;

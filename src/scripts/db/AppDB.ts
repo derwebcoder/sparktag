@@ -59,7 +59,7 @@ export default class AppDB extends Dexie {
 				tagsTable.bulkAdd(
 					[...tags].map((tag) => ({
 						name: tag,
-						hue: stringToHue(tag),
+						hue: stringToHue(`#${tag}`),
 					})),
 				);
 			});

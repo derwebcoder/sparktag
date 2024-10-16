@@ -71,7 +71,10 @@ export const SparkInput = () => {
 		<>
 			<div className="flex flex-col gap-1">
 				<div className="min-h-32">
-					<TextInput onSubmit={handleSubmit} />
+					<TextInput
+						onSubmit={handleSubmit}
+						parentWindow={window}
+					/>
 				</div>
 				<div className="flex justify-end px-3">
 					<IconButton
@@ -87,7 +90,10 @@ export const SparkInput = () => {
 				createPortal(
 					<div className="grid grid-rows-[1fr_min-content] gap-1 h-full p-1">
 						<div className="min-h-full overflow-y-auto">
-							<TextInput onSubmit={handleSubmit} />
+							<TextInput
+								onSubmit={handleSubmit}
+								parentWindow={pipWindow}
+							/>
 						</div>
 						<div className="flex justify-end px-3">
 							<IconButton

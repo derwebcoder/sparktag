@@ -1,19 +1,20 @@
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
-import { extensions } from "./TextInput.config";
+import { getExtensions } from "./TextInput.config";
 import "./TextInput.css";
 import { extractTags } from "../../../scripts/utils/stringUtils";
 import { isUserSelectingTag } from "./TagList/TagList";
 
 export type TextInputProps = {
 	onSubmit?: (plainText: string, html: string) => void;
+	parentWindow: Window;
 };
 
 let editor: Editor | null = null;
 
 export const TextInput = (props: TextInputProps) => {
-	const { onSubmit } = props;
+	const { onSubmit, parentWindow } = props;
 	editor = useEditor({
-		extensions: extensions,
+		extensions: getExtensions(parentWindow),
 		editorProps: {
 			attributes: {
 				"aria-label": "Add a spark",

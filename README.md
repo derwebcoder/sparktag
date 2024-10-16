@@ -7,9 +7,12 @@ More info coming soon.
 - [ ] Edit sparks
 - [ ] Delete sparks
 - [ ] Filter sparks
-- [ ] Tag management
-- [ ] Tag widget in tiptap with autocomplete
-- [ ] Tag highlighting
+- [ ] Tag color changing
+- [ ] Tag renaming
+- [ ] Tag deleting
+- [ ] Tag descriptions
+- [x] Tag widget in tiptap with autocomplete
+- [x] Tag highlighting
 - [x] Backups
 - [x] Webapp
 - [ ] Todos

@@ -12,7 +12,7 @@ import tippy, { type Instance as TippyInstance } from "tippy.js";
 import { stringToHue } from "../../../scripts/utils/stringUtils";
 import { tagService } from "../../../scripts/db/TagService";
 
-export const extensions = [
+export const getExtensions = (parentWindow: Window) => [
 	// Document,
 	// Text,
 	// Paragraph,
@@ -92,7 +92,7 @@ export const extensions = [
 			char: "#",
 			render: () => {
 				let component: ReactRenderer<TagListRef>;
-				let popup: TippyInstance[];
+				let popup: TippyInstance;
 
 				return {
 					onStart: (props) => {
@@ -105,10 +105,10 @@ export const extensions = [
 							return;
 						}
 
-						popup = tippy("body", {
+						popup = tippy(parentWindow.document.body, {
 							// biome-ignore lint/style/noNonNullAssertion: <explanation>
 							getReferenceClientRect: () => props.clientRect?.()!,
-							appendTo: () => document.body,
+							appendTo: () => parentWindow.document.body,
 							content: component.element,
 							showOnCreate: true,
 							interactive: true,
@@ -124,7 +124,7 @@ export const extensions = [
 							return;
 						}
 
-						popup[0].setProps({
+						popup.setProps({
 							// biome-ignore lint/style/noNonNullAssertion: <explanation>
 							getReferenceClientRect: () => props.clientRect?.()!,
 						});
@@ -132,7 +132,7 @@ export const extensions = [
 
 					onKeyDown(props) {
 						if (props.event.key === "Escape") {
-							popup[0].hide();
+							popup.hide();
 
 							return true;
 						}
@@ -141,7 +141,7 @@ export const extensions = [
 					},
 
 					onExit() {
-						popup[0].destroy();
+						popup.destroy();
 						component.destroy();
 					},
 				};

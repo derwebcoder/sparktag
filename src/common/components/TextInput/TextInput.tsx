@@ -6,7 +6,7 @@ import { isUserSelectingTag } from "./TagList/TagList";
 
 export type TextInputProps = {
 	onSubmit?: (plainText: string, html: string) => void;
-	parentWindow: Window;
+	parentWindow?: Window;
 };
 
 let editor: Editor | null = null;
@@ -14,7 +14,7 @@ let editor: Editor | null = null;
 export const TextInput = (props: TextInputProps) => {
 	const { onSubmit, parentWindow } = props;
 	editor = useEditor({
-		extensions: getExtensions(parentWindow),
+		extensions: getExtensions(parentWindow ?? window),
 		editorProps: {
 			attributes: {
 				"aria-label": "Add a spark",

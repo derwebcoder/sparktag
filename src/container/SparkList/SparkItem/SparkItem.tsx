@@ -61,7 +61,9 @@ export const SparkItem = (props: Props) => {
 					}}
 				/>
 			)}
-			<div className="hidden group-hover:flex absolute bottom-0 right-1 flex-row gap-1">
+			<div
+				className={`hidden ${isEditing ? "" : "group-hover:flex"} absolute bottom-0 right-1 flex-row gap-1`}
+			>
 				<IconButton
 					type="button"
 					onClick={() => setIsEditing(!isEditing)}

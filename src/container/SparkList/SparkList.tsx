@@ -24,7 +24,6 @@ type Section = SparkSection | DateSection;
 
 export const SparkList = () => {
 	const queryTags = useQueryStore((state) => state.context.query);
-	console.log({ queryTags });
 	const sparksWithTags = useLiveQuery(
 		() => sparkService.find(queryTags),
 		[queryTags],

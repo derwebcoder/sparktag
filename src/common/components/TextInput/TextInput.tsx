@@ -3,6 +3,7 @@ import { getExtensions } from "./TextInput.config";
 import "./TextInput.css";
 import { parseSpark } from "../../../scripts/utils/stringUtils";
 import { isUserSelectingTag } from "./TagList/TagList";
+import { isUserSelectingExtension } from "./SparkExtensionList/SparkExtensionList";
 
 export type TextInputProps = {
 	onSubmit?: (plainText: string, html: string) => void;
@@ -48,7 +49,7 @@ export const TextInput = (props: TextInputProps) => {
 				if (event.key !== "Enter" || event.shiftKey) {
 					return false;
 				}
-				if (isUserSelectingTag) {
+				if (isUserSelectingTag || isUserSelectingExtension) {
 					// user currently has the selection open and might have pressed enter to select an item
 					return false;
 				}

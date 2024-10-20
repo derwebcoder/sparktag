@@ -120,3 +120,7 @@ html {
   color: hsl(var(--tag-color) 100% 20% / 100%);
   font-weight: 700;
 }
+
+.spark-extension {
+  @apply bg-stone-700 text-white px-2 py-1 rounded;
+}

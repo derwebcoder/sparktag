@@ -12,6 +12,7 @@ describe("SparkService", () => {
 	beforeEach(() => {
 		db = {
 			sparks: {
+				get: vi.fn(),
 				add: vi.fn(),
 				update: vi.fn(),
 				delete: vi.fn(),
@@ -60,11 +61,13 @@ describe("SparkService", () => {
 	describe("updateSpark", () => {
 		test("updates a spark in the database", async () => {
 			const id = 1;
-			const updates = { plainText: "Updated spark content" };
 
-			await sparkService.updateSpark(id, updates);
+			await sparkService.updateSpark(id, "plaintext", "<p>html</p>");
 
-			expect(db.sparks.update).toHaveBeenCalledWith(id, updates);
+			expect(db.sparks.update).toHaveBeenCalledWith(
+				id,
+				expect.any(Object),
+			);
 		});
 	});
 

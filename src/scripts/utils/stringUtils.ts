@@ -3,9 +3,7 @@ export const extractTags = (html: string) => {
 	renderedHtml.innerHTML = html;
 
 	const tagNodes = Array.from(
-		renderedHtml.querySelectorAll<HTMLSpanElement>(
-			".tag[data-type=mention]",
-		),
+		renderedHtml.querySelectorAll<HTMLSpanElement>(".tag[data-type=tags]"),
 	);
 	return tagNodes
 		.map((node) => toLowerCase(node.dataset.id))
@@ -29,9 +27,7 @@ export const parseSpark = (plainText: string, html: string) => {
 	renderedHtml.innerHTML = html;
 
 	const tagNodes = Array.from(
-		renderedHtml.querySelectorAll<HTMLSpanElement>(
-			".tag[data-type=mention]",
-		),
+		renderedHtml.querySelectorAll<HTMLSpanElement>(".tag[data-type=tags]"),
 	);
 
 	const tags: string[] = [];
@@ -47,10 +43,10 @@ export const parseSpark = (plainText: string, html: string) => {
 			return true;
 		}
 
-		// if it prev node is an element and it has `data-type="mention"` we return true
+		// if it prev node is an element and it has `data-type="tag"` we return true
 		if (prevNode.nodeType === 1) {
 			const prevElement = prevNode as HTMLElement;
-			if (prevElement.dataset.type === "mention") {
+			if (prevElement.dataset.type === "tags") {
 				return true;
 			}
 

@@ -29,8 +29,21 @@ export class SparkService {
 		});
 	}
 
-	public async updateSpark(id: number, updates: Partial<Spark>) {
-		await this.db.sparks.update(id, { ...updates });
+	public async updateSpark(id: Spark["id"], plainText: string, html: string) {
+		const { tags, prefixTags, strippedPlainText, strippedHtml } =
+			parseSpark(plainText, html);
+
+		for (const tag of tags) {
+			tagService.addIfNonExistent(tag, stringToHue(`#${tag}`));
+		}
+
+		await this.db.sparks.update(id, {
+			tags,
+			contextTags: prefixTags,
+			html: strippedHtml,
+			originalHtml: html,
+			plainText: strippedPlainText,
+		});
 	}
 
 	public async deleteSpark(id: number) {

@@ -5,6 +5,7 @@ import { EmptyState } from "../../common/components/EmptyState/EmptyState";
 import type { Spark } from "../../interfaces/Spark";
 import type { Tag } from "../../interfaces/Tag";
 import { useQueryStore } from "../../scripts/store/queryStore";
+import { SparkItem } from "./SparkItem/SparkItem";
 
 type SparkSection = {
 	key: string;
@@ -23,6 +24,7 @@ type Section = SparkSection | DateSection;
 
 export const SparkList = () => {
 	const queryTags = useQueryStore((state) => state.context.query);
+	console.log({ queryTags });
 	const sparksWithTags = useLiveQuery(
 		() => sparkService.find(queryTags),
 		[queryTags],
@@ -140,21 +142,10 @@ export const SparkList = () => {
 							</div>
 							<div className="flex flex-col gap-4 py-2">
 								{section.sparks?.map((spark) => (
-									<article
+									<SparkItem
 										key={spark.id}
-										className="flex flex-col gap-1"
-									>
-										<p
-											// className="text-neutral-900"
-											// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-											dangerouslySetInnerHTML={{
-												__html: spark.html,
-											}}
-										/>
-										{/* <p className="text-neutral-900 text-sm break-words [word-break:break-word]">
-											{spark.plainText}
-										</p> */}
-									</article>
+										spark={spark}
+									/>
 								))}
 							</div>
 						</section>

@@ -19,6 +19,7 @@ export const queryStore = createStore({
 
 const extractTagsAndUpdateDebounced = debounce((queryString: string) => {
 	const newQuery = extractTags(queryString);
+	console.log("extract", queryString, newQuery);
 	queryStore.send({
 		type: "update",
 		value: newQuery,
@@ -26,6 +27,7 @@ const extractTagsAndUpdateDebounced = debounce((queryString: string) => {
 }, 300);
 
 export const updateQueryDebounced = (queryString?: string) => {
+	console.log("u", queryString);
 	if (!queryString || queryString.trim() === "") {
 		queryStore.send({
 			type: "clear",

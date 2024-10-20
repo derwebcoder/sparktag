@@ -158,7 +158,9 @@ export const getExtensions = (settings: Settings) => {
 							},
 
 							onExit() {
-								popup.destroy();
+								if (!popup.state.isDestroyed) {
+									popup.destroy();
+								}
 								component.destroy();
 							},
 						};
@@ -249,7 +251,9 @@ export const getExtensions = (settings: Settings) => {
 							},
 
 							onExit() {
-								popup.destroy();
+								if (!popup.state.isDestroyed) {
+									popup.destroy();
+								}
 								component.destroy();
 							},
 						};

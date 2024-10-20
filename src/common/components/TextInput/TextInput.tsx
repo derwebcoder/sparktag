@@ -4,6 +4,7 @@ import "./TextInput.css";
 import { parseSpark } from "../../../scripts/utils/stringUtils";
 import { isUserSelectingTag } from "./TagList/TagList";
 import { isUserSelectingExtension } from "./SparkExtensionList/SparkExtensionList";
+import { useEffect } from "react";
 
 export type TextInputProps = {
 	onSubmit?: (plainText: string, html: string) => void;
@@ -12,6 +13,7 @@ export type TextInputProps = {
 	onChange?: (htmlString: string) => void;
 	style?: keyof typeof styleMap;
 	placeholder?: string;
+	content?: string;
 };
 
 let editor: Editor | null = null;
@@ -28,9 +30,11 @@ export const TextInput = (props: TextInputProps) => {
 		allowAddingTags = true,
 		onChange,
 		style = "spark",
+		content,
 		placeholder,
 	} = props;
 	editor = useEditor({
+		content,
 		extensions: getExtensions({
 			parentWindow: parentWindow ?? window,
 			allowAddingTags,

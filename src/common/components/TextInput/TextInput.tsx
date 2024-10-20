@@ -10,6 +10,7 @@ export type TextInputProps = {
 	allowAddingTags?: boolean;
 	onChange?: (htmlString: string) => void;
 	style?: keyof typeof styleMap;
+	placeholder?: string;
 };
 
 let editor: Editor | null = null;
@@ -26,11 +27,13 @@ export const TextInput = (props: TextInputProps) => {
 		allowAddingTags = true,
 		onChange,
 		style = "spark",
+		placeholder,
 	} = props;
 	editor = useEditor({
 		extensions: getExtensions({
 			parentWindow: parentWindow ?? window,
 			allowAddingTags,
+			placeholder,
 		}),
 		editorProps: {
 			attributes: {

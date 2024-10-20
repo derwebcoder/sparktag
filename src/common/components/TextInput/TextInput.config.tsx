@@ -16,10 +16,11 @@ import type { PlainTag } from "../../../interfaces/Tag";
 type Settings = {
 	parentWindow: Window;
 	allowAddingTags: boolean;
+	placeholder?: string;
 };
 
 export const getExtensions = (settings: Settings) => {
-	const { parentWindow, allowAddingTags } = settings;
+	const { parentWindow, allowAddingTags, placeholder } = settings;
 	return [
 		// Document,
 		// Text,
@@ -157,7 +158,7 @@ export const getExtensions = (settings: Settings) => {
 			},
 		}),
 		Placeholder.configure({
-			placeholder: "Your next spark",
+			placeholder,
 			emptyNodeClass: "text-gray-400 dark:text-neutral-200",
 		}),
 	];

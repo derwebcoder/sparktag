@@ -12,6 +12,7 @@ export const SearchInput = () => {
 				allowAddingTags={false}
 				onChange={handleChange}
 				style="search"
+				placeholder={"Search ..."}
 			/>
 		</div>
 	);

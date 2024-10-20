@@ -74,6 +74,7 @@ export const SparkInput = () => {
 					<TextInput
 						onSubmit={handleSubmit}
 						parentWindow={window}
+						placeholder={"Your next spark ..."}
 					/>
 				</div>
 				<div className="flex justify-end px-3">
@@ -93,6 +94,7 @@ export const SparkInput = () => {
 							<TextInput
 								onSubmit={handleSubmit}
 								parentWindow={pipWindow}
+								placeholder={"Your next spark ..."}
 							/>
 						</div>
 						<div className="flex justify-end px-3">

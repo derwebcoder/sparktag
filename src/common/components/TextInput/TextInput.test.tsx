@@ -1,5 +1,7 @@
 import "@testing-library/jest-dom";
+import "fake-indexeddb/auto";
 import { render, screen } from "@testing-library/react";
+// this import needs to be before the TextInput import
 import { TextInput } from "./TextInput";
 import { describe, it } from "vitest";
 

@@ -73,6 +73,7 @@
 		"@types/react": "^18.3.4",
 		"@types/react-dom": "^18.3.0",
 		"dotenv": "^16.4.5",
+		"fake-indexeddb": "^6.0.0",
 		"happy-dom": "^15.7.0",
 		"jsdom": "^25.0.0",
 		"storybook": "^8.2.9",

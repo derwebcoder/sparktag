@@ -1,4 +1,6 @@
 import { vi } from "vitest";
+// this import needs to be before the spark service import
+import "fake-indexeddb/auto";
 import { SparkService } from "./SparkService";
 import type AppDB from "./AppDB";
 
@@ -14,10 +16,23 @@ describe("SparkService", () => {
 				update: vi.fn(),
 				delete: vi.fn(),
 				orderBy: vi.fn().mockReturnValue({
-					reverse: vi.fn().mockReturnValue({ toArray: toArrayMock }),
+					reverse: vi.fn().mockReturnValue({
+						filter: vi.fn().mockReturnValue({
+							toArray: toArrayMock,
+						}),
+						toArray: toArrayMock,
+					}),
 				}),
 				toCollection: vi.fn().mockReturnValue({
 					reverse: vi.fn().mockReturnValue({ sortBy: vi.fn() }),
+				}),
+				clear: vi.fn(),
+			},
+			tags: {
+				where: vi.fn().mockReturnValue({
+					anyOf: vi.fn().mockReturnValue({
+						toArray: vi.fn(),
+					}),
 				}),
 			},
 		} as unknown as AppDB;

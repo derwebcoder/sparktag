@@ -7,7 +7,6 @@ import {
 } from "../../interfaces/Spark";
 import { parseSpark, stringToHue } from "../utils/stringUtils";
 import { tagService } from "./TagService";
-import type { PlainTag } from "../../interfaces/Tag";
 
 export class SparkService {
 	constructor(private db: AppDB) {}

@@ -19,6 +19,19 @@ import ImportJSONWorker from "../../scripts/files/importJSONWorker?worker";
 import { fileSystemService } from "../../scripts/db/FileSystemHandleService";
 import { useState } from "react";
 import { tagService } from "../../scripts/db/TagService";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "../../components/ui/select";
+import {
+	getTagStyle,
+	setTagStyle,
+	tagStyles,
+	type TagStyle,
+} from "../../scripts/theme/tagStyles";
 
 export const Settings = () => {
 	const { toast } = useToast();
@@ -188,6 +201,42 @@ export const Settings = () => {
 				</div>
 				<div className="pb-10 px-16 grid grid-cols-3 gap-10">
 					<div className="flex flex-col gap-4">
+						<h3 className="font-semibold">Theme</h3>
+						<div className="flex flex-col gap-4 p-1">
+							<div className="flex flex-col gap-2">
+								<span className="flex flex-row gap-1">
+									Tag Styles
+								</span>
+								<Select
+									defaultValue={getTagStyle()}
+									onValueChange={(value) => {
+										setTagStyle(value as TagStyle);
+									}}
+								>
+									<SelectTrigger>
+										<SelectValue
+											placeholder={"Select a style"}
+										/>
+									</SelectTrigger>
+									<SelectContent>
+										{tagStyles.map((tagStyle) => {
+											return (
+												<SelectItem
+													key={tagStyle}
+													value={tagStyle}
+												>
+													{tagStyle
+														.replaceAll("-", " ")
+														.toUpperCase()}
+												</SelectItem>
+											);
+										})}
+									</SelectContent>
+								</Select>
+							</div>
+						</div>
+					</div>
+					<div className="flex flex-col gap-4">
 						<h3 className="font-semibold">Backups</h3>
 						<div className="flex flex-col gap-4 p-1">
 							<div className="flex flex-col gap-2">
@@ -268,7 +317,6 @@ export const Settings = () => {
 							</div>
 						</div>
 					</div>
-					<div />
 					<div className="flex flex-col gap-4">
 						<h3 className="font-semibold">Delete All Data</h3>
 						<div className="flex flex-col gap-4 p-1">

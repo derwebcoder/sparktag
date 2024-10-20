@@ -1,5 +1,6 @@
 import logo from "@/assets/images/logo.png";
 import { Settings } from "../Settings/Settings";
+import { PipInput } from "../PipInput/PipInput";
 
 export const MainMenu = () => {
 	return (
@@ -9,6 +10,7 @@ export const MainMenu = () => {
 				className="size-10"
 				alt="Logo of Sparktag. A white S letter in a blue circle."
 			/>
+			<PipInput />
 			<Settings />
 		</div>
 	);

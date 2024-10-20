@@ -1,10 +1,16 @@
-import type { PlainTag } from "../../interfaces/Tag";
+import type { PlainTag, Tag } from "../../interfaces/Tag";
 import { stringToHue, toLowerCase } from "../utils/stringUtils";
 import type AppDB from "./AppDB";
 import { db } from "./AppDB";
 
+type TagToHueMap = Record<Tag["name"], Tag["hue"]>;
+
 export class TagService {
-	constructor(private db: AppDB) {}
+	private tagToHueCache: TagToHueMap = {};
+
+	constructor(private db: AppDB) {
+		this.updateCache();
+	}
 
 	public async addIfNonExistent(
 		name: string,
@@ -20,6 +26,7 @@ export class TagService {
 			hue,
 			description,
 		});
+		this.updateCache();
 	}
 
 	public async getTagHue(name: string) {
@@ -28,6 +35,10 @@ export class TagService {
 			return existingTag.hue;
 		}
 		return stringToHue(name);
+	}
+
+	public getTagHueFromCache(name: string) {
+		return this.tagToHueCache[name] ?? stringToHue(name);
 	}
 
 	public async find(query: string, limit = 20) {
@@ -40,6 +51,14 @@ export class TagService {
 
 	public async listTags() {
 		return await this.db.tags.toArray();
+	}
+
+	private async updateCache() {
+		const tags = await this.listTags();
+		this.tagToHueCache = tags.reduce<TagToHueMap>((tagToHue, tag) => {
+			tagToHue[tag.name] = tag.hue;
+			return tagToHue;
+		}, {});
 	}
 
 	public async CAREFUL_deleteAllData() {

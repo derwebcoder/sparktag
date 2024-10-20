@@ -1,11 +1,13 @@
 ---
 import { MainMenu } from "../container/MainMenu/MainMenu";
+import { SearchInput } from "../container/SearchInput/SearchInput";
 import { SparkInput } from "../container/SparkInput/SparkInput";
 import { SparkList } from "../container/SparkList/SparkList";
 import Layout from "../layouts/BaseLayout.astro";
 ---
 
 <script src="../scripts/files/automaticBackups.ts"></script>
+<script src="../scripts/store/queryStore.ts"></script>
 <Layout title="Sparktags">
   <main class="grid lg:grid-cols-[1fr_400px_600px_1fr] gap-6 h-full relative">
     <div>
@@ -18,10 +20,15 @@ import Layout from "../layouts/BaseLayout.astro";
     <!-- the following div is needed for the sticky aside to work -->
     <div>
       <aside
-        class="py-10 flex justify-between flex-col max-h-screen h-screen sticky top-0"
+        class="py-10 grid grid-rows-[200px_1fr_100px] max-h-screen h-screen sticky top-0"
       >
         <SparkInput client:only="react" />
-        <p>sparktag@derwebcoder.de</p>
+        <div>
+          <SearchInput client:only="react" />
+        </div>
+        <div>
+          <p>sparktag@derwebcoder.de</p>
+        </div>
       </aside>
     </div>
     <section>

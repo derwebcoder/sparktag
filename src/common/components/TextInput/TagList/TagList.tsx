@@ -30,13 +30,20 @@ export const TagList = forwardRef<TagListRef, Props>((props, ref) => {
 	}, []);
 
 	const selectItem = (index: number) => {
-		let item = items[index].name;
-		if (item.startsWith(NEW_TAG_PREFIX)) {
-			item = item.slice(NEW_TAG_PREFIX.length, item.length - 1);
+		const item = items[index];
+		if (!item) {
+			return;
+		}
+		let itemName = item.name;
+		if (itemName.startsWith(NEW_TAG_PREFIX)) {
+			itemName = itemName.slice(
+				NEW_TAG_PREFIX.length,
+				itemName.length - 1,
+			);
 		}
 
-		if (item) {
-			props.command({ id: item.toLowerCase() });
+		if (itemName) {
+			props.command({ id: itemName.toLowerCase() });
 			props.editor;
 		}
 	};

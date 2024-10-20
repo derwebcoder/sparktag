@@ -11,145 +11,154 @@ import { getNewTagPhrase, TagList, type TagListRef } from "./TagList/TagList";
 import tippy, { type Instance as TippyInstance } from "tippy.js";
 import { stringToHue } from "../../../scripts/utils/stringUtils";
 import { tagService } from "../../../scripts/db/TagService";
+import type { PlainTag } from "../../../interfaces/Tag";
 
-export const getExtensions = (parentWindow: Window) => [
-	// Document,
-	// Text,
-	// Paragraph,
-	StarterKit.configure({
-		// for now disabling this as it's interfering with the "#" logic of the Mention
-		// plugin when a user types "#" at the beginning of a line and presses enter.
-		// There might be a solution of extending the Heading plugin and overriding the addInputRules
-		// like here: https://github.com/ueberdosis/tiptap/issues/632#issuecomment-600536493
-		// but I did not figure out why the Mention plugin adds a space after the # in the first place ...
-		heading: false,
-		bold: {
-			HTMLAttributes: {
-				class: "font-bold",
+type Settings = {
+	parentWindow: Window;
+	allowAddingTags: boolean;
+};
+
+export const getExtensions = (settings: Settings) => {
+	const { parentWindow, allowAddingTags } = settings;
+	return [
+		// Document,
+		// Text,
+		// Paragraph,
+		StarterKit.configure({
+			// for now disabling this as it's interfering with the "#" logic of the Mention
+			// plugin when a user types "#" at the beginning of a line and presses enter.
+			// There might be a solution of extending the Heading plugin and overriding the addInputRules
+			// like here: https://github.com/ueberdosis/tiptap/issues/632#issuecomment-600536493
+			// but I did not figure out why the Mention plugin adds a space after the # in the first place ...
+			heading: false,
+			bold: {
+				HTMLAttributes: {
+					class: "font-bold",
+				},
 			},
-		},
-		bulletList: {
-			HTMLAttributes: {
-				class: "list-disc list-inside text-gray-800 dark:text-white",
+			bulletList: {
+				HTMLAttributes: {
+					class: "list-disc list-inside text-gray-800 dark:text-white",
+				},
 			},
-		},
-		orderedList: {
-			HTMLAttributes: {
-				class: "list-decimal list-inside text-gray-800 dark:text-white",
+			orderedList: {
+				HTMLAttributes: {
+					class: "list-decimal list-inside text-gray-800 dark:text-white",
+				},
 			},
-		},
-		blockquote: {
-			HTMLAttributes: {
-				class: "text-gray-800 sm:text-xl dark:text-white",
+			blockquote: {
+				HTMLAttributes: {
+					class: "text-gray-800 sm:text-xl dark:text-white",
+				},
 			},
-		},
-	}),
-	ListKeymap,
-	Mention.configure({
-		HTMLAttributes: {
-			class: "tag",
-		},
-		renderHTML({ options, node }) {
-			return [
-				"span",
-				mergeAttributes(
-					{
-						style: `--tag-color: ${stringToHue(`#${node.attrs.id}`)}`,
-						// this is sadly not working because it's async - don't have a good idea yet how to make this work
-						// style: `--tag-color: ${await tagService.getTagHue(node.attrs.id)}`,
-					},
-					options.HTMLAttributes,
-				),
-				`${options.suggestion.char}${node.attrs.id}`,
-			];
-		},
-		suggestion: {
-			items: async ({ query }) => {
-				const tags = await tagService.find(query.toLowerCase(), 5);
-
-				if (query.length <= 0) {
-					return tags;
-				}
-
-				if (tags.length === 1 && tags[0].name === query) {
-					return tags;
-				}
-
-				if (tags.length <= 0) {
-					return [
-						{
-							name: getNewTagPhrase(query),
-							hue: stringToHue(query),
-						},
-					];
-				}
-
+		}),
+		ListKeymap,
+		Mention.configure({
+			HTMLAttributes: {
+				class: "tag",
+			},
+			renderHTML({ options, node }) {
 				return [
-					{ name: getNewTagPhrase(query), hue: stringToHue(query) },
-					...tags,
+					"span",
+					mergeAttributes(
+						{
+							style: `--tag-color: ${tagService.getTagHueFromCache(`${node.attrs.id}`)}`,
+							// this is sadly not working because it's async - don't have a good idea yet how to make this work
+							// style: `--tag-color: ${await tagService.getTagHue(node.attrs.id)}`,
+						},
+						options.HTMLAttributes,
+					),
+					`${options.suggestion.char}${node.attrs.id}`,
 				];
 			},
-			char: "#",
-			render: () => {
-				let component: ReactRenderer<TagListRef>;
-				let popup: TippyInstance;
+			suggestion: {
+				items: async ({ query }) => {
+					const tags: PlainTag[] = await tagService.find(
+						query.toLowerCase(),
+						5,
+					);
 
-				return {
-					onStart: (props) => {
-						component = new ReactRenderer(TagList, {
-							props,
-							editor: props.editor,
+					if (query.length <= 0) {
+						return tags;
+					}
+
+					if (tags.length === 1 && tags[0].name === query) {
+						return tags;
+					}
+
+					if (allowAddingTags) {
+						tags.unshift({
+							name: getNewTagPhrase(query),
+							hue: stringToHue(query),
 						});
+					}
 
-						if (!props.clientRect) {
-							return;
-						}
+					return tags;
+				},
+				char: "#",
+				render: () => {
+					let component: ReactRenderer<TagListRef>;
+					let popup: TippyInstance;
 
-						popup = tippy(parentWindow.document.body, {
-							// biome-ignore lint/style/noNonNullAssertion: <explanation>
-							getReferenceClientRect: () => props.clientRect?.()!,
-							appendTo: () => parentWindow.document.body,
-							content: component.element,
-							showOnCreate: true,
-							interactive: true,
-							trigger: "manual",
-							placement: "bottom-start",
-						});
-					},
+					return {
+						onStart: (props) => {
+							component = new ReactRenderer(TagList, {
+								props,
+								editor: props.editor,
+							});
 
-					onUpdate(props) {
-						component.updateProps(props);
+							if (!props.clientRect) {
+								return;
+							}
 
-						if (!props.clientRect) {
-							return;
-						}
+							popup = tippy(parentWindow.document.body, {
+								getReferenceClientRect: () =>
+									// biome-ignore lint/style/noNonNullAssertion: <explanation>
+									props.clientRect?.()!,
+								appendTo: () => parentWindow.document.body,
+								content: component.element,
+								showOnCreate: true,
+								interactive: true,
+								trigger: "manual",
+								placement: "bottom-start",
+							});
+						},
 
-						popup.setProps({
-							// biome-ignore lint/style/noNonNullAssertion: <explanation>
-							getReferenceClientRect: () => props.clientRect?.()!,
-						});
-					},
+						onUpdate(props) {
+							component.updateProps(props);
 
-					onKeyDown(props) {
-						if (props.event.key === "Escape") {
-							popup.hide();
+							if (!props.clientRect) {
+								return;
+							}
 
-							return true;
-						}
+							popup.setProps({
+								getReferenceClientRect: () =>
+									// biome-ignore lint/style/noNonNullAssertion: <explanation>
+									props.clientRect?.()!,
+							});
+						},
 
-						return component.ref?.onKeyDown(props) ?? false;
-					},
+						onKeyDown(props) {
+							if (props.event.key === "Escape") {
+								popup.hide();
 
-					onExit() {
-						popup.destroy();
-						component.destroy();
-					},
-				};
+								return true;
+							}
+
+							return component.ref?.onKeyDown(props) ?? false;
+						},
+
+						onExit() {
+							popup.destroy();
+							component.destroy();
+						},
+					};
+				},
 			},
-		},
-	}),
-	Placeholder.configure({
-		placeholder: "Your next spark",
-		emptyNodeClass: "text-gray-400 dark:text-neutral-200",
-	}),
-];
+		}),
+		Placeholder.configure({
+			placeholder: "Your next spark",
+			emptyNodeClass: "text-gray-400 dark:text-neutral-200",
+		}),
+	];
+};

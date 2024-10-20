@@ -2,6 +2,8 @@
 	"extends": "astro/tsconfigs/strict",
 	"compilerOptions": {
 		"jsx": "react-jsx",
+		// recommended by https://stately.ai/docs/typescript
+		"skipLibCheck": true,
 		"jsxImportSource": "react",
 		"baseUrl": ".",
 		"types": ["vitest/globals", "@types/wicg-file-system-access"],

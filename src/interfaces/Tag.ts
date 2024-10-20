@@ -7,4 +7,4 @@ export class Tag extends Entity<AppDB> {
 	description?: string;
 }
 
-export type PlainTag = InsertType<Tag, "name">;
+export type PlainTag = InsertType<Tag, "description">;

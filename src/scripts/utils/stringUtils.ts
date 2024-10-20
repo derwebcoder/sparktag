@@ -1,5 +1,19 @@
+export const extractTags = (html: string) => {
+	const renderedHtml = document.createElement("div");
+	renderedHtml.innerHTML = html;
+
+	const tagNodes = Array.from(
+		renderedHtml.querySelectorAll<HTMLSpanElement>(
+			".tag[data-type=mention]",
+		),
+	);
+	return tagNodes
+		.map((node) => toLowerCase(node.dataset.id))
+		.filter((t) => typeof t !== "undefined");
+};
+
 /**
- * Extracts tags from the given content.
+ * Extracts tags, prefix tags, clean html and plain text from the given content.
  *
  * @param plainText - The content to extract tags from as plain text.
  * @param html - The content to extract tags from as html.
@@ -10,7 +24,7 @@
  * 			- strippedPlainText: The plain text content without the prefixTags
  * 			- strippedHtml: The html content without the prefixTags
  */
-export const extractTags = (plainText: string, html: string) => {
+export const parseSpark = (plainText: string, html: string) => {
 	const renderedHtml = document.createElement("div");
 	renderedHtml.innerHTML = html;
 

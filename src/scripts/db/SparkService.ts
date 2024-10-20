@@ -5,15 +5,16 @@ import {
 	type PlainSpark,
 	type Spark,
 } from "../../interfaces/Spark";
-import { extractTags, stringToHue } from "../utils/stringUtils";
+import { parseSpark, stringToHue } from "../utils/stringUtils";
 import { tagService } from "./TagService";
+import type { PlainTag } from "../../interfaces/Tag";
 
 export class SparkService {
 	constructor(private db: AppDB) {}
 
 	public async addSpark(plainText: string, html: string) {
 		const { tags, prefixTags, strippedPlainText, strippedHtml } =
-			extractTags(plainText, html);
+			parseSpark(plainText, html);
 
 		for (const tag of tags) {
 			tagService.addIfNonExistent(tag, stringToHue(`#${tag}`));
@@ -41,25 +42,44 @@ export class SparkService {
 		return await this.db.sparks.orderBy("creationDate").reverse().toArray();
 	}
 
+	public async find(tags: string[]) {
+		if (tags.length <= 0) {
+			return this.listSparksWithTags();
+		}
+		const sparks = await this.db.sparks
+			.orderBy("creationDate")
+			.reverse()
+			.filter((spark) => {
+				for (const tag of tags) {
+					if (!spark.tags.includes(tag)) {
+						return false;
+					}
+				}
+				return true;
+			})
+			.toArray(this.mergeWithTags.bind(this));
+
+		return sparks;
+	}
+
 	public async listSparksWithTags() {
 		const sparks = await this.db.sparks
 			.orderBy("creationDate")
 			.reverse()
-			.toArray(async (sparks) => {
-				const tags = await Promise.all(
-					sparks.map((spark) => {
-						return this.db.tags
-							.where("name")
-							.anyOf(spark.tags)
-							.toArray();
-					}),
-				);
-				return sparks.map((spark, index) => {
-					return new SparkWithTagData(spark, tags[index]);
-				});
-			});
+			.toArray(this.mergeWithTags.bind(this));
 
 		return sparks;
+	}
+
+	private async mergeWithTags(sparks: Spark[]) {
+		const tags = await Promise.all(
+			sparks.map((spark) => {
+				return this.db.tags.where("name").anyOf(spark.tags).toArray();
+			}),
+		);
+		return sparks.map((spark, index) => {
+			return new SparkWithTagData(spark, tags[index]);
+		});
 	}
 
 	public async CAREFUL_deleteAllData() {

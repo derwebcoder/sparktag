@@ -4,6 +4,7 @@ import { differenceInCalendarDays, format } from "date-fns";
 import { EmptyState } from "../../common/components/EmptyState/EmptyState";
 import type { Spark } from "../../interfaces/Spark";
 import type { Tag } from "../../interfaces/Tag";
+import { useQueryStore } from "../../scripts/store/queryStore";
 
 type SparkSection = {
 	key: string;
@@ -21,8 +22,10 @@ type DateSection = {
 type Section = SparkSection | DateSection;
 
 export const SparkList = () => {
-	const sparksWithTags = useLiveQuery(() =>
-		sparkService.listSparksWithTags(),
+	const queryTags = useQueryStore((state) => state.context.query);
+	const sparksWithTags = useLiveQuery(
+		() => sparkService.find(queryTags),
+		[queryTags],
 	);
 
 	const sections = sparksWithTags?.reduce<Section[]>(
@@ -114,7 +117,7 @@ export const SparkList = () => {
 				if (section.type === "sparks") {
 					return (
 						<section
-							key={section.key}
+							key={section.key + section.sparks[0].creationDate}
 							data-key={section.key}
 							className="grid grid-cols-[25%_1fr] gap-4 mb-6"
 						>

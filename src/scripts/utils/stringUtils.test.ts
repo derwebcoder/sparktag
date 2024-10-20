@@ -1,6 +1,58 @@
-import { extractTags, stringToHue } from "./stringUtils";
+import { extractTags, parseSpark, stringToHue } from "./stringUtils";
 
 describe("extractTags", () => {
+	test("extracts one tag from only tag input", () => {
+		const html =
+			'<p><span style="--tag-color: 135" data-type="mention" class="tag" data-id="world">#world</span></p>';
+		const expectedTags: string[] = ["world"];
+
+		const tags = extractTags(html);
+
+		expect(tags).toEqual(expectedTags);
+	});
+
+	test("extracts no tag from input without any tags", () => {
+		const html =
+			"<p>This is a string <span>that has no tags</span> at all</p>";
+		const expectedTags: string[] = [];
+
+		const tags = extractTags(html);
+
+		expect(tags).toEqual(expectedTags);
+	});
+
+	test("extracts multiple tags from only tag input", () => {
+		const html =
+			'<p><span style="--tag-color: 135" data-type="mention" class="tag" data-id="phone">#phone</span> <span style="--tag-color: 1" data-type="mention" class="tag" data-id="number">#thiswillbeignoredandonlydataidwillbeparsed</span></p>';
+		const expectedTags: string[] = ["phone", "number"];
+
+		const tags = extractTags(html);
+
+		expect(tags).toEqual(expectedTags);
+	});
+
+	test("extracts multiple tags from mixed input", () => {
+		const html =
+			'<p>Fun <span style="--tag-color: 0" data-type="mention" class="tag" data-id="scissor">#scissor</span> #utilitiesNotARealTag <span style="--tag-color: 22" data-type="mention" class="tag" data-id="music">#music</span> life <span style="--tag-color: 444" data-type="mention" class="tag" data-id="attention">#attention</span> </p>';
+		const expectedTags: string[] = ["scissor", "music", "attention"];
+
+		const tags = extractTags(html);
+
+		expect(tags).toEqual(expectedTags);
+	});
+
+	test("returns only lowercase tags", () => {
+		const html =
+			'<p><span style="--tag-color: 135" data-type="mention" class="tag" data-id="FreedomEnergy">#FreedomEnergy</span></p>';
+		const expectedTags: string[] = ["freedomenergy"];
+
+		const tags = extractTags(html);
+
+		expect(tags).toEqual(expectedTags);
+	});
+});
+
+describe("parseSpark", () => {
 	test("returns the correct prefixTags and remainingTags", () => {
 		const content = "#tag1 #tag2 I am great #tag3";
 		const html =
@@ -18,7 +70,7 @@ describe("extractTags", () => {
 			strippedHtml,
 			strippedPlainText,
 			tags,
-		} = extractTags(content, html);
+		} = parseSpark(content, html);
 
 		expect(prefixTags).toEqual(expectedPrefixTags);
 		expect(tags).toEqual(expectedTags);
@@ -44,7 +96,7 @@ describe("extractTags", () => {
 			strippedHtml,
 			strippedPlainText,
 			tags,
-		} = extractTags(content, html);
+		} = parseSpark(content, html);
 
 		expect(prefixTags).toEqual(expectedPrefixTags);
 		expect(tags).toEqual(expectedTags);
@@ -68,7 +120,7 @@ describe("extractTags", () => {
 			strippedHtml,
 			strippedPlainText,
 			tags,
-		} = extractTags(content, html);
+		} = parseSpark(content, html);
 
 		expect(prefixTags).toEqual(expectedPrefixTags);
 		expect(tags).toEqual(expectedTags);
@@ -94,7 +146,7 @@ describe("extractTags", () => {
 			strippedHtml,
 			strippedPlainText,
 			tags,
-		} = extractTags(content, html);
+		} = parseSpark(content, html);
 
 		expect(prefixTags).toEqual(expectedPrefixTags);
 		expect(tags).toEqual(expectedTags);
@@ -121,7 +173,7 @@ describe("extractTags", () => {
 			strippedHtml,
 			strippedPlainText,
 			tags,
-		} = extractTags(content, html);
+		} = parseSpark(content, html);
 
 		expect(prefixTags).toEqual(expectedPrefixTags);
 		expect(tags).toEqual(expectedTags);

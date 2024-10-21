@@ -12,6 +12,6 @@ describe("HueSlider", () => {
 			/>,
 		);
 
-		expect(screen.getByRole("hue-input")).toBeInTheDocument();
+		expect(screen.getByTestId("hue-input")).toBeInTheDocument();
 	});
 });

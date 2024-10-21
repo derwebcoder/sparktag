@@ -12,7 +12,7 @@ describe("Tag", () => {
 			/>,
 		);
 
-		const tag = screen.getByText("world");
+		const tag = screen.getByText("#world");
 		expect(tag).toBeInTheDocument();
 
 		const style = getComputedStyle(tag);

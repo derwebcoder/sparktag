@@ -4,6 +4,7 @@ import type {
 	SuggestionProps,
 } from "@tiptap/suggestion";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { Tag } from "../../Tag/Tag";
 
 export const NEW_TAG_PREFIX = 'New tag "';
 export const getNewTagPhrase = (tag: string) =>
@@ -99,19 +100,13 @@ export const TagList = forwardRef<TagListRef, Props>((props, ref) => {
 						type="button"
 						className={`flex gap-1 text-left py-1 px-3 rounded-md ${index === selectedIndex ? "bg-stone-300" : "hover:bg-stone-200"}`}
 						key={item.name}
-						data-key={item.name}
+						title={item.name}
 						onClick={() => selectItem(index)}
 					>
-						<span
-							className="tag"
-							style={
-								{
-									"--tag-color": `${item.hue}`,
-								} as React.CSSProperties
-							}
-						>
-							{item.name}
-						</span>
+						<Tag
+							name={item.name}
+							hue={item.hue}
+						/>
 					</button>
 				))
 			) : (

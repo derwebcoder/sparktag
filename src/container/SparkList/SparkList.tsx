@@ -3,9 +3,10 @@ import { sparkService } from "../../scripts/db/SparkService";
 import { differenceInCalendarDays, format } from "date-fns";
 import { EmptyState } from "../../common/components/EmptyState/EmptyState";
 import type { Spark } from "../../interfaces/Spark";
-import type { Tag } from "../../interfaces/Tag";
 import { useQueryStore } from "../../scripts/store/queryStore";
 import { SparkItem } from "./SparkItem/SparkItem";
+import { Tag as TagElement } from "../../common/components/Tag/Tag";
+import type { Tag } from "../../interfaces/Tag";
 
 type SparkSection = {
 	key: string;
@@ -125,17 +126,11 @@ export const SparkList = () => {
 							<div className="py-2 border-e border-slate-300 pe-4">
 								<div className="sticky top-4 flex flex-col gap-1 items-end">
 									{section.prefixTags.map((tag) => (
-										<span
+										<TagElement
 											key={tag.name}
-											className="font-semibold text-neutral-400 tag w-fit"
-											style={
-												{
-													"--tag-color": tag.hue,
-												} as React.CSSProperties
-											}
-										>
-											#{tag.name}
-										</span>
+											name={tag.name}
+											hue={tag.hue}
+										/>
 									))}
 								</div>
 							</div>

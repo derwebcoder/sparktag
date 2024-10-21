@@ -29,6 +29,10 @@ export class TagService {
 		this.updateCache();
 	}
 
+	public async updateHue(name: string, hue: number) {
+		await this.db.tags.update(name, { hue });
+	}
+
 	public async getTagHue(name: string) {
 		const existingTag = await this.db.tags.get(name);
 		if (existingTag) {

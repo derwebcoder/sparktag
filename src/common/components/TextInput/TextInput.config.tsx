@@ -6,7 +6,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Mention from "@tiptap/extension-mention";
 import StarterKit from "@tiptap/starter-kit";
 
-import { mergeAttributes, ReactRenderer } from "@tiptap/react";
+import { mergeAttributes, ReactRenderer, type Extensions } from "@tiptap/react";
 import { getNewTagPhrase, TagList, type TagListRef } from "./TagList/TagList";
 import tippy, { type Instance as TippyInstance } from "tippy.js";
 import { stringToHue } from "../../../scripts/utils/stringUtils";
@@ -22,11 +22,19 @@ type Settings = {
 	parentWindow: Window;
 	allowAddingTags: boolean;
 	placeholder?: string;
+	enableTags?: boolean;
+	enableExtension?: boolean;
 };
 
 export const getExtensions = (settings: Settings) => {
-	const { parentWindow, allowAddingTags, placeholder } = settings;
-	return [
+	const {
+		parentWindow,
+		allowAddingTags,
+		placeholder,
+		enableTags = true,
+		enableExtension = true,
+	} = settings;
+	const extensions: Extensions = [
 		// Document,
 		// Text,
 		// Paragraph,
@@ -59,210 +67,228 @@ export const getExtensions = (settings: Settings) => {
 			},
 		}),
 		ListKeymap,
-		Mention
-			// see https://github.com/ueberdosis/tiptap/issues/2219
-			.extend({ name: "tags" })
-			.configure({
-				HTMLAttributes: {
-					class: "tag",
-				},
-				renderHTML({ options, node }) {
-					return [
-						"span",
-						mergeAttributes(
-							{
-								style: `--tag-color: ${tagService.getTagHueFromCache(`${node.attrs.id}`)}`,
-							},
-							options.HTMLAttributes,
-						),
-						`${options.suggestion.char}${node.attrs.id}`,
-					];
-				},
-				suggestion: {
-					items: async ({ query }) => {
-						const tags: PlainTag[] = await tagService.find(
-							query.toLowerCase(),
-							5,
-						);
-
-						if (query.length <= 0) {
-							return tags;
-						}
-
-						if (tags.length === 1 && tags[0].name === query) {
-							return tags;
-						}
-
-						if (allowAddingTags) {
-							tags.unshift({
-								name: getNewTagPhrase(query),
-								hue: stringToHue(query),
-							});
-						}
-
-						return tags;
-					},
-					char: "#",
-					// see https://github.com/ueberdosis/tiptap/issues/2219
-					pluginKey: new PluginKey("tags"),
-					render: () => {
-						let component: ReactRenderer<TagListRef>;
-						let popup: TippyInstance;
-
-						return {
-							onStart: (props) => {
-								component = new ReactRenderer(TagList, {
-									props,
-									editor: props.editor,
-								});
-
-								if (!props.clientRect) {
-									return;
-								}
-
-								popup = tippy(parentWindow.document.body, {
-									getReferenceClientRect: () =>
-										// biome-ignore lint/style/noNonNullAssertion: <explanation>
-										props.clientRect?.()!,
-									appendTo: () => parentWindow.document.body,
-									content: component.element,
-									showOnCreate: true,
-									interactive: true,
-									trigger: "manual",
-									placement: "bottom-start",
-								});
-							},
-
-							onUpdate(props) {
-								component.updateProps(props);
-
-								if (!props.clientRect) {
-									return;
-								}
-
-								popup.setProps({
-									getReferenceClientRect: () =>
-										// biome-ignore lint/style/noNonNullAssertion: <explanation>
-										props.clientRect?.()!,
-								});
-							},
-
-							onKeyDown(props) {
-								if (props.event.key === "Escape") {
-									popup.hide();
-
-									return true;
-								}
-
-								return component.ref?.onKeyDown(props) ?? false;
-							},
-
-							onExit() {
-								if (!popup.state.isDestroyed) {
-									popup.destroy();
-								}
-								component.destroy();
-							},
-						};
-					},
-				},
-			}),
-		Mention
-			// see https://github.com/ueberdosis/tiptap/issues/2219
-			.extend({ name: "SparkExtensions" })
-			.configure({
-				HTMLAttributes: {
-					class: "extension",
-				},
-				renderHTML({ options, node }) {
-					return [
-						"span",
-						mergeAttributes(
-							{
-								class: "spark-extension",
-							},
-							options.HTMLAttributes,
-						),
-						`/  ${node.attrs.id}`,
-					];
-				},
-				suggestion: {
-					items: async ({ query }) => {
-						return ["learn", "todo"].filter((s) =>
-							s.includes(query),
-						);
-					},
-					char: "/",
-					// see https://github.com/ueberdosis/tiptap/issues/2219
-					pluginKey: new PluginKey("sparkExtensions"),
-					render: () => {
-						let component: ReactRenderer<SparkExtensionListRef>;
-						let popup: TippyInstance;
-
-						return {
-							onStart: (props) => {
-								component = new ReactRenderer(
-									SparkExtensionList,
-									{
-										props,
-										editor: props.editor,
-									},
-								);
-
-								if (!props.clientRect) {
-									return;
-								}
-
-								popup = tippy(parentWindow.document.body, {
-									getReferenceClientRect: () =>
-										// biome-ignore lint/style/noNonNullAssertion: <explanation>
-										props.clientRect?.()!,
-									appendTo: () => parentWindow.document.body,
-									content: component.element,
-									showOnCreate: true,
-									interactive: true,
-									trigger: "manual",
-									placement: "bottom-start",
-								});
-							},
-
-							onUpdate(props) {
-								component.updateProps(props);
-
-								if (!props.clientRect) {
-									return;
-								}
-
-								popup.setProps({
-									getReferenceClientRect: () =>
-										// biome-ignore lint/style/noNonNullAssertion: <explanation>
-										props.clientRect?.()!,
-								});
-							},
-
-							onKeyDown(props) {
-								if (props.event.key === "Escape") {
-									popup.hide();
-
-									return true;
-								}
-
-								return component.ref?.onKeyDown(props) ?? false;
-							},
-
-							onExit() {
-								if (!popup.state.isDestroyed) {
-									popup.destroy();
-								}
-								component.destroy();
-							},
-						};
-					},
-				},
-			}),
 		Placeholder.configure({
 			placeholder,
 			emptyNodeClass: "text-gray-400 dark:text-neutral-200",
 		}),
 	];
+
+	if (enableTags) {
+		extensions.push(
+			Mention
+				// see https://github.com/ueberdosis/tiptap/issues/2219
+				.extend({ name: "tags" })
+				.configure({
+					HTMLAttributes: {
+						class: "tag",
+					},
+					renderHTML({ options, node }) {
+						return [
+							"span",
+							mergeAttributes(
+								{
+									style: `--tag-color: ${tagService.getTagHueFromCache(`${node.attrs.id}`)}`,
+								},
+								options.HTMLAttributes,
+							),
+							`${options.suggestion.char}${node.attrs.id}`,
+						];
+					},
+					suggestion: {
+						items: async ({ query }) => {
+							const tags: PlainTag[] = await tagService.find(
+								query.toLowerCase(),
+								15,
+							);
+
+							if (query.length <= 0) {
+								return tags;
+							}
+
+							if (tags.length === 1 && tags[0].name === query) {
+								return tags;
+							}
+
+							if (allowAddingTags) {
+								tags.unshift({
+									name: getNewTagPhrase(query),
+									hue: stringToHue(query),
+								});
+							}
+
+							return tags;
+						},
+						char: "#",
+						// see https://github.com/ueberdosis/tiptap/issues/2219
+						pluginKey: new PluginKey("tags"),
+						render: () => {
+							let component: ReactRenderer<TagListRef>;
+							let popup: TippyInstance;
+
+							return {
+								onStart: (props) => {
+									component = new ReactRenderer(TagList, {
+										props,
+										editor: props.editor,
+									});
+
+									if (!props.clientRect) {
+										return;
+									}
+
+									popup = tippy(parentWindow.document.body, {
+										getReferenceClientRect: () =>
+											// biome-ignore lint/style/noNonNullAssertion: <explanation>
+											props.clientRect?.()!,
+										appendTo: () =>
+											parentWindow.document.body,
+										content: component.element,
+										showOnCreate: true,
+										interactive: true,
+										trigger: "manual",
+										placement: "bottom-start",
+									});
+								},
+
+								onUpdate(props) {
+									component.updateProps(props);
+
+									if (!props.clientRect) {
+										return;
+									}
+
+									popup.setProps({
+										getReferenceClientRect: () =>
+											// biome-ignore lint/style/noNonNullAssertion: <explanation>
+											props.clientRect?.()!,
+									});
+								},
+
+								onKeyDown(props) {
+									if (props.event.key === "Escape") {
+										popup.hide();
+
+										return true;
+									}
+
+									return (
+										component.ref?.onKeyDown(props) ?? false
+									);
+								},
+
+								onExit() {
+									if (!popup.state.isDestroyed) {
+										popup.destroy();
+									}
+									component.destroy();
+								},
+							};
+						},
+					},
+				}),
+		);
+	}
+
+	if (enableExtension) {
+		extensions.push(
+			Mention
+				// see https://github.com/ueberdosis/tiptap/issues/2219
+				.extend({ name: "SparkExtensions" })
+				.configure({
+					HTMLAttributes: {
+						class: "extension",
+					},
+					renderHTML({ options, node }) {
+						return [
+							"span",
+							mergeAttributes(
+								{
+									class: "spark-extension",
+								},
+								options.HTMLAttributes,
+							),
+							`/  ${node.attrs.id}`,
+						];
+					},
+					suggestion: {
+						items: async ({ query }) => {
+							return ["learn", "todo"].filter((s) =>
+								s.includes(query),
+							);
+						},
+						char: "/",
+						// see https://github.com/ueberdosis/tiptap/issues/2219
+						pluginKey: new PluginKey("sparkExtensions"),
+						render: () => {
+							let component: ReactRenderer<SparkExtensionListRef>;
+							let popup: TippyInstance;
+
+							return {
+								onStart: (props) => {
+									component = new ReactRenderer(
+										SparkExtensionList,
+										{
+											props,
+											editor: props.editor,
+										},
+									);
+
+									if (!props.clientRect) {
+										return;
+									}
+
+									popup = tippy(parentWindow.document.body, {
+										getReferenceClientRect: () =>
+											// biome-ignore lint/style/noNonNullAssertion: <explanation>
+											props.clientRect?.()!,
+										appendTo: () =>
+											parentWindow.document.body,
+										content: component.element,
+										showOnCreate: true,
+										interactive: true,
+										trigger: "manual",
+										placement: "bottom-start",
+									});
+								},
+
+								onUpdate(props) {
+									component.updateProps(props);
+
+									if (!props.clientRect) {
+										return;
+									}
+
+									popup.setProps({
+										getReferenceClientRect: () =>
+											// biome-ignore lint/style/noNonNullAssertion: <explanation>
+											props.clientRect?.()!,
+									});
+								},
+
+								onKeyDown(props) {
+									if (props.event.key === "Escape") {
+										popup.hide();
+
+										return true;
+									}
+
+									return (
+										component.ref?.onKeyDown(props) ?? false
+									);
+								},
+
+								onExit() {
+									if (!popup.state.isDestroyed) {
+										popup.destroy();
+									}
+									component.destroy();
+								},
+							};
+						},
+					},
+				}),
+		);
+	}
+
+	return extensions;
 };

@@ -10,6 +10,7 @@ import {
 } from "../../../common/components/shadcn/popover";
 import { Button } from "../../../common/components/shadcn/button";
 import { debounce } from "../../../scripts/utils/debounce";
+import { TextInput } from "../../../common/components/TextInput/TextInput";
 
 type Props = {
 	tag: Tag;
@@ -18,6 +19,13 @@ type Props = {
 const updateHueDebounced = debounce((name: string, hue: number) => {
 	tagService.updateHue(name, hue);
 }, 500);
+
+const updateDescriptionDebounced = debounce(
+	(name: string, description: string) => {
+		tagService.updateDescription(name, description);
+	},
+	1000,
+);
 
 export const TagConfig = (props: Props) => {
 	const { tag } = props;
@@ -29,11 +37,23 @@ export const TagConfig = (props: Props) => {
 	};
 
 	return (
-		<div className="grid grid-cols-subgrid col-span-2 border-b border-stone-200 py-2 w-full">
-			<div className="place-self-center">
+		<div className="grid grid-cols-subgrid col-span-3 border-b border-stone-200 py-2 w-full items-center gap-4">
+			<div className="justify-self-center">
 				<TagElement
 					name={tag.name}
 					hue={hue}
+				/>
+			</div>
+			<div>
+				<TextInput
+					enableTags={false}
+					enableExtension={false}
+					placeholder="Add a description"
+					content={tag.description}
+					style="invisible"
+					onChange={(html) =>
+						updateDescriptionDebounced(tag.name, html)
+					}
 				/>
 			</div>
 			<div>

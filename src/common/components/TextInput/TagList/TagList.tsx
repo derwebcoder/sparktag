@@ -5,6 +5,7 @@ import type {
 } from "@tiptap/suggestion";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Tag } from "../../Tag/Tag";
+import type { PlainTag } from "../../../../interfaces/Tag";
 
 export const NEW_TAG_PREFIX = 'New tag "';
 export const getNewTagPhrase = (tag: string) =>
@@ -12,7 +13,7 @@ export const getNewTagPhrase = (tag: string) =>
 
 export let isUserSelectingTag = false;
 
-type Props = SuggestionProps<{ name: string; hue: number }, MentionNodeAttrs>;
+type Props = SuggestionProps<PlainTag, MentionNodeAttrs>;
 
 export type TagListRef = {
 	onKeyDown: (data: SuggestionKeyDownProps) => boolean;
@@ -49,12 +50,25 @@ export const TagList = forwardRef<TagListRef, Props>((props, ref) => {
 		}
 	};
 
+	const scrollIntoView = (index: number) => {
+		const itemElement = document.querySelector(
+			`[data-selector=tags-dropdown]>:nth-child(${index + 1})`,
+		);
+		itemElement?.scrollIntoView({
+			block: "nearest",
+		});
+	};
+
 	const upHandler = () => {
-		setSelectedIndex((selectedIndex + items.length - 1) % items.length);
+		const nextIndex = (selectedIndex + items.length - 1) % items.length;
+		setSelectedIndex(nextIndex);
+		scrollIntoView(nextIndex);
 	};
 
 	const downHandler = () => {
-		setSelectedIndex((selectedIndex + 1) % items.length);
+		const nextIndex = (selectedIndex + 1) % items.length;
+		setSelectedIndex(nextIndex);
+		scrollIntoView(nextIndex);
 	};
 
 	const enterHandler = () => {
@@ -93,12 +107,15 @@ export const TagList = forwardRef<TagListRef, Props>((props, ref) => {
 	}));
 
 	return (
-		<div className="bg-white border border-stone-400 rounded-md shadow flex flex-col gap-1 scroll-auto px-3 py-2 relative">
+		<div
+			data-selector="tags-dropdown"
+			className="bg-white border border-stone-400 rounded-md shadow flex flex-col gap-1 scroll-auto px-3 py-2 relative overflow-y-auto max-h-64"
+		>
 			{items.length ? (
 				items.map((item, index) => (
 					<button
 						type="button"
-						className={`flex gap-1 text-left py-1 px-3 rounded-md ${index === selectedIndex ? "bg-stone-300" : "hover:bg-stone-200"}`}
+						className={`flex flex-col gap-1 text-left py-1 px-3 rounded-md ${index === selectedIndex ? "bg-stone-300" : "hover:bg-stone-200"}`}
 						key={item.name}
 						title={item.name}
 						onClick={() => selectItem(index)}
@@ -106,6 +123,13 @@ export const TagList = forwardRef<TagListRef, Props>((props, ref) => {
 						<Tag
 							name={item.name}
 							hue={item.hue}
+						/>
+						<div
+							className="text-sm text-stone-500 px-2 max-h-10 overflow-hidden text-clip"
+							// biome-ignore lint/security/noDangerouslySetInnerHtml: it's html entered by the user in the TextInput, they get what they deserve
+							dangerouslySetInnerHTML={{
+								__html: item.description ?? "",
+							}}
 						/>
 					</button>
 				))

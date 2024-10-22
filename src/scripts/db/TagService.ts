@@ -31,6 +31,7 @@ export class TagService {
 
 	public async updateHue(name: string, hue: number) {
 		await this.db.tags.update(name, { hue });
+		this.updateCache();
 	}
 
 	public async updateDescription(name: string, description: string) {

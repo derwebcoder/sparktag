@@ -3,10 +3,21 @@ import { Tag as TagElement } from "../../../common/components/Tag/Tag";
 import { useState } from "react";
 import { HueSlider } from "../../../common/components/HueSlider/HueSlider";
 import { tagService } from "../../../scripts/db/TagService";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "../../../common/components/shadcn/popover";
+import { Button } from "../../../common/components/shadcn/button";
+import { debounce } from "../../../scripts/utils/debounce";
 
 type Props = {
 	tag: Tag;
 };
+
+const updateHueDebounced = debounce((name: string, hue: number) => {
+	tagService.updateHue(name, hue);
+}, 500);
 
 export const TagConfig = (props: Props) => {
 	const { tag } = props;
@@ -14,7 +25,7 @@ export const TagConfig = (props: Props) => {
 
 	const handleHueChange = (value: number) => {
 		setHue(value);
-		tagService.updateHue(tag.name, value);
+		updateHueDebounced(tag.name, value);
 	};
 
 	return (
@@ -26,10 +37,28 @@ export const TagConfig = (props: Props) => {
 				/>
 			</div>
 			<div>
-				<HueSlider
-					hue={hue}
-					onChange={handleHueChange}
-				/>
+				<Popover modal={true}>
+					<PopoverTrigger asChild>
+						<Button
+							variant="ghost"
+							className="flex gap-1"
+						>
+							<div
+								className="w-3 h-3"
+								style={{
+									background: `hsl(${hue} 50% 70% / 100%)`,
+								}}
+							/>{" "}
+							Color
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent>
+						<HueSlider
+							hue={hue}
+							onChange={handleHueChange}
+						/>
+					</PopoverContent>
+				</Popover>
 			</div>
 		</div>
 	);

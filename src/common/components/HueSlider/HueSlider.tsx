@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import { Input } from "../shadcn/input";
 import { Slider } from "../shadcn/slider";
 import styles from "./HueSlider.module.css";
@@ -10,6 +11,12 @@ export type HueSliderProps = {
 export const HueSlider = (props: HueSliderProps) => {
 	const { hue, onChange } = props;
 
+	const handleChange = (event: ChangeEvent<HTMLElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
+		onChange(Number.parseInt(event.target.value, 10));
+	};
+
 	return (
 		<span className="w-full p-2 grid grid-cols-[60px_1fr] gap-2">
 			<Input
@@ -17,6 +24,10 @@ export const HueSlider = (props: HueSliderProps) => {
 				value={hue}
 				data-testid="hue-input"
 				className="text-xs text-right p-0 h-6"
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+				}}
 				onChange={(e) => onChange(Number.parseInt(e.target.value, 10))}
 			/>
 			<div className="flex flex-col justify-between">
@@ -26,6 +37,10 @@ export const HueSlider = (props: HueSliderProps) => {
 					min={0}
 					max={360}
 					step={1}
+					onClick={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+					}}
 					onValueChange={(v) => onChange(v[0])}
 				/>
 			</div>

@@ -81,8 +81,8 @@ html {
 .tag::before {
   content: "";
   display: inline-block;
-  -webkit-mask-image: url(../../public/tag-icons/hash.svg);
-  mask-image: url(../../public/tag-icons/hash.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/hash.svg);
+  mask-image: url(/sparktag/tag-icons/hash.svg);
   background: currentColor;
   width: 16px;
   height: 16px;
@@ -93,83 +93,83 @@ html {
 
 
 [data-icon=alert-triangle]::before {
-  -webkit-mask-image: url(../../public/tag-icons/alert-triangle.svg);
-  mask-image: url(../../public/tag-icons/alert-triangle.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/alert-triangle.svg);
+  mask-image: url(/sparktag/tag-icons/alert-triangle.svg);
 }
 
 [data-icon=bookmark]::before {
-  -webkit-mask-image: url(../../public/tag-icons/bookmark.svg);
-  mask-image: url(../../public/tag-icons/bookmark.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/bookmark.svg);
+  mask-image: url(/sparktag/tag-icons/bookmark.svg);
 }
 
 [data-icon=calendar]::before {
-  -webkit-mask-image: url(../../public/tag-icons/calendar.svg);
-  mask-image: url(../../public/tag-icons/calendar.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/calendar.svg);
+  mask-image: url(/sparktag/tag-icons/calendar.svg);
 }
 
 [data-icon=gift]::before {
-  -webkit-mask-image: url(../../public/tag-icons/gift.svg);
-  mask-image: url(../../public/tag-icons/gift.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/gift.svg);
+  mask-image: url(/sparktag/tag-icons/gift.svg);
 }
 
 [data-icon=hash]::before {
-  -webkit-mask-image: url(../../public/tag-icons/hash.svg);
-  mask-image: url(../../public/tag-icons/hash.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/hash.svg);
+  mask-image: url(/sparktag/tag-icons/hash.svg);
 }
 
 [data-icon=heart]::before {
-  -webkit-mask-image: url(../../public/tag-icons/heart.svg);
-  mask-image: url(../../public/tag-icons/heart.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/heart.svg);
+  mask-image: url(/sparktag/tag-icons/heart.svg);
 }
 
 [data-icon=help-circle]::before {
-  -webkit-mask-image: url(../../public/tag-icons/help-circle.svg);
-  mask-image: url(../../public/tag-icons/help-circle.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/help-circle.svg);
+  mask-image: url(/sparktag/tag-icons/help-circle.svg);
 }
 
 [data-icon=info]::before {
-  -webkit-mask-image: url(../../public/tag-icons/info.svg);
-  mask-image: url(../../public/tag-icons/info.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/info.svg);
+  mask-image: url(/sparktag/tag-icons/info.svg);
 }
 
 [data-icon=lock]::before {
-  -webkit-mask-image: url(../../public/tag-icons/lock.svg);
-  mask-image: url(../../public/tag-icons/lock.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/lock.svg);
+  mask-image: url(/sparktag/tag-icons/lock.svg);
 }
 
 [data-icon=mail]::before {
-  -webkit-mask-image: url(../../public/tag-icons/mail.svg);
-  mask-image: url(../../public/tag-icons/mail.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/mail.svg);
+  mask-image: url(/sparktag/tag-icons/mail.svg);
 }
 
 [data-icon=map-pin]::before {
-  -webkit-mask-image: url(../../public/tag-icons/map-pin.svg);
-  mask-image: url(../../public/tag-icons/map-pin.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/map-pin.svg);
+  mask-image: url(/sparktag/tag-icons/map-pin.svg);
 }
 
 [data-icon=shield]::before {
-  -webkit-mask-image: url(../../public/tag-icons/shield.svg);
-  mask-image: url(../../public/tag-icons/shield.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/shield.svg);
+  mask-image: url(/sparktag/tag-icons/shield.svg);
 }
 
 [data-icon=star]::before {
-  -webkit-mask-image: url(../../public/tag-icons/star.svg);
-  mask-image: url(../../public/tag-icons/star.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/star.svg);
+  mask-image: url(/sparktag/tag-icons/star.svg);
 }
 
 [data-icon=user]::before {
-  -webkit-mask-image: url(../../public/tag-icons/user.svg);
-  mask-image: url(../../public/tag-icons/user.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/user.svg);
+  mask-image: url(/sparktag/tag-icons/user.svg);
 }
 
 [data-icon=users]::before {
-  -webkit-mask-image: url(../../public/tag-icons/users.svg);
-  mask-image: url(../../public/tag-icons/users.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/users.svg);
+  mask-image: url(/sparktag/tag-icons/users.svg);
 }
 
 [data-icon=zap]::before {
-  -webkit-mask-image: url(../../public/tag-icons/zap.svg);
-  mask-image: url(../../public/tag-icons/zap.svg);
+  -webkit-mask-image: url(/sparktag/tag-icons/zap.svg);
+  mask-image: url(/sparktag/tag-icons/zap.svg);
 }
 
 .neon .tag::after {

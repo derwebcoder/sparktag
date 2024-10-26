@@ -70,3 +70,31 @@ export const ChipBorder: Story = {
 		),
 	],
 };
+
+export const ChipIconLight: Story = {
+	args: {
+		name: "wilderness",
+		hue: 321,
+	},
+	decorators: [
+		(Story) => (
+			<div className="chip-icon-light">
+				<Story />
+			</div>
+		),
+	],
+};
+
+export const ChipIconDark: Story = {
+	args: {
+		name: "wilderness",
+		hue: 321,
+	},
+	decorators: [
+		(Story) => (
+			<div className="chip-icon-dark">
+				<Story />
+			</div>
+		),
+	],
+};

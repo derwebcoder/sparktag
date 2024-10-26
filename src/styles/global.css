@@ -199,6 +199,50 @@ html {
   font-weight: 700;
 }
 
+.chip-icon-light .tag {
+  position: relative;
+  padding-inline: 4px;
+}
+
+.chip-icon-light .tag::before {
+  margin-inline-end: 4px;
+  background: hsl(var(--tag-color) 100% 20% / 100%);
+  z-index: 1;
+}
+
+.chip-icon-light .tag::after {
+  align-self: center;
+  content: '';
+  width: 20px;
+  height: 20px;
+  border-radius: 99px;
+  background: hsl(var(--tag-color) 50% 90% / 100%);
+  position: absolute;
+  inset-inline-start: 2px;
+}
+
+.chip-icon-dark .tag {
+  position: relative;
+  padding-inline: 4px;
+}
+
+.chip-icon-dark .tag::before {
+  margin-inline-end: 4px;
+  background: hsl(var(--tag-color) 50% 90% / 100%);
+  z-index: 1;
+}
+
+.chip-icon-dark .tag::after {
+  align-self: center;
+  content: '';
+  width: 20px;
+  height: 20px;
+  border-radius: 99px;
+  background: hsl(var(--tag-color) 100% 20% / 100%);
+  position: absolute;
+  inset-inline-start: 2px;
+}
+
 .spark-extension {
   @apply bg-stone-700 text-white px-2 py-1 rounded;
 }

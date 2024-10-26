@@ -52,6 +52,7 @@ export const Settings = () => {
 			],
 			id: "manual-export",
 			excludeAcceptAllOption: true,
+			suggestedName: `${format(new Date(), "yyyy-MM-dd")} Sparks Backup.json`,
 		});
 
 		worker.postMessage(fileHandle);

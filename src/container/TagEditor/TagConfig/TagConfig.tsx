@@ -42,6 +42,7 @@ export const TagConfig = (props: Props) => {
 				<TagElement
 					name={tag.name}
 					hue={hue}
+					icon={tag.icon}
 				/>
 			</div>
 			<div>

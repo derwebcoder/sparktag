@@ -130,6 +130,7 @@ export const SparkList = () => {
 											key={tag.name}
 											name={tag.name}
 											hue={tag.hue}
+											icon={tag.icon}
 										/>
 									))}
 								</div>

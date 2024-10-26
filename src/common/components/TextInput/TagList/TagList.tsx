@@ -123,6 +123,7 @@ export const TagList = forwardRef<TagListRef, Props>((props, ref) => {
 						<Tag
 							name={item.name}
 							hue={item.hue}
+							icon={item.icon}
 						/>
 						<div
 							className="text-sm text-stone-500 px-2 max-h-10 overflow-hidden text-clip"

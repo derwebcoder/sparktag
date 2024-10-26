@@ -12,15 +12,7 @@ import {
 import { TagIcon } from "../../assets/icons/TagIcon";
 import { useLiveQuery } from "dexie-react-hooks";
 import { tagService } from "../../scripts/db/TagService";
-import React from "react";
-import { Tag } from "../../common/components/Tag/Tag";
 import { TagConfig } from "./TagConfig/TagConfig";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "../../common/components/shadcn/popover";
-import { HueSlider } from "../../common/components/HueSlider/HueSlider";
 
 export const TagEditor = () => {
 	const tags = useLiveQuery(() => {

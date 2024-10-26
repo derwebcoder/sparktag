@@ -3,6 +3,7 @@ import { Spark } from "../../interfaces/Spark";
 import type { FileSystemHandleStore } from "../../interfaces/FileSystemHandleStore";
 import type { Tag } from "../../interfaces/Tag";
 import { removeHash, stringToHue, toLowerCase } from "../utils/stringUtils";
+import { updateHtmlTagsOfSpark } from "../utils/sparkUtils";
 
 export default class AppDB extends Dexie {
 	tags!: Table<Tag, string, InsertType<Tag, "name">>;
@@ -11,6 +12,38 @@ export default class AppDB extends Dexie {
 
 	constructor() {
 		super("SparksDB");
+		// nothing really changes in this version, but we need to update the existing tags in the html
+		this.version(9)
+			.stores({
+				sparks: "++id, creationDate, plainText, tags, contextTags",
+				// because name is the first index, it is the primary key and unique
+				tags: "name, description",
+				// this is needed to store the FileSystemHandle for automatic backups
+				fileHandles: "++id, fileHandle",
+			})
+			.upgrade(async (transaction) => {
+				console.debug("Upgrading Dexie Table to version 7");
+
+				const tagMap = new Map(
+					(await transaction.table("tags").toArray()).map(
+						(t: Tag) => [t.name, t] as [Tag["name"], Tag],
+					),
+				);
+				// remove '#' char from existing tags and make them lowercase
+				// and tags should now contain all tags, including the contextTags
+				transaction
+					.table("sparks")
+					.toCollection()
+					.modify((spark: Spark) => {
+						const { html, originalHtml } = updateHtmlTagsOfSpark(
+							spark,
+							tagMap,
+						);
+						console.debug({ html, originalHtml });
+						spark.html = html;
+						spark.originalHtml = originalHtml;
+					});
+			});
 		this.version(6)
 			.stores({
 				sparks: "++id, creationDate, plainText, tags, contextTags",
@@ -73,3 +106,5 @@ export default class AppDB extends Dexie {
 }
 
 export const db = new AppDB();
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+(window as any).db = db;

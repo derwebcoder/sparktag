@@ -7,9 +7,15 @@ import {
 } from "../../interfaces/Spark";
 import { parseSpark, stringToHue } from "../utils/stringUtils";
 import { tagService } from "./TagService";
+import type { Tag } from "../../interfaces/Tag";
 
 export class SparkService {
-	constructor(private db: AppDB) {}
+	constructor(private db: AppDB) {
+		// (async () => {
+		// 	const spark = await db.sparks.get(57);
+		// 	console.log(await this.updateHtmlTagsOfSpark(spark));
+		// })();
+	}
 
 	public async addSpark(plainText: string, html: string) {
 		const { tags, prefixTags, strippedPlainText, strippedHtml } =

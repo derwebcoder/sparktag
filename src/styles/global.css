@@ -73,7 +73,85 @@ html {
 
 
 .tag {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.tag::before {
+  content: "";
   display: inline-block;
+  -webkit-mask-image: url(../../public/tag-icons/hash.svg);
+  mask-image: url(../../public/tag-icons/hash.svg);
+  background: currentColor;
+  width: 16px;
+  height: 16px;
+  margin-inline-end: 0px;
+  align-self: center;
+}
+
+.tag[data-icon=alert-triangle]::before {
+  -webkit-mask-image: url(../../public/tag-icons/alert-triangle.svg);
+  mask-image: url(../../public/tag-icons/alert-triangle.svg);
+}
+.tag[data-icon=bookmark]::before {
+  -webkit-mask-image: url(../../public/tag-icons/bookmark.svg);
+  mask-image: url(../../public/tag-icons/bookmark.svg);
+}
+.tag[data-icon=calendar]::before {
+  -webkit-mask-image: url(../../public/tag-icons/calendar.svg);
+  mask-image: url(../../public/tag-icons/calendar.svg);
+}
+.tag[data-icon=gift]::before {
+  -webkit-mask-image: url(../../public/tag-icons/gift.svg);
+  mask-image: url(../../public/tag-icons/gift.svg);
+}
+.tag[data-icon=hash]::before {
+  -webkit-mask-image: url(../../public/tag-icons/hash.svg);
+  mask-image: url(../../public/tag-icons/hash.svg);
+}
+.tag[data-icon=heart]::before {
+  -webkit-mask-image: url(../../public/tag-icons/heart.svg);
+  mask-image: url(../../public/tag-icons/heart.svg);
+}
+.tag[data-icon=help-circle]::before {
+  -webkit-mask-image: url(../../public/tag-icons/help-circle.svg);
+  mask-image: url(../../public/tag-icons/help-circle.svg);
+}
+.tag[data-icon=info]::before {
+  -webkit-mask-image: url(../../public/tag-icons/info.svg);
+  mask-image: url(../../public/tag-icons/info.svg);
+}
+.tag[data-icon=lock]::before {
+  -webkit-mask-image: url(../../public/tag-icons/lock.svg);
+  mask-image: url(../../public/tag-icons/lock.svg);
+}
+.tag[data-icon=mail]::before {
+  -webkit-mask-image: url(../../public/tag-icons/mail.svg);
+  mask-image: url(../../public/tag-icons/mail.svg);
+}
+.tag[data-icon=map-pin]::before {
+  -webkit-mask-image: url(../../public/tag-icons/mail.svg);
+  mask-image: url(../../public/tag-icons/mail.svg);
+}
+.tag[data-icon=shield]::before {
+  -webkit-mask-image: url(../../public/tag-icons/shield.svg);
+  mask-image: url(../../public/tag-icons/shield.svg);
+}
+.tag[data-icon=star]::before {
+  -webkit-mask-image: url(../../public/tag-icons/star.svg);
+  mask-image: url(../../public/tag-icons/star.svg);
+}
+.tag[data-icon=user]::before {
+  -webkit-mask-image: url(../../public/tag-icons/user.svg);
+  mask-image: url(../../public/tag-icons/user.svg);
+}
+.tag[data-icon=users]::before {
+  -webkit-mask-image: url(../../public/tag-icons/users.svg);
+  mask-image: url(../../public/tag-icons/users.svg);
+}
+.tag[data-icon=zap]::before {
+  -webkit-mask-image: url(../../public/tag-icons/mail.svg);
+  mask-image: url(../../public/tag-icons/mail.svg);
 }
 
 .neon .tag::after {

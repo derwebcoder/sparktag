@@ -83,15 +83,18 @@ export const getExtensions = (settings: Settings) => {
 						class: "tag",
 					},
 					renderHTML({ options, node }) {
+						const tagName = node.attrs.id;
 						return [
 							"span",
 							mergeAttributes(
 								{
-									style: `--tag-color: ${tagService.getTagHueFromCache(`${node.attrs.id}`)}`,
+									style: `--tag-color: ${tagService.getTagHueFromCache(`${tagName}`)}`,
+									"data-icon":
+										tagService.getTagIconFromCache(tagName),
 								},
 								options.HTMLAttributes,
 							),
-							`${options.suggestion.char}${node.attrs.id}`,
+							`${tagName}`,
 						];
 					},
 					suggestion: {

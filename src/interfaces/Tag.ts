@@ -1,7 +1,7 @@
 import { Entity, type InsertType } from "dexie";
 import type AppDB from "../scripts/db/AppDB";
 
-export const TagIcons = [
+export const tagIcons = [
 	"alert-triangle",
 	"bookmark",
 	"calendar",
@@ -20,7 +20,7 @@ export const TagIcons = [
 	"zap",
 ] as const;
 
-type TagIcon = (typeof TagIcons)[number];
+export type TagIcon = (typeof tagIcons)[number];
 
 export class Tag extends Entity<AppDB> {
 	name!: string;

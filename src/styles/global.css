@@ -75,6 +75,7 @@ html {
 .tag {
   display: inline-flex;
   align-items: baseline;
+  position: relative;
 }
 
 .tag::before {
@@ -87,71 +88,88 @@ html {
   height: 16px;
   margin-inline-end: 0px;
   align-self: center;
+  margin-inline-end: 4px;
 }
 
-.tag[data-icon=alert-triangle]::before {
+
+[data-icon=alert-triangle]::before {
   -webkit-mask-image: url(../../public/tag-icons/alert-triangle.svg);
   mask-image: url(../../public/tag-icons/alert-triangle.svg);
 }
-.tag[data-icon=bookmark]::before {
+
+[data-icon=bookmark]::before {
   -webkit-mask-image: url(../../public/tag-icons/bookmark.svg);
   mask-image: url(../../public/tag-icons/bookmark.svg);
 }
-.tag[data-icon=calendar]::before {
+
+[data-icon=calendar]::before {
   -webkit-mask-image: url(../../public/tag-icons/calendar.svg);
   mask-image: url(../../public/tag-icons/calendar.svg);
 }
-.tag[data-icon=gift]::before {
+
+[data-icon=gift]::before {
   -webkit-mask-image: url(../../public/tag-icons/gift.svg);
   mask-image: url(../../public/tag-icons/gift.svg);
 }
-.tag[data-icon=hash]::before {
+
+[data-icon=hash]::before {
   -webkit-mask-image: url(../../public/tag-icons/hash.svg);
   mask-image: url(../../public/tag-icons/hash.svg);
 }
-.tag[data-icon=heart]::before {
+
+[data-icon=heart]::before {
   -webkit-mask-image: url(../../public/tag-icons/heart.svg);
   mask-image: url(../../public/tag-icons/heart.svg);
 }
-.tag[data-icon=help-circle]::before {
+
+[data-icon=help-circle]::before {
   -webkit-mask-image: url(../../public/tag-icons/help-circle.svg);
   mask-image: url(../../public/tag-icons/help-circle.svg);
 }
-.tag[data-icon=info]::before {
+
+[data-icon=info]::before {
   -webkit-mask-image: url(../../public/tag-icons/info.svg);
   mask-image: url(../../public/tag-icons/info.svg);
 }
-.tag[data-icon=lock]::before {
+
+[data-icon=lock]::before {
   -webkit-mask-image: url(../../public/tag-icons/lock.svg);
   mask-image: url(../../public/tag-icons/lock.svg);
 }
-.tag[data-icon=mail]::before {
+
+[data-icon=mail]::before {
   -webkit-mask-image: url(../../public/tag-icons/mail.svg);
   mask-image: url(../../public/tag-icons/mail.svg);
 }
-.tag[data-icon=map-pin]::before {
-  -webkit-mask-image: url(../../public/tag-icons/mail.svg);
-  mask-image: url(../../public/tag-icons/mail.svg);
+
+[data-icon=map-pin]::before {
+  -webkit-mask-image: url(../../public/tag-icons/map-pin.svg);
+  mask-image: url(../../public/tag-icons/map-pin.svg);
 }
-.tag[data-icon=shield]::before {
+
+[data-icon=shield]::before {
   -webkit-mask-image: url(../../public/tag-icons/shield.svg);
   mask-image: url(../../public/tag-icons/shield.svg);
 }
-.tag[data-icon=star]::before {
+
+[data-icon=star]::before {
   -webkit-mask-image: url(../../public/tag-icons/star.svg);
   mask-image: url(../../public/tag-icons/star.svg);
 }
-.tag[data-icon=user]::before {
+
+[data-icon=user]::before {
   -webkit-mask-image: url(../../public/tag-icons/user.svg);
   mask-image: url(../../public/tag-icons/user.svg);
 }
-.tag[data-icon=users]::before {
+
+[data-icon=users]::before {
   -webkit-mask-image: url(../../public/tag-icons/users.svg);
   mask-image: url(../../public/tag-icons/users.svg);
 }
-.tag[data-icon=zap]::before {
-  -webkit-mask-image: url(../../public/tag-icons/mail.svg);
-  mask-image: url(../../public/tag-icons/mail.svg);
+
+[data-icon=zap]::before {
+  -webkit-mask-image: url(../../public/tag-icons/zap.svg);
+  mask-image: url(../../public/tag-icons/zap.svg);
 }
 
 .neon .tag::after {
@@ -164,18 +182,20 @@ html {
     lightness, chroma and alpha but keep the hue
   */
   background: hsl(var(--tag-color) 100% 50% / 90%);
-  background: oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h / 0.4);
-  background: linear-gradient(0deg, rgba(255,255,255,0) 0%, oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h) 80%, rgba(255,255,255,0) 100%);
+  /* background: oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h / 0.9); */
+  /* background: linear-gradient(0deg, rgba(255,255,255,0) 0%, oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h) 80%, rgba(255,255,255,0) 100%); */
   width: 100%;
   height: 1px;
-  filter: blur(3px);
-  margin-top: -5px;
+  filter: blur(2px);
   display: block;
   content: "";
+  position: absolute;
+  bottom: 3px;
+  padding-inline: 6px;
 }
 
 .chip-light .tag {
-  padding-inline: 10px;
+  padding-inline: 6px;
   border-radius: 15px;
   background: hsl(var(--tag-color) 50% 90% / 100%);
   color: hsl(var(--tag-color) 100% 20% / 100%);
@@ -183,7 +203,7 @@ html {
 }
 
 .chip-dark .tag {
-  padding-inline: 10px;
+  padding-inline: 6px;
   border-radius: 15px;
   color: hsl(var(--tag-color) 50% 90% / 100%);
   background-color: hsl(var(--tag-color) 100% 25% / 100%);
@@ -191,7 +211,7 @@ html {
 }
 
 .chip-border .tag {
-  padding-inline: 10px;
+  padding-inline: 6px;
   border-radius: 15px;
   border-width: 1px;
   border-color: hsl(var(--tag-color) 50% 80% / 100%);
@@ -200,12 +220,10 @@ html {
 }
 
 .chip-icon-light .tag {
-  position: relative;
   padding-inline: 4px;
 }
 
 .chip-icon-light .tag::before {
-  margin-inline-end: 4px;
   background: hsl(var(--tag-color) 100% 20% / 100%);
   z-index: 1;
 }
@@ -222,12 +240,10 @@ html {
 }
 
 .chip-icon-dark .tag {
-  position: relative;
   padding-inline: 4px;
 }
 
 .chip-icon-dark .tag::before {
-  margin-inline-end: 4px;
   background: hsl(var(--tag-color) 50% 90% / 100%);
   z-index: 1;
 }

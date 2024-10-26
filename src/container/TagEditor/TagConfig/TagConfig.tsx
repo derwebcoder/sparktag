@@ -1,4 +1,4 @@
-import type { Tag } from "../../../interfaces/Tag";
+import { tagIcons, type Tag, type TagIcon } from "../../../interfaces/Tag";
 import { Tag as TagElement } from "../../../common/components/Tag/Tag";
 import { useState } from "react";
 import { HueSlider } from "../../../common/components/HueSlider/HueSlider";
@@ -11,6 +11,14 @@ import {
 import { Button } from "../../../common/components/shadcn/button";
 import { debounce } from "../../../scripts/utils/debounce";
 import { TextInput } from "../../../common/components/TextInput/TextInput";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "../../../common/components/shadcn/select";
+import "./TagConfig.css";
 
 type Props = {
 	tag: Tag;
@@ -30,6 +38,7 @@ const updateDescriptionDebounced = debounce(
 export const TagConfig = (props: Props) => {
 	const { tag } = props;
 	const [hue, setHue] = useState(tag.hue);
+	const [icon, setIcon] = useState<TagIcon>(tag.icon ?? "hash");
 
 	const handleHueChange = (value: number) => {
 		setHue(value);
@@ -42,7 +51,7 @@ export const TagConfig = (props: Props) => {
 				<TagElement
 					name={tag.name}
 					hue={hue}
-					icon={tag.icon}
+					icon={icon}
 				/>
 			</div>
 			<div>
@@ -56,6 +65,35 @@ export const TagConfig = (props: Props) => {
 						updateDescriptionDebounced(tag.name, html)
 					}
 				/>
+			</div>
+			<div>
+				<Select
+					defaultValue={icon}
+					onValueChange={(value: TagIcon) => {
+						setIcon(value);
+					}}
+				>
+					<SelectTrigger>
+						<SelectValue placeholder={"Select an icon"} />
+					</SelectTrigger>
+					<SelectContent>
+						{tagIcons.map((icon) => {
+							return (
+								<SelectItem
+									key={icon}
+									value={icon}
+								>
+									<div
+										data-icon={icon}
+										className="icon-preview"
+									>
+										{icon}
+									</div>
+								</SelectItem>
+							);
+						})}
+					</SelectContent>
+				</Select>
 			</div>
 			<div>
 				<Popover modal={true}>

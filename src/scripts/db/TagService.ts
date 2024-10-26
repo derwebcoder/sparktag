@@ -2,6 +2,7 @@ import type { PlainTag, Tag } from "../../interfaces/Tag";
 import { stringToHue, toLowerCase } from "../utils/stringUtils";
 import type AppDB from "./AppDB";
 import { db } from "./AppDB";
+import { matchSorter } from "match-sorter";
 
 type TagToHueMap = Record<Tag["name"], Tag["hue"]>;
 
@@ -51,11 +52,17 @@ export class TagService {
 	}
 
 	public async find(query: string, limit = 20) {
-		return await this.db.tags
-			.where("name")
-			.startsWith(query)
-			.limit(limit)
-			.toArray();
+		const tags = await this.db.tags.toArray();
+		const matches = matchSorter(tags, query, {
+			keys: [
+				"name",
+				{
+					key: "description",
+					maxRanking: matchSorter.rankings.STARTS_WITH,
+				},
+			],
+		});
+		return matches.slice(0, limit);
 	}
 
 	public async listTags() {

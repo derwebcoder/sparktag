@@ -172,6 +172,10 @@ html {
   mask-image: url(/sparktag/tag-icons/zap.svg);
 }
 
+.neon .tag {
+  padding-inline: 6px;
+}
+
 .neon .tag::after {
   /*
     We use hsl to generate the base color because the hue in hsl has a wider color range than oklch.
@@ -191,7 +195,7 @@ html {
   content: "";
   position: absolute;
   bottom: 3px;
-  padding-inline: 6px;
+  inset-inline-start: 0px;
 }
 
 .chip-light .tag {

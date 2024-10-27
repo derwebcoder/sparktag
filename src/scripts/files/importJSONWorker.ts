@@ -37,7 +37,7 @@ const upgradeToMap = {
 		});
 
 		return {
-			...backup,
+			version: 9,
 			tags: backup.tags as PlainTag[],
 			sparks: sparks,
 		};

@@ -49,7 +49,7 @@ export const TagEditor = () => {
 						{!tags || tags.length <= 0 ? (
 							<div>No tags yet.</div>
 						) : (
-							<div className="col-start-2 grid grid-cols-[200px_1fr_1fr_1fr]">
+							<div className="col-start-2 grid grid-cols-[200px_1fr_180px_100px_100px]">
 								{tags.map((tag) => (
 									<TagConfig
 										key={tag.name}

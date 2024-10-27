@@ -1,4 +1,4 @@
-import type { PlainTag, Tag } from "../../interfaces/Tag";
+import type { PlainTag, Tag, TagIcon } from "../../interfaces/Tag";
 import { stringToHue, toLowerCase } from "../utils/stringUtils";
 import { buildTagMap } from "../utils/tagUtils";
 import type AppDB from "./AppDB";
@@ -47,6 +47,14 @@ export class TagService {
 
 	public async updateDescription(name: string, description: string) {
 		await this.db.tags.update(name, { description });
+	}
+
+	public async updateIcon(name: string, icon: TagIcon) {
+		await this.db.tags.update(name, { icon });
+
+		await this.updateCache(name);
+
+		await sparkService.updateTag(name, this.tagMap);
 	}
 
 	public async getTagHue(name: string) {

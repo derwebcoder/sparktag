@@ -35,6 +35,10 @@ const updateDescriptionDebounced = debounce(
 	1000,
 );
 
+const updateIconDebounced = debounce((name: string, icon: TagIcon) => {
+	tagService.updateIcon(name, icon);
+}, 1000);
+
 export const TagConfig = (props: Props) => {
 	const { tag } = props;
 	const [hue, setHue] = useState(tag.hue);
@@ -71,6 +75,7 @@ export const TagConfig = (props: Props) => {
 					defaultValue={icon}
 					onValueChange={(value: TagIcon) => {
 						setIcon(value);
+						updateIconDebounced(tag.name, value);
 					}}
 				>
 					<SelectTrigger>

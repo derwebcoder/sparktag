@@ -131,7 +131,10 @@ export const getExtensions = (settings: Settings) => {
 							return {
 								onStart: (props) => {
 									component = new ReactRenderer(TagList, {
-										props,
+										props: {
+											...props,
+											parentWindow,
+										},
 										editor: props.editor,
 									});
 

@@ -13,14 +13,16 @@ export const getNewTagPhrase = (tag: string) =>
 
 export let isUserSelectingTag = false;
 
-type Props = SuggestionProps<PlainTag, MentionNodeAttrs>;
+export type TagListProps = SuggestionProps<PlainTag, MentionNodeAttrs> & {
+	parentWindow: Window;
+};
 
 export type TagListRef = {
 	onKeyDown: (data: SuggestionKeyDownProps) => boolean;
 };
 
-export const TagList = forwardRef<TagListRef, Props>((props, ref) => {
-	const { items } = props;
+export const TagList = forwardRef<TagListRef, TagListProps>((props, ref) => {
+	const { items, parentWindow } = props;
 	const [selectedIndex, setSelectedIndex] = useState(1);
 
 	useEffect(() => {
@@ -51,7 +53,7 @@ export const TagList = forwardRef<TagListRef, Props>((props, ref) => {
 	};
 
 	const scrollIntoView = (index: number) => {
-		const itemElement = document.querySelector(
+		const itemElement = parentWindow.document.querySelector(
 			`[data-selector=tags-dropdown]>:nth-child(${index + 1})`,
 		);
 		itemElement?.scrollIntoView({

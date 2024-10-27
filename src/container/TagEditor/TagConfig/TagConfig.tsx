@@ -19,6 +19,13 @@ import {
 	SelectValue,
 } from "../../../common/components/shadcn/select";
 import "./TagConfig.css";
+import { IconButton } from "../../../common/components/IconButton/IconButton";
+import { TrashIcon } from "../../../assets/icons/TrashIcon";
+import { sparkService } from "../../../scripts/db/SparkService";
+import { useToast } from "../../../common/hooks/use-toast";
+import { ToastAction } from "../../../common/components/shadcn/toast";
+import { SearchInputEditorAccessorId } from "../../SearchInput/SearchInput";
+import type { Editor } from "@tiptap/react";
 
 type Props = {
 	tag: Tag;
@@ -43,14 +50,64 @@ export const TagConfig = (props: Props) => {
 	const { tag } = props;
 	const [hue, setHue] = useState(tag.hue);
 	const [icon, setIcon] = useState<TagIcon>(tag.icon ?? "hash");
+	const { toast } = useToast();
 
 	const handleHueChange = (value: number) => {
 		setHue(value);
 		updateHueDebounced(tag.name, value);
 	};
 
+	const searchTag = () => {
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		const searchEditor: Editor | undefined = (window as any).editor?.[
+			SearchInputEditorAccessorId
+		];
+
+		if (!searchEditor) {
+			return;
+		}
+
+		searchEditor.commands.setContent(
+			`
+			<span
+				data-type="tags"
+				data-icon="${tag.icon}"
+				data-id="${tag.name}"
+				style="--tag-color: ${tag.hue}"
+				class="tag"
+				contenteditable="false"
+			>${tag.name}</span>
+		`,
+			true,
+			{ preserveWhitespace: false },
+		);
+	};
+
+	const handleDelete = async () => {
+		const sparksWithTag = await sparkService.find([tag.name]);
+
+		if (sparksWithTag.length > 0) {
+			toast({
+				title: `Could not delete tag "${tag.name}"`,
+				description: `The tag is still being used by ${sparksWithTag.length} sparks. Edit these sparks and remove the tag on each of them to delete this tag.`,
+				variant: "destructive",
+				action: (
+					<ToastAction
+						altText="View sparks using this tag"
+						onClick={searchTag}
+					>
+						View
+					</ToastAction>
+				),
+			});
+			return;
+		}
+
+		await tagService.deleteTag(tag.name);
+	};
+
 	return (
-		<div className="grid grid-cols-subgrid col-span-4 border-b border-stone-200 py-2 w-full items-center gap-4">
+		<div className="grid grid-cols-subgrid col-span-5 border-b border-stone-200 py-2 w-full items-center gap-4">
 			<div className="justify-self-center">
 				<TagElement
 					name={tag.name}
@@ -123,6 +180,14 @@ export const TagConfig = (props: Props) => {
 						/>
 					</PopoverContent>
 				</Popover>
+			</div>
+			<div className="flex flex-row justify-center">
+				<IconButton
+					relevancy="secondary"
+					onClick={handleDelete}
+				>
+					<TrashIcon />
+				</IconButton>
 			</div>
 		</div>
 	);

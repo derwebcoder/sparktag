@@ -10,8 +10,9 @@ export const Tag = (props: TagProps) => {
 	const { name, hue, icon } = props;
 	return (
 		<span
-			className="font-semibold tag w-fit text-sm"
+			className="tag w-fit text-sm"
 			data-icon={icon}
+			data-type="tags"
 			style={
 				{
 					"--tag-color": hue,

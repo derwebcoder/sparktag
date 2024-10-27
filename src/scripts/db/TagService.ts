@@ -104,6 +104,10 @@ export class TagService {
 		this.tagMap.set(newTag.name, newTag);
 	}
 
+	public async deleteTag(name: string) {
+		await this.db.tags.delete(name);
+	}
+
 	public async CAREFUL_deleteAllData() {
 		await this.db.tags.clear();
 	}

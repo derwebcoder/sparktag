@@ -6,7 +6,7 @@ import { db } from "./AppDB";
 import { matchSorter } from "match-sorter";
 import { sparkService } from "./SparkService";
 
-export type TagMap = Map<Tag["name"], Tag>;
+export type TagMap = Map<Tag["name"], PlainTag>;
 
 export class TagService {
 	private tagMap: TagMap = new Map();

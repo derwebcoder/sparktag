@@ -1,7 +1,7 @@
-import type { Spark } from "../../interfaces/Spark";
+import type { PlainSpark } from "../../interfaces/Spark";
 import type { TagMap } from "../db/TagService";
 
-export const updateHtmlTagsOfSpark = (spark: Spark, tagMap: TagMap) => {
+export const updateHtmlTagsOfSpark = (spark: PlainSpark, tagMap: TagMap) => {
 	const containerOriginalHtml = document.createElement("div");
 	containerOriginalHtml.innerHTML = spark.originalHtml;
 	const updatedOriginalHtml = updateHtmlTags(containerOriginalHtml, tagMap);

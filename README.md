@@ -20,7 +20,9 @@ More info coming soon.
 - [x] Empty state when no spark exist yet
 - [ ] Add second confirmation to "Delete everything" button
 - [ ] Add sounds
-- [ ]  Statistics and gamification
+- [ ] Statistics and gamification
 - [ ] fix Export and import
 - [ ] create desktop app
 - [ ] use LLMs for Learning feature
+- [ ] Debug mode (blur content)
+- [ ] Learn extension (incl. AI)

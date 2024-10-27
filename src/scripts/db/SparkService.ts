@@ -7,7 +7,6 @@ import {
 } from "../../interfaces/Spark";
 import { parseSpark, stringToHue } from "../utils/stringUtils";
 import { tagService, type TagMap } from "./TagService";
-import type { Tag } from "../../interfaces/Tag";
 import { updateHtmlTagsOfSpark } from "../utils/sparkUtils";
 
 export class SparkService {

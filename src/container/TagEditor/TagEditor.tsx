@@ -78,7 +78,7 @@ export const TagEditor = () => {
 							</label>
 							<Button
 								variant={"outline"}
-								onClick={(e) =>
+								onClick={() =>
 									setShowUsageCount(!showUsageCount)
 								}
 							>

@@ -1,8 +1,5 @@
 import { TextInput } from "../../common/components/TextInput/TextInput";
-import {
-	updateQueryDebounced,
-	useQueryStore,
-} from "../../scripts/store/queryStore";
+import { updateQueryDebounced } from "../../scripts/store/queryStore";
 
 export const SearchInputEditorAccessorId = "search";
 

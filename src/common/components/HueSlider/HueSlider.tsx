@@ -11,12 +11,6 @@ export type HueSliderProps = {
 export const HueSlider = (props: HueSliderProps) => {
 	const { hue, onChange } = props;
 
-	const handleChange = (event: ChangeEvent<HTMLElement>) => {
-		event.preventDefault();
-		event.stopPropagation();
-		onChange(Number.parseInt(event.target.value, 10));
-	};
-
 	return (
 		<span className="w-full p-2 grid grid-cols-[60px_1fr] gap-2">
 			<Input

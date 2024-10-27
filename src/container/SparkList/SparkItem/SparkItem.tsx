@@ -7,14 +7,12 @@ import { sparkService } from "../../../scripts/db/SparkService";
 import { TrashIcon } from "../../../assets/icons/TrashIcon";
 import {
 	AlertDialog,
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-	AlertDialogTrigger,
 } from "../../../common/components/shadcn/alert-dialog";
 import { Button } from "../../../common/components/shadcn/button";
 

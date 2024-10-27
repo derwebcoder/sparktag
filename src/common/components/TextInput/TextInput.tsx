@@ -1,4 +1,4 @@
-import { EditorContent, useEditor, type Editor } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import { getExtensions } from "./TextInput.config";
 import "./TextInput.css";
 import { parseSpark } from "../../../scripts/utils/stringUtils";

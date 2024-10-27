@@ -14,15 +14,21 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { tagService } from "../../scripts/db/TagService";
 import { TagConfig } from "./TagConfig/TagConfig";
 import { Input } from "../../common/components/shadcn/input";
+import type React from "react";
 import { useState } from "react";
 import { matchSorter } from "match-sorter";
 
 export const TagEditor = () => {
+	const [showUsageCount, setShowUsageCount] = useState(false);
 	const tags = useLiveQuery(() => {
 		return tagService.listTags();
 	});
 
 	const [filter, setFilter] = useState("");
+
+	const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter(event.target.value);
+	};
 
 	const filteredTags = matchSorter(tags ?? [], filter, {
 		keys: [
@@ -62,14 +68,22 @@ export const TagEditor = () => {
 					</div>
 					<div className="grid grid-cols-[1fr_minmax(400px,_900px)_1fr] gap-4 p-4">
 						<div />
-						<div className="grid grid-cols-[300px_1fr]">
+						<div className="flex justify-between">
 							<label className="flex justify-center items-center gap-2">
 								Filter:
 								<Input
 									value={filter}
-									onChange={(e) => setFilter(e.target.value)}
+									onChange={handleFilterChange}
 								/>
 							</label>
+							<Button
+								variant={"outline"}
+								onClick={(e) =>
+									setShowUsageCount(!showUsageCount)
+								}
+							>
+								Count usage
+							</Button>
 						</div>
 						<div />
 					</div>
@@ -77,11 +91,12 @@ export const TagEditor = () => {
 						{!tags || tags.length <= 0 ? (
 							<div>No tags yet.</div>
 						) : (
-							<div className="col-start-2 grid grid-cols-[200px_1fr_180px_100px_100px]">
+							<div className="col-start-2 grid grid-cols-[max-content_200px_1fr_180px_100px_100px]">
 								{filteredTags.map((tag) => (
 									<TagConfig
 										key={tag.name}
 										tag={tag}
+										showUsageCount={showUsageCount}
 									/>
 								))}
 							</div>

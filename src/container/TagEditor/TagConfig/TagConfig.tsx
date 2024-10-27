@@ -1,6 +1,6 @@
 import { tagIcons, type Tag, type TagIcon } from "../../../interfaces/Tag";
 import { Tag as TagElement } from "../../../common/components/Tag/Tag";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HueSlider } from "../../../common/components/HueSlider/HueSlider";
 import { tagService } from "../../../scripts/db/TagService";
 import {
@@ -29,6 +29,7 @@ import type { Editor } from "@tiptap/react";
 
 type Props = {
 	tag: Tag;
+	showUsageCount: boolean;
 };
 
 const updateHueDebounced = debounce((name: string, hue: number) => {
@@ -47,10 +48,20 @@ const updateIconDebounced = debounce((name: string, icon: TagIcon) => {
 }, 1000);
 
 export const TagConfig = (props: Props) => {
-	const { tag } = props;
+	const { tag, showUsageCount } = props;
 	const [hue, setHue] = useState(tag.hue);
 	const [icon, setIcon] = useState<TagIcon>(tag.icon ?? "hash");
 	const { toast } = useToast();
+	const [usageCount, setUsageCount] = useState(0);
+
+	useEffect(() => {
+		if (!showUsageCount) {
+			return;
+		}
+		(async () => {
+			setUsageCount((await sparkService.find([tag.name])).length);
+		})();
+	}, [showUsageCount, tag.name]);
 
 	const handleHueChange = (value: number) => {
 		setHue(value);
@@ -107,7 +118,8 @@ export const TagConfig = (props: Props) => {
 	};
 
 	return (
-		<div className="grid grid-cols-subgrid col-span-5 border-b border-stone-200 py-2 w-full items-center gap-4">
+		<div className="grid grid-cols-subgrid col-span-6 border-b border-stone-200 py-2 w-full items-center gap-4">
+			<div>{showUsageCount ? usageCount : ""}</div>
 			<div className="justify-self-center">
 				<TagElement
 					name={tag.name}

@@ -4,6 +4,7 @@ import { buildTagMap } from "../utils/tagUtils";
 import type AppDB from "./AppDB";
 import { db } from "./AppDB";
 import { matchSorter } from "match-sorter";
+import { sparkService } from "./SparkService";
 
 export type TagMap = Map<Tag["name"], Tag>;
 
@@ -11,7 +12,7 @@ export class TagService {
 	private tagMap: TagMap = new Map();
 
 	constructor(private db: AppDB) {
-		this.updateCache();
+		this.createCache();
 	}
 
 	public async get(name: string) {
@@ -23,21 +24,25 @@ export class TagService {
 		hue: number,
 		description?: string,
 	) {
-		const existCheck = await this.db.tags.get(name);
+		const tagName = toLowerCase(name);
+		const existCheck = await this.db.tags.get(tagName);
 		if (existCheck) {
 			return;
 		}
 		await this.db.tags.add({
-			name: toLowerCase(name),
+			name: tagName,
 			hue,
 			description,
 		});
-		this.updateCache();
+		this.updateCache(tagName);
 	}
 
 	public async updateHue(name: string, hue: number) {
 		await this.db.tags.update(name, { hue });
-		this.updateCache();
+
+		await this.updateCache(name);
+
+		await sparkService.updateTag(name, this.tagMap);
 	}
 
 	public async updateDescription(name: string, description: string) {
@@ -78,9 +83,17 @@ export class TagService {
 		return await this.db.tags.toArray();
 	}
 
-	private async updateCache() {
+	private async createCache() {
 		const tags = await this.listTags();
 		this.tagMap = buildTagMap(tags);
+	}
+
+	private async updateCache(name: string) {
+		const newTag = await this.db.tags.get(name);
+		if (!newTag) {
+			return;
+		}
+		this.tagMap.set(newTag.name, newTag);
 	}
 
 	public async CAREFUL_deleteAllData() {

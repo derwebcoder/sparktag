@@ -45,11 +45,11 @@ export const TagEditor = () => {
 							</DrawerClose>
 						</DrawerHeader>
 					</div>
-					<div className="grid grid-cols-[1fr_minmax(400px,_600px)_1fr] gap-4 pb-10 overflow-y-auto max-h-96">
+					<div className="grid grid-cols-[1fr_minmax(400px,_900px)_1fr] gap-4 pb-10 overflow-y-auto max-h-96">
 						{!tags || tags.length <= 0 ? (
 							<div>No tags yet.</div>
 						) : (
-							<div className="col-start-2 grid grid-cols-[200px_1fr_1fr]">
+							<div className="col-start-2 grid grid-cols-[200px_1fr_1fr_1fr]">
 								{tags.map((tag) => (
 									<TagConfig
 										key={tag.name}

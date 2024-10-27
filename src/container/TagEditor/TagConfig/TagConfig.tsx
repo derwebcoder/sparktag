@@ -46,7 +46,7 @@ export const TagConfig = (props: Props) => {
 	};
 
 	return (
-		<div className="grid grid-cols-subgrid col-span-3 border-b border-stone-200 py-2 w-full items-center gap-4">
+		<div className="grid grid-cols-subgrid col-span-4 border-b border-stone-200 py-2 w-full items-center gap-4">
 			<div className="justify-self-center">
 				<TagElement
 					name={tag.name}

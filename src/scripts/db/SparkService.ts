@@ -6,8 +6,9 @@ import {
 	type Spark,
 } from "../../interfaces/Spark";
 import { parseSpark, stringToHue } from "../utils/stringUtils";
-import { tagService } from "./TagService";
+import { tagService, type TagMap } from "./TagService";
 import type { Tag } from "../../interfaces/Tag";
+import { updateHtmlTagsOfSpark } from "../utils/sparkUtils";
 
 export class SparkService {
 	constructor(private db: AppDB) {
@@ -50,6 +51,18 @@ export class SparkService {
 			originalHtml: html,
 			plainText: strippedPlainText,
 		});
+	}
+
+	public async updateTag(name: string, tagMap: TagMap) {
+		const sparksWithTag = await this.find([name]);
+
+		for (const { spark } of sparksWithTag) {
+			const { html, originalHtml } = updateHtmlTagsOfSpark(spark, tagMap);
+			await this.db.sparks.update(spark.id, {
+				html,
+				originalHtml,
+			});
+		}
 	}
 
 	public async deleteSpark(id: number) {

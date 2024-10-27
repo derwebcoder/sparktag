@@ -163,9 +163,39 @@ describe("parseSpark", () => {
 		const expectedPrefixTagsHtml =
 			'<span style="--tag-color: 135" data-type="tags" class="tag" data-id="tag1">#tag1</span> <span style="--tag-color: 140" data-type="tags" class="tag" data-id="tag2">#tag2</span> <span style="--tag-color: 145" data-type="tags" class="tag" data-id="tag3">#tag3</span> ';
 		const expectedTags = ["tag1", "tag2", "tag3"];
-		const expectStrippedPlainText = "";
+		const expectStrippedPlainText = "#tag1 #tag2 #tag3";
+		// it is still the same as `html` because there is not text after the context tags. Otherwise the spark would be just context tags without any text. So we will repeat the context tags so it does not look empty
 		const expectStrippedHtml =
 			'<p><span style="--tag-color: 135" data-type="tags" class="tag" data-id="tag1">#tag1</span> <span style="--tag-color: 140" data-type="tags" class="tag" data-id="tag2">#tag2</span> <span style="--tag-color: 145" data-type="tags" class="tag" data-id="tag3">#tag3</span></p>';
+
+		const {
+			prefixTags,
+			prefixTagsHtml,
+			strippedHtml,
+			strippedPlainText,
+			tags,
+		} = parseSpark(content, html);
+
+		expect(prefixTags).toEqual(expectedPrefixTags);
+		expect(tags).toEqual(expectedTags);
+		expect(prefixTagsHtml).toEqual(expectedPrefixTagsHtml);
+		expect(strippedPlainText).toEqual(expectStrippedPlainText);
+		expect(strippedHtml).toEqual(expectStrippedHtml);
+	});
+
+	test("does not remove inline tags that are the same as context tags", () => {
+		const content =
+			"#tag2 this is just an #tag2 which is also a context tag";
+		const html =
+			'<p><span style="--tag-color: 140" data-type="tags" class="tag" data-id="tag2">tag2</span> this is just an <span style="--tag-color: 140" data-type="tags" class="tag" data-id="tag2">tag2</span> which is also a context tag</p>';
+		const expectedPrefixTags: string[] = ["tag2"];
+		const expectedPrefixTagsHtml =
+			'<span style="--tag-color: 140" data-type="tags" class="tag" data-id="tag2">tag2</span> ';
+		const expectedTags = ["tag2"];
+		const expectStrippedPlainText =
+			"this is just an #tag2 which is also a context tag";
+		const expectStrippedHtml =
+			'<p>this is just an <span style="--tag-color: 140" data-type="tags" class="tag" data-id="tag2">tag2</span> which is also a context tag</p>';
 
 		const {
 			prefixTags,

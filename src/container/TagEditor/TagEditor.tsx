@@ -13,10 +13,25 @@ import { TagIcon } from "../../assets/icons/TagIcon";
 import { useLiveQuery } from "dexie-react-hooks";
 import { tagService } from "../../scripts/db/TagService";
 import { TagConfig } from "./TagConfig/TagConfig";
+import { Input } from "../../common/components/shadcn/input";
+import { useState } from "react";
+import { matchSorter } from "match-sorter";
 
 export const TagEditor = () => {
 	const tags = useLiveQuery(() => {
 		return tagService.listTags();
+	});
+
+	const [filter, setFilter] = useState("");
+
+	const filteredTags = matchSorter(tags ?? [], filter, {
+		keys: [
+			"name",
+			{
+				key: "description",
+				maxRanking: matchSorter.rankings.STARTS_WITH,
+			},
+		],
 	});
 
 	return (
@@ -45,12 +60,25 @@ export const TagEditor = () => {
 							</DrawerClose>
 						</DrawerHeader>
 					</div>
+					<div className="grid grid-cols-[1fr_minmax(400px,_900px)_1fr] gap-4 p-4">
+						<div />
+						<div className="grid grid-cols-[300px_1fr]">
+							<label className="flex justify-center items-center gap-2">
+								Filter:
+								<Input
+									value={filter}
+									onChange={(e) => setFilter(e.target.value)}
+								/>
+							</label>
+						</div>
+						<div />
+					</div>
 					<div className="grid grid-cols-[1fr_minmax(400px,_900px)_1fr] gap-4 pb-10 overflow-y-auto max-h-96">
 						{!tags || tags.length <= 0 ? (
 							<div>No tags yet.</div>
 						) : (
 							<div className="col-start-2 grid grid-cols-[200px_1fr_180px_100px_100px]">
-								{tags.map((tag) => (
+								{filteredTags.map((tag) => (
 									<TagConfig
 										key={tag.name}
 										tag={tag}

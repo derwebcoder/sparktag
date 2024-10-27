@@ -73,7 +73,107 @@ html {
 
 
 .tag {
+  display: inline-flex;
+  align-items: baseline;
+  position: relative;
+}
+
+.tag::before {
+  content: "";
   display: inline-block;
+  -webkit-mask-image: url(/sparktag/tag-icons/hash.svg);
+  mask-image: url(/sparktag/tag-icons/hash.svg);
+  background: currentColor;
+  width: 16px;
+  height: 16px;
+  margin-inline-end: 0px;
+  align-self: center;
+  margin-inline-end: 4px;
+}
+
+
+[data-icon=alert-triangle]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/alert-triangle.svg);
+  mask-image: url(/sparktag/tag-icons/alert-triangle.svg);
+}
+
+[data-icon=bookmark]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/bookmark.svg);
+  mask-image: url(/sparktag/tag-icons/bookmark.svg);
+}
+
+[data-icon=calendar]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/calendar.svg);
+  mask-image: url(/sparktag/tag-icons/calendar.svg);
+}
+
+[data-icon=gift]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/gift.svg);
+  mask-image: url(/sparktag/tag-icons/gift.svg);
+}
+
+[data-icon=hash]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/hash.svg);
+  mask-image: url(/sparktag/tag-icons/hash.svg);
+}
+
+[data-icon=heart]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/heart.svg);
+  mask-image: url(/sparktag/tag-icons/heart.svg);
+}
+
+[data-icon=help-circle]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/help-circle.svg);
+  mask-image: url(/sparktag/tag-icons/help-circle.svg);
+}
+
+[data-icon=info]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/info.svg);
+  mask-image: url(/sparktag/tag-icons/info.svg);
+}
+
+[data-icon=lock]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/lock.svg);
+  mask-image: url(/sparktag/tag-icons/lock.svg);
+}
+
+[data-icon=mail]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/mail.svg);
+  mask-image: url(/sparktag/tag-icons/mail.svg);
+}
+
+[data-icon=map-pin]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/map-pin.svg);
+  mask-image: url(/sparktag/tag-icons/map-pin.svg);
+}
+
+[data-icon=shield]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/shield.svg);
+  mask-image: url(/sparktag/tag-icons/shield.svg);
+}
+
+[data-icon=star]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/star.svg);
+  mask-image: url(/sparktag/tag-icons/star.svg);
+}
+
+[data-icon=user]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/user.svg);
+  mask-image: url(/sparktag/tag-icons/user.svg);
+}
+
+[data-icon=users]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/users.svg);
+  mask-image: url(/sparktag/tag-icons/users.svg);
+}
+
+[data-icon=zap]::before {
+  -webkit-mask-image: url(/sparktag/tag-icons/zap.svg);
+  mask-image: url(/sparktag/tag-icons/zap.svg);
+}
+
+.neon .tag {
+  padding-inline: 6px;
 }
 
 .neon .tag::after {
@@ -86,18 +186,20 @@ html {
     lightness, chroma and alpha but keep the hue
   */
   background: hsl(var(--tag-color) 100% 50% / 90%);
-  background: oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h / 0.4);
-  background: linear-gradient(0deg, rgba(255,255,255,0) 0%, oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h) 80%, rgba(255,255,255,0) 100%);
+  /* background: oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h / 0.9); */
+  /* background: linear-gradient(0deg, rgba(255,255,255,0) 0%, oklch(from hsl(var(--tag-color) 100% 50%) 0.5 0.5 h) 80%, rgba(255,255,255,0) 100%); */
   width: 100%;
   height: 1px;
-  filter: blur(3px);
-  margin-top: -5px;
+  filter: blur(2px);
   display: block;
   content: "";
+  position: absolute;
+  bottom: 3px;
+  inset-inline-start: 0px;
 }
 
 .chip-light .tag {
-  padding-inline: 10px;
+  padding-inline: 6px;
   border-radius: 15px;
   background: hsl(var(--tag-color) 50% 90% / 100%);
   color: hsl(var(--tag-color) 100% 20% / 100%);
@@ -105,7 +207,7 @@ html {
 }
 
 .chip-dark .tag {
-  padding-inline: 10px;
+  padding-inline: 6px;
   border-radius: 15px;
   color: hsl(var(--tag-color) 50% 90% / 100%);
   background-color: hsl(var(--tag-color) 100% 25% / 100%);
@@ -113,12 +215,52 @@ html {
 }
 
 .chip-border .tag {
-  padding-inline: 10px;
+  padding-inline: 6px;
   border-radius: 15px;
   border-width: 1px;
   border-color: hsl(var(--tag-color) 50% 80% / 100%);
   color: hsl(var(--tag-color) 100% 20% / 100%);
   font-weight: 700;
+}
+
+.chip-icon-light .tag {
+  padding-inline: 4px;
+}
+
+.chip-icon-light .tag::before {
+  background: hsl(var(--tag-color) 100% 20% / 100%);
+  z-index: 1;
+}
+
+.chip-icon-light .tag::after {
+  align-self: center;
+  content: '';
+  width: 20px;
+  height: 20px;
+  border-radius: 99px;
+  background: hsl(var(--tag-color) 50% 90% / 100%);
+  position: absolute;
+  inset-inline-start: 2px;
+}
+
+.chip-icon-dark .tag {
+  padding-inline: 4px;
+}
+
+.chip-icon-dark .tag::before {
+  background: hsl(var(--tag-color) 50% 90% / 100%);
+  z-index: 1;
+}
+
+.chip-icon-dark .tag::after {
+  align-self: center;
+  content: '';
+  width: 20px;
+  height: 20px;
+  border-radius: 99px;
+  background: hsl(var(--tag-color) 100% 20% / 100%);
+  position: absolute;
+  inset-inline-start: 2px;
 }
 
 .spark-extension {

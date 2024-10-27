@@ -1,4 +1,11 @@
-export const tagStyles = ["neon", "chip-light", "chip-dark", "chip-border"];
+export const tagStyles = [
+	"neon",
+	"chip-light",
+	"chip-dark",
+	"chip-border",
+	"chip-icon-light",
+	"chip-icon-dark",
+];
 export type TagStyle = (typeof tagStyles)[number];
 export const DEFAULT_TAG_STYLE: TagStyle = "neon";
 const LS_TAG_STYLE_NAME = "CUSTOM_TAG_STYLE";

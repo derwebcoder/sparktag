@@ -5,29 +5,37 @@ import { useSelector } from "@xstate/store/react";
 
 export const queryStore = createStore({
 	// Initial context
-	context: { query: [] } as { query: string[] },
+	context: { tags: [], queryHtml: "" } as {
+		tags: string[];
+		queryHtml: string;
+	},
 	// Transitions
 	on: {
-		update: {
-			query: (_context, event: { value: string[] }) => event.value,
+		updateTags: {
+			tags: (_context, event: { html: string }) => {
+				return extractTags(event.html);
+			},
+		},
+		updateQueryHtml: {
+			queryHtml: (_context, event: { html: string }) => {
+				return event.html;
+			},
 		},
 		clear: {
-			query: () => [],
+			tags: () => [],
+			queryHtml: () => "",
 		},
 	},
 });
 
 const extractTagsAndUpdateDebounced = debounce((queryString: string) => {
-	const newQuery = extractTags(queryString);
-	console.log("extract", queryString, newQuery);
 	queryStore.send({
-		type: "update",
-		value: newQuery,
+		type: "updateTags",
+		html: queryString,
 	});
 }, 300);
 
 export const updateQueryDebounced = (queryString?: string) => {
-	console.log("u", queryString);
 	if (!queryString || queryString.trim() === "") {
 		queryStore.send({
 			type: "clear",
@@ -35,6 +43,10 @@ export const updateQueryDebounced = (queryString?: string) => {
 		return;
 	}
 
+	queryStore.send({
+		type: "updateQueryHtml",
+		html: queryString,
+	});
 	extractTagsAndUpdateDebounced(queryString);
 };
 

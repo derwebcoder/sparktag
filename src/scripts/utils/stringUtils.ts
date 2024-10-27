@@ -30,8 +30,8 @@ export const parseSpark = (plainText: string, html: string) => {
 		renderedHtml.querySelectorAll<HTMLSpanElement>(".tag[data-type=tags]"),
 	);
 
-	const tags: string[] = [];
-	const prefixTags: string[] = [];
+	const tags: Set<string> = new Set();
+	const prefixTags: Set<string> = new Set();
 	let prefixTagsHtml = "";
 	let isCollectPrefixTags = true;
 
@@ -75,27 +75,25 @@ export const parseSpark = (plainText: string, html: string) => {
 			isCollectPrefixTags = false;
 		}
 
-		tags.push(tagName);
+		tags.add(tagName);
 		if (isCollectPrefixTags) {
-			prefixTags.push(tagName);
+			prefixTags.add(tagName);
 			prefixTagsHtml += `${tagNode.outerHTML} `;
 		}
 	}
 
-	const prefixTagsString = `${prefixTags.map((t) => `#${t}`).join(" ")} `;
+	const prefixTagsString = `${[...prefixTags].map((t) => `#${t}`).join(" ")} `;
 	const strippedPlainText =
 		prefixTagsString.length > 1
-			? plainText.split(
-					`${prefixTags.map((t) => `#${t}`).join(" ")} `,
-				)[1] ?? ""
+			? plainText.replace(prefixTagsString, "")
 			: plainText;
 
 	const strippedHtml =
-		prefixTagsHtml.length > 1 ? html.split(prefixTagsHtml).join("") : html;
+		prefixTagsHtml.length > 1 ? html.replace(prefixTagsHtml, "") : html;
 
 	return {
-		tags,
-		prefixTags,
+		tags: [...tags],
+		prefixTags: [...prefixTags],
 		strippedPlainText,
 		strippedHtml,
 		prefixTagsHtml,

@@ -24,7 +24,7 @@ type DateSection = {
 type Section = SparkSection | DateSection;
 
 export const SparkList = () => {
-	const queryTags = useQueryStore((state) => state.context.query);
+	const queryTags = useQueryStore((state) => state.context.tags);
 	const sparksWithTags = useLiveQuery(
 		() => sparkService.find(queryTags),
 		[queryTags],
@@ -130,6 +130,7 @@ export const SparkList = () => {
 											key={tag.name}
 											name={tag.name}
 											hue={tag.hue}
+											icon={tag.icon}
 										/>
 									))}
 								</div>

@@ -32,6 +32,10 @@ export const SparkItem = (props: Props) => {
 		setIsEditing(false);
 	};
 
+	const handleEscape = () => {
+		setIsEditing(false);
+	};
+
 	const handleTrashClicked = async () => {
 		setIsDeleting(true);
 	};
@@ -50,6 +54,7 @@ export const SparkItem = (props: Props) => {
 					<TextInput
 						onSubmit={handleSubmit}
 						content={spark.originalHtml}
+						onEscape={handleEscape}
 					/>
 				</div>
 			) : (

@@ -1,6 +1,10 @@
 import { TextInput } from "../../common/components/TextInput/TextInput";
-import { updateQueryDebounced } from "../../scripts/store/queryStore";
-import { extractTags } from "../../scripts/utils/stringUtils";
+import {
+	updateQueryDebounced,
+	useQueryStore,
+} from "../../scripts/store/queryStore";
+
+export const SearchInputEditorAccessorId = "search";
 
 export const SearchInput = () => {
 	const handleChange = (htmlString: string) => {
@@ -9,6 +13,7 @@ export const SearchInput = () => {
 	return (
 		<div>
 			<TextInput
+				globalAccessorId={SearchInputEditorAccessorId}
 				allowAddingTags={false}
 				onChange={handleChange}
 				style="search"

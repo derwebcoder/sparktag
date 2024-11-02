@@ -32,9 +32,17 @@ import {
 	tagStyles,
 	type TagStyle,
 } from "../../scripts/theme/tagStyles";
+import {
+	disableDemoMode,
+	setDemoModeUntil,
+	useDemoModeStore,
+} from "@/scripts/store/demoModeStore";
+import { Switch } from "@/common/components/shadcn/switch";
+import { Label } from "@/common/components/shadcn/label";
 
 export const Settings = () => {
 	const { toast } = useToast();
+	const isDemoMode = useDemoModeStore((s) => !!s.context.demoModeUntil);
 	const [isAutomaticBackupsEnabled, setIsAutomaticBackupsEnabled] = useState(
 		fileSystemService.isAutomaticBackupEnabled(),
 	);
@@ -202,7 +210,7 @@ export const Settings = () => {
 				</div>
 				<div className="pb-10 px-16 grid grid-cols-3 gap-10">
 					<div className="flex flex-col gap-4">
-						<h3 className="font-semibold">Theme</h3>
+						<h3 className="font-semibold">Appearance</h3>
 						<div className="flex flex-col gap-4 p-1">
 							<div className="flex flex-col gap-2">
 								<span className="flex flex-row gap-1">
@@ -234,6 +242,24 @@ export const Settings = () => {
 										})}
 									</SelectContent>
 								</Select>
+							</div>
+							<div className="flex flex-col gap-2">
+								<span className="flex flex-row gap-1">
+									<Label htmlFor="demo-mode-switch">
+										Demo Mode
+									</Label>
+								</span>
+								<Switch
+									id="demo-mode-switch"
+									checked={isDemoMode}
+									onCheckedChange={() => {
+										if (isDemoMode) {
+											disableDemoMode();
+										} else {
+											setDemoModeUntil(new Date());
+										}
+									}}
+								/>
 							</div>
 						</div>
 					</div>

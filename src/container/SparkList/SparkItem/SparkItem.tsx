@@ -18,12 +18,13 @@ import { Button } from "../../../common/components/shadcn/button";
 
 type Props = {
 	spark: Spark;
+	blur?: boolean;
 };
 
 export const SparkItem = (props: Props) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
-	const { spark } = props;
+	const { spark, blur = "false" } = props;
 
 	const handleSubmit = async (plainText: string, html: string) => {
 		await sparkService.updateSpark(spark.id, plainText, html);
@@ -45,7 +46,7 @@ export const SparkItem = (props: Props) => {
 	return (
 		<article
 			key={spark.id}
-			className="flex group relative"
+			className={`flex group relative ${blur ? "blur-sm" : ""}`}
 		>
 			{isEditing ? (
 				<div className="w-full h-full">

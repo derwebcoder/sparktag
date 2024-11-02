@@ -1,12 +1,13 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { sparkService } from "../../scripts/db/SparkService";
-import { differenceInCalendarDays, format } from "date-fns";
+import { differenceInCalendarDays, format, isAfter } from "date-fns";
 import { EmptyState } from "../../common/components/EmptyState/EmptyState";
 import type { Spark } from "../../interfaces/Spark";
 import { useQueryStore } from "../../scripts/store/queryStore";
 import { SparkItem } from "./SparkItem/SparkItem";
 import { Tag as TagElement } from "../../common/components/Tag/Tag";
 import type { Tag } from "../../interfaces/Tag";
+import { useDemoModeStore } from "../../scripts/store/demoModeStore";
 
 type SparkSection = {
 	key: string;
@@ -29,6 +30,7 @@ export const SparkList = () => {
 		() => sparkService.find(queryTags),
 		[queryTags],
 	);
+	const demoModeUntil = useDemoModeStore((s) => s.context.demoModeUntil);
 
 	const sections = sparksWithTags?.reduce<Section[]>(
 		(tmpSections, { spark, contextTagData }) => {
@@ -140,6 +142,14 @@ export const SparkList = () => {
 									<SparkItem
 										key={spark.id}
 										spark={spark}
+										blur={
+											demoModeUntil
+												? isAfter(
+														demoModeUntil,
+														spark.creationDate,
+													)
+												: false
+										}
 									/>
 								))}
 							</div>

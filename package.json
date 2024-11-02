@@ -35,7 +35,7 @@
 		"@tiptap/suggestion": "^2.8.0",
 		"@types/wicg-file-system-access": "^2023.10.5",
 		"@xstate/store": "^2.6.0",
-		"astro": "^4.16.1",
+		"astro": "^4.16.8",
 		"class-variance-authority": "^0.7.0",
 		"classnames": "^2.5.1",
 		"clsx": "^2.1.1",

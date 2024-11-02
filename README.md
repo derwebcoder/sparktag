@@ -4,13 +4,13 @@ More info coming soon.
 
 # TODOs
 
-- [ ] Edit sparks
-- [ ] Delete sparks
-- [ ] Filter sparks
-- [ ] Tag color changing
+- [x] Edit sparks
+- [x] Delete sparks
+- [x] Filter sparks
+- [x] Tag color changing
 - [ ] Tag renaming
-- [ ] Tag deleting
-- [ ] Tag descriptions
+- [x] Tag deleting
+- [x] Tag descriptions
 - [x] Tag widget in tiptap with autocomplete
 - [x] Tag highlighting
 - [x] Backups

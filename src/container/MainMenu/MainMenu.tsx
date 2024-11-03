@@ -2,6 +2,7 @@ import logo from "@/assets/images/logo.png";
 import { Settings } from "../Settings/Settings";
 import { PipInput } from "../PipInput/PipInput";
 import { TagEditor } from "../TagEditor/TagEditor";
+import { LampWallUp } from "@/common/components/lamps/LampWallUp/LampWallUp";
 
 export const MainMenu = () => {
 	return (
@@ -14,6 +15,7 @@ export const MainMenu = () => {
 			<PipInput />
 			<TagEditor />
 			<Settings />
+			<LampWallUp />
 		</div>
 	);
 };

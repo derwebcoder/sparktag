@@ -71,7 +71,7 @@ export const PipInput = () => {
 					type="button"
 					onClick={renderPIP}
 					title="detach"
-					relevancy="secondary"
+					relevancy="ghost"
 				>
 					<ArrowRightStartOnBox />
 				</IconButton>

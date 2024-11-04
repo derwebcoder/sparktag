@@ -189,7 +189,7 @@ export const Settings = () => {
 				<IconButton
 					type="button"
 					aria-label="Open the settings"
-					relevancy="secondary"
+					relevancy="ghost"
 				>
 					<CogIcon />
 				</IconButton>

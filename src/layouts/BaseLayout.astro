@@ -51,10 +51,8 @@ const { title } = Astro.props;
     (await isAuthenticated())
   ) {
     document.body.classList.remove("hidden");
+    document.body.classList.add("grid");
   } else {
     window.location.href = authUrl;
   }
-</script>
-<script>
-  import "preline/dist/preline.js";
 </script>

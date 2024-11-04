@@ -47,7 +47,7 @@ export const TagEditor = () => {
 					<IconButton
 						type="button"
 						aria-label="Open the tag editor"
-						relevancy="secondary"
+						relevancy="ghost"
 					>
 						<TagIcon />
 					</IconButton>

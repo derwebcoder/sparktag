@@ -19,3 +19,8 @@ More info coming soon.
 - [ ] Reminder
 - [x] Empty state when no spark exist yet
 - [ ] Add second confirmation to "Delete everything" button
+- [ ] Add sounds
+- [ ]  Statistics and gamification
+- [ ] fix Export and import
+- [ ] create desktop app
+- [ ] use LLMs for Learning feature

@@ -53,6 +53,7 @@ export const PipInput = () => {
 			}
 		}
 
+		pip.document.documentElement.style.height = "100%";
 		pip.document.body.className = window.document.body.className;
 
 		// This does not seem to work, but let's keep it. Maybe it will in the future.

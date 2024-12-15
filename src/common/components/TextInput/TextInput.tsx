@@ -21,7 +21,7 @@ export type TextInputProps = {
 };
 
 const styleMap = {
-	spark: "p-4 min-h-full block w-full bg-white border border-blue-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600",
+	spark: "p-4 min-h-full [word-break:break-word] block w-full bg-white border border-blue-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600",
 	search: "px-4 py-2 block w-full bg-transparent text-sm hover:bg-white focus:bg-white border-b border-b-stone-200 rounded",
 	invisible:
 		"p-1 w-full bg-transparent rounded-sm text-stone-500 focus:text-stone-700 text-sm max-w-72",

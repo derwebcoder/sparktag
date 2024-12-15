@@ -11,7 +11,9 @@ import Layout from "../layouts/BaseLayout.astro";
 <script src="../scripts/store/queryStore.ts"></script>
 <script src="../scripts/theme/initTheme.ts"></script>
 <Layout title="Sparktags">
-  <main class="px-2 md:px-0 grid md:grid-cols-[max-content_minmax(300px,_400px)_minmax(350px,_600px)] grid-cols-[min-content_minmax(auto,_600px)] md:grid-rows-[1fr] grid-rows-[max-content_max-content_max-content] md:gap-6 gap-2 h-full relative place-self-center">
+  <main
+    class="px-2 md:px-0 grid md:grid-cols-[max-content_minmax(300px,_400px)_minmax(350px,_600px)] grid-cols-[min-content_minmax(auto,_600px)] md:grid-rows-[1fr] grid-rows-[max-content_max-content_max-content] md:gap-6 gap-2 h-full relative place-self-center"
+  >
     <div>
       <div class="md:py-10 pt-1 flex flex-col place-items-end sticky top-0">
         <!-- We need an h1 for accessibility reasons -->
@@ -22,7 +24,7 @@ import Layout from "../layouts/BaseLayout.astro";
     <!-- the following div is needed for the sticky aside to work -->
     <div>
       <aside
-        class="md:py-10 pt-1 grid grid-rows-[max-content_max-content_max-content_0px] md:grid-rows-[max-content_200px_1fr_max-content] gap-4 md:max-h-screen md:h-screen sticky top-0"
+        class="md:py-10 pt-1 grid grid-rows-[max-content_max-content_max-content_0px] md:grid-rows-[max-content_minmax(200px,_auto)_1fr_max-content] gap-4 md:max-h-screen md:h-screen sticky top-0"
       >
         <div>
           <AppMenu />

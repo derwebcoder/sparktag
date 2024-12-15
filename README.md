@@ -24,5 +24,6 @@ More info coming soon.
 - [ ] fix Export and import
 - [ ] create desktop app
 - [ ] use LLMs for Learning feature
-- [ ] Debug mode (blur content)
+- [x] Debug mode (blur content)
 - [ ] Learn extension (incl. AI)
+- [ ] Add custom export via custom script
